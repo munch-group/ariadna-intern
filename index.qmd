@@ -1,0 +1,31 @@
+# Project {.unnumbered}
+
+These pages are generated from a Git repository I made for you. Read more about Git and repositories in the [project guide](https://munch-lab.github.io/project-guide). The repository, with its files and folders, serves as a scaffold for your project, with placeholder files to get you started.
+
+During the project, you will populate it with your code, analysis notebooks, and documentation reporting your work and use Git to track this development. This way your project will end up documented by a set of pages like these.
+
+## Outline
+
+It will help if you write a paragraph here outlining the project to the extent you can. What are the goals of your project? What would you like to find out? What would you like to learn? You should update it along the way.
+
+## Suggested reading
+
+If you need a basic introduction to population genetics, I suggest reading "An introduction to population genetics: Theory and applications" by Rasmus Nielsen and Monty Slatkin [@NielsenSlatkin2016]. A free alternative is [Graham Coop's Lecture notes](https://github.com/cooplab/popgen-notes), which offer a similar introduction.
+
+<!-- 
+These are additional some suggestions for background reading:
+
+- [Genetic Villains: Killer Meiotic Drivers](https://doi.org/10.1016/j.tig.2018.02.003), is a review on meiotic drive.
+- [Extraordinary selection on the human X chromosome associated with archaic admixture](10.1016/j.xgen.2023.100274) is our most recent paper on the topic.
+- -->
+
+I will guide you to additional material once you get started.
+
+## Schedule
+
+Once you get started, you should make a plan for your project. It will change along the way, but with a plan, you will know when it does. 
+
+You should outline the project plan and what you intend to do in the weeks/months of your project. Such a plan is tentative and will change along the way when you find such changes are meaningful or necessary.
+
+An excellent way to do this is to use [the GitHub Project feature](https://github.com/orgs/munch-lab/projects) on our group GitHub account.
+

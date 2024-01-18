@@ -1,0 +1,29 @@
+project:
+  type: book
+  # output-dir: docs
+
+execute:
+  echo: true
+
+book:
+  title: "Title of your project"
+  author: "Your Name"
+  chapters:
+    - index.qmd
+    - part: "Notebooks"
+      chapters: 
+      - notebooks/01_weather.ipynb
+      - notebooks/02_interaction.ipynb
+    - part: "Reports"
+      chapters: 
+      - reports/manuscript.qmd
+      - reports/supplementary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc-depth: 2
+
