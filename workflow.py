@@ -39,13 +39,12 @@ def female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes):
     '''
     return inputs, outputs, options, spec
 
-haploid_vcf=f'{script_dir}/haploid_vcf.py'
-chrX_filtered_eagle2_phased=f'{data_dir}/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX_filtered_eagle2-phased_v2.vcf.gz'
-phased_haplotypes='/home/ari/ari-intern/people/ari/ariadna-intern/data/1000g_phased_haplotypes.vcf.gz'
+haploid_vcf=f'{script_dir}/haploid_vcf_modified.py'
+chrX_filtered_eagle2_phased=f'{data_dir}/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz'
+phased_haplotypes=f'{output_dir}/1000g_phased_haplotypes.vcf.gz'
 
 gwf.target_from_template(f'female_haploid',
     female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes))
-
 
 
 # construct files with haplotype IDs
@@ -54,34 +53,53 @@ def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     outputs = [phased_haplotypes_id]
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
+    # conda install -c bioconda bcftools
     bcftools query -l {phased_haplotypes} > {phased_haplotypes_id}
     '''
     return inputs, outputs, options, spec
 
-phased_haplotypes='/home/ari/ari-intern/people/ari/ariadna-intern/data/1000g_phased_haplotypes.vcf.gz'
-phased_haplotypes_id='/home/ari/ari-intern/people/ari/ariadna-intern/data/1000g_phased_haplotypes_ids.txt'
+phased_haplotypes=f'{output_dir}/1000g_phased_haplotypes.vcf.gz'
+phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
 
-gwf.target_from_template(f'haplotype_id',
-    haplotype_id(phased_haplotypes, phased_haplotypes_id))
+gwf.target_from_template(f'haplotype_id', haplotype_id(phased_haplotypes, phased_haplotypes_id))
 
 
 # construct populations labels mapping each haplotype to a population
-def pop_labels(make_poplabels, phased_haplotypes_1000g_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_1000g_poplabels):
-    inputs = [make_poplabels, phased_haplotypes_1000g_id, high_coverage_seq_index, related_high_coverage_seq_index]
-    outputs = [phased_haplotypes_1000g_poplabels]
+def pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_poplabels):
+    inputs = [make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index]
+    outputs = [phased_haplotypes_poplabels]
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    python {make_poplabels} {phased_haplotypes_1000g_id} {high_coverage_seq_index} {related_high_coverage_seq_index} > {phased_haplotypes_1000g_poplabels}
+    python {make_poplabels} {phased_haplotypes_id} {high_coverage_seq_index} {related_high_coverage_seq_index} > {phased_haplotypes_poplabels}
     '''
     return inputs, outputs, options, spec
 
 make_poplabels=f'{script_dir}/make_poplabels.py'
-phased_haplotypes_1000g_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
-high_coverage_seq_index=f'{data_dir}/1000G_2504_high_coverage.sequence.index'
-related_high_coverage_seq_index=f'{data_dir}/1000G_698_related_high_coverage.sequence.index'
-phased_haplotypes_1000g_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
+phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
+high_coverage_seq_index=f'{data_dir}/seq_index/1000G_2504_high_coverage.sequence.index'
+related_high_coverage_seq_index=f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index'
+phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
 
 gwf.target_from_template(f'pop_labels',
-    pop_labels(make_poplabels, phased_haplotypes_1000g_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_1000g_poplabels))
+    pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_poplabels))
 
 
+# convert X chromosome VCF for all samples to haps/sample (format required by RELATE)
+def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes_poplabels):
+    inputs = [RelateFileFormats, phased_haplotypes_poplabels]
+    outputs = [phased_haplotypes_haps, phased_haplotypes_sample]
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    echo "Current working directory: $PWD"
+    ls -l
+    {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i 1000g_phased_haplotypes --poplabels {phased_haplotypes_poplabels}
+    '''
+    return inputs, outputs, options, spec
+
+RelateFileFormats='/home/ari/ari-intern/people/ari/relate/bin/RelateFileFormats'
+phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
+phased_haplotypes_haps=f'{output_dir}/1000g_phased_haplotypes.haps'
+phased_haplotypes_sample=f'{output_dir}/1000g_phased_haplotypes.sample'
+
+gwf.target_from_template(f'convert_vcf',
+    convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes_poplabels))
