@@ -90,8 +90,6 @@ def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sam
     outputs = [phased_haplotypes_haps, phased_haplotypes_sample]
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    echo "Current working directory: $PWD"
-    ls -l
     {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i 1000g_phased_haplotypes --poplabels {phased_haplotypes_poplabels}
     '''
     return inputs, outputs, options, spec
