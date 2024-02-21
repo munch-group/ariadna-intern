@@ -104,3 +104,74 @@ phased_haplotypes_sample=f'{output_dir}/1000g_phased_haplotypes.sample'
 
 gwf.target_from_template(f'convert_vcf',
     convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes_poplabels))
+
+
+# exclude related individuals to avoid biases
+def exclude_related(related_high_coverage_seq_index, related_ids):
+    inputs = [related_high_coverage_seq_index]
+    outputs = [related_ids]
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    grep -v '#' {related_high_coverage_seq_index} | cut -f 10 > {related_ids}
+    '''
+    return inputs, outputs, options, spec
+
+related_high_coverage_seq_index=f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index'
+related_ids=f'{output_dir}/1000g_related_ids.txt'
+
+gwf.target_from_template(f'exclude_related',
+    exclude_related(related_high_coverage_seq_index, related_ids))
+
+
+# analyze only individuals from the African LWK population --> find IDs of haplotypes from all other populations so we can exclude them
+def only_lwk(phased_haplotypes_poplabels, excluded_ids):
+    inputs = [phased_haplotypes_poplabels]
+    outputs = [excluded_ids]
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    grep -v 'LWK' {phased_haplotypes_poplabels} | cut -f 1 -d ' ' > {excluded_ids}
+    '''
+    return inputs, outputs, options, spec
+
+phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
+excluded_ids = f'{output_dir}/1000g_excluded_pop_ids.txt'
+
+gwf.target_from_template(f'only_lwk',
+    only_lwk(phased_haplotypes_poplabels, excluded_ids))
+
+
+# combine files
+def combine_files(related_ids, excluded_ids, all_excluded):
+    inputs = [related_ids, excluded_ids]
+    outputs = [all_excluded]
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    cat {related_ids} {excluded_ids} | sort | uniq > {all_excluded}
+    '''
+    return inputs, outputs, options, spec
+
+related_ids=f'{output_dir}/1000g_related_ids.txt'
+excluded_ids = f'{output_dir}/1000g_excluded_pop_ids.txt'
+all_excluded=f'{output_dir}/all_excluded.txt'
+
+gwf.target_from_template(f'combine_files',
+    combine_files(related_ids, excluded_ids, all_excluded))
+
+
+# construct a list of excluded individuals
+def excluded_individuals(all_excluded, phased_haplotypes_id, excluded_non_lwk_haplotype_ids):
+    inputs = [all_excluded, phased_haplotypes_id]
+    outputs = [excluded_non_lwk_haplotype_ids]
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    grep -f {all_excluded} {phased_haplotypes_id} > {excluded_non_lwk_haplotype_ids}
+    '''
+    return inputs, outputs, options, spec
+
+all_excluded=f'{output_dir}/all_excluded.txt'
+phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
+excluded_non_lwk_haplotype_ids = f'{output_dir}/1000g_excluded_non_LWK_haplotype_ids.txt'
+
+gwf.target_from_template(f'excluded_individuals',
+    excluded_individuals(all_excluded, phased_haplotypes_id, excluded_non_lwk_haplotype_ids))
+
