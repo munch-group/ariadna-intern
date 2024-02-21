@@ -5,6 +5,7 @@ from gwf import Workflow
 gwf = Workflow(defaults={'account': 'ari-intern'})
 import sys, os, re
 
+
 # directories
 output_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
 data_big = '/home/ari/ari-intern/data'
@@ -54,7 +55,9 @@ def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
     # conda install -c bioconda bcftools
-    bcftools query -l {phased_haplotypes} > {phased_haplotypes_id}
+    # conda install openssl   ## to install libcrypto.so.1.0.0 library
+    bcftools view -h {phased_haplotypes} | grep ^#CHROM | cut -f 10- > {phased_haplotypes_id}
+    # changed it from: bcftools query -l {phased_haplotypes} > {phased_haplotypes_id} (was producing an empty file)
     '''
     return inputs, outputs, options, spec
 
@@ -70,11 +73,11 @@ def pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, re
     outputs = [phased_haplotypes_poplabels]
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    python {make_poplabels} {phased_haplotypes_id} {high_coverage_seq_index} {related_high_coverage_seq_index} > {phased_haplotypes_poplabels}
+    python {make_poplabels} {phased_haplotypes_id} {high_coverage_seq_index} {related_high_coverage_seq_index} > {phased_haplotypes_poplabels} 
     '''
     return inputs, outputs, options, spec
 
-make_poplabels=f'{script_dir}/make_poplabels.py'
+make_poplabels=f'{script_dir}/make_poplabels_modified.py'
 phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
 high_coverage_seq_index=f'{data_dir}/seq_index/1000G_2504_high_coverage.sequence.index'
 related_high_coverage_seq_index=f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index'
