@@ -1,16 +1,35 @@
 ### RELATE WORFKLOW ###
 
 from gwf import Workflow
+import sys, os, re
+import os.path
+from collections import defaultdict
 
 gwf = Workflow(defaults={'account': 'ari-intern'})
-import sys, os, re
-
 
 # directories
 output_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
 data_big = '/home/ari/ari-intern/data'
 script_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/scripts'
 data_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000genome'
+
+# function to modify a file path 
+def modify_path(p, parent=None, base=None, suffix=None):
+    par, name = os.path.split(p)
+    name_no_suffix, suf = os.path.splitext(name)
+    if type(suffix) is str:
+        suf = suffix
+    if parent is not None:
+        par = parent
+    if base is not None:
+        name_no_suffix = base
+
+    new_path = os.path.join(par, name_no_suffix + suf)
+    if type(suffix) is tuple:
+        assert len(suffix) == 2
+        new_path, nsubs = re.subn(r'{}$'.format(suffix[0]), suffix[1], new_path)
+        assert nsubs == 1, nsubs
+    return new_path
 
 
 # map of recombination rate across the X chromosome made by DECODE genetics
@@ -68,6 +87,7 @@ gwf.target_from_template(f'haplotype_id', haplotype_id(phased_haplotypes, phased
 
 
 # construct populations labels mapping each haplotype to a population
+# (group haplotypes according to the population to which the individuals carrying those haplotypes belong)
 def pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_poplabels):
     inputs = [make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index]
     outputs = [phased_haplotypes_poplabels]
@@ -99,6 +119,7 @@ def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sam
 
 RelateFileFormats='/home/ari/ari-intern/people/ari/relate/bin/RelateFileFormats'
 phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
+
 phased_haplotypes_haps=f'{output_dir}/1000g_phased_haplotypes.haps'
 phased_haplotypes_sample=f'{output_dir}/1000g_phased_haplotypes.sample'
 
@@ -106,7 +127,7 @@ gwf.target_from_template(f'convert_vcf',
     convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes_poplabels))
 
 
-# exclude related individuals to avoid biases
+# exclude related individuals to avoid biases arising from shared genetic material
 def exclude_related(related_high_coverage_seq_index, related_ids):
     inputs = [related_high_coverage_seq_index]
     outputs = [related_ids]
@@ -123,8 +144,14 @@ gwf.target_from_template(f'exclude_related',
     exclude_related(related_high_coverage_seq_index, related_ids))
 
 
-# analyze only individuals from the African LWK population --> find IDs of haplotypes from all other populations so we can exclude them
-def only_lwk(phased_haplotypes_poplabels, excluded_ids):
+
+
+# since we analyze only individuals from the African LWK population. why???
+# find IDs of haplotypes from all other populations so we can exclude them
+def only_lwk(phased_haplotypes_poplabels, population):
+    ouput_dir = f'{output_dir}/'
+    excluded = modify_path(phased_haplotypes_poplabels, parent=)
+
     inputs = [phased_haplotypes_poplabels]
     outputs = [excluded_ids]
     options = {'memory': '1g', 'walltime': '00:10:00'}
@@ -136,11 +163,12 @@ def only_lwk(phased_haplotypes_poplabels, excluded_ids):
 phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
 excluded_ids = f'{output_dir}/1000g_excluded_pop_ids.txt'
 
+
 gwf.target_from_template(f'only_lwk',
     only_lwk(phased_haplotypes_poplabels, excluded_ids))
 
 
-# combine files
+# combine excluded files: both related and non lwk individuals
 def combine_files(related_ids, excluded_ids, all_excluded):
     inputs = [related_ids, excluded_ids]
     outputs = [all_excluded]
@@ -175,3 +203,20 @@ excluded_non_lwk_haplotype_ids = f'{output_dir}/1000g_excluded_non_LWK_haplotype
 gwf.target_from_template(f'excluded_individuals',
     excluded_individuals(all_excluded, phased_haplotypes_id, excluded_non_lwk_haplotype_ids))
 
+
+# construct a list of included individuals (lwk population and non related individuals)
+def included_individuals(excluded_non_population_haplotype_ids, phased_haplotypes_poplabels, phased_haplotypes_population_poplabels):
+    inputs = [excluded_non_lwk_haplotype_ids, phased_haplotypes_poplabels]
+    outputs = [phased_haplotypes_LWK_poplabels]
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    grep -v -f {excluded_non_lwk_haplotype_ids} {phased_haplotypes_poplabels} > {phased_haplotypes_LWK_poplabels}
+    '''
+    return inputs, outputs, options, spec
+
+excluded_non_lwk_haplotype_ids = f'{output_dir}/1000g_excluded_non_{population}_haplotype_ids.txt'
+phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
+phased_haplotypes_LWK_poplabels = f'{output_dir}/1000g_phased_haplotypes_{population}_poplabels.txt'
+
+gwf.target_from_template(f'included_individuals',
+    included_individuals(excluded_non_lwk_haplotype_ids, phased_haplotypes_poplabels, phased_haplotypes_LWK_poplabels))
