@@ -2,10 +2,14 @@
 
 from gwf import Workflow
 import sys, os, re
-import os.path
 from collections import defaultdict
+from pathlib import Path
+import pandas as pd
+from gwf import Workflow, AnonymousTarget
+from gwf.workflow import collect
 
 gwf = Workflow(defaults={'account': 'ari-intern'})
+
 
 # directories
 output_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
@@ -13,7 +17,7 @@ data_big = '/home/ari/ari-intern/data'
 script_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/scripts'
 data_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000genome'
 
-# function to modify a file path 
+# function that modifies file path
 def modify_path(p, parent=None, base=None, suffix=None):
     par, name = os.path.split(p)
     name_no_suffix, suf = os.path.splitext(name)
@@ -59,7 +63,7 @@ def female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes):
     '''
     return inputs, outputs, options, spec
 
-haploid_vcf=f'{script_dir}/haploid_vcf_modified.py'
+haploid_vcf=f'{script_dir}/haploid_vcf.py'
 chrX_filtered_eagle2_phased=f'{data_dir}/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz'
 phased_haplotypes=f'{output_dir}/1000g_phased_haplotypes.vcf.gz'
 
@@ -75,8 +79,8 @@ def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     spec = f'''
     # conda install -c bioconda bcftools
     # conda install openssl   ## to install libcrypto.so.1.0.0 library
-    bcftools view -h {phased_haplotypes} | grep ^#CHROM | cut -f 10- > {phased_haplotypes_id}
-    # changed it from: bcftools query -l {phased_haplotypes} > {phased_haplotypes_id} (was producing an empty file)
+    #bcftools view -h {phased_haplotypes} | grep ^#CHROM | cut -f 10- > {phased_haplotypes_id}
+    bcftools query -l {phased_haplotypes} > {phased_haplotypes_id}
     '''
     return inputs, outputs, options, spec
 
@@ -97,7 +101,7 @@ def pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, re
     '''
     return inputs, outputs, options, spec
 
-make_poplabels=f'{script_dir}/make_poplabels_modified.py'
+make_poplabels=f'{script_dir}/make_poplabels.py'
 phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
 high_coverage_seq_index=f'{data_dir}/seq_index/1000G_2504_high_coverage.sequence.index'
 related_high_coverage_seq_index=f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index'
@@ -108,23 +112,23 @@ gwf.target_from_template(f'pop_labels',
 
 
 # convert X chromosome VCF for all samples to haps/sample (format required by RELATE)
-def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes_poplabels):
-    inputs = [RelateFileFormats, phased_haplotypes_poplabels]
+def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels):
+    inputs = [RelateFileFormats, phased_haplotypes_poplabels, phased_haplotypes]
     outputs = [phased_haplotypes_haps, phased_haplotypes_sample]
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i 1000g_phased_haplotypes --poplabels {phased_haplotypes_poplabels}
+    {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i {phased_haplotypes} --poplabels {phased_haplotypes_poplabels}
     '''
     return inputs, outputs, options, spec
 
 RelateFileFormats='/home/ari/ari-intern/people/ari/relate/bin/RelateFileFormats'
 phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
-
+phased_haplotypes=f'{output_dir}/1000g_phased_haplotypes.vcf.gz'
 phased_haplotypes_haps=f'{output_dir}/1000g_phased_haplotypes.haps'
 phased_haplotypes_sample=f'{output_dir}/1000g_phased_haplotypes.sample'
 
 gwf.target_from_template(f'convert_vcf',
-    convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes_poplabels))
+    convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels))
 
 
 # exclude related individuals to avoid biases arising from shared genetic material
@@ -144,11 +148,11 @@ gwf.target_from_template(f'exclude_related',
     exclude_related(related_high_coverage_seq_index, related_ids))
 
 
+### KASPER WORKFLOW ###
 
-
-# since we analyze only individuals from the African LWK population. why???
+# since we analyze only individuals from the African LWK population
 # find IDs of haplotypes from all other populations so we can exclude them
-def only_lwk(phased_haplotypes_poplabels, population):
+def only_ppl(phased_haplotypes_poplabels, population):
     ouput_dir = f'{output_dir}/'
     excluded = modify_path(phased_haplotypes_poplabels, parent=)
 
@@ -164,59 +168,5 @@ phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt
 excluded_ids = f'{output_dir}/1000g_excluded_pop_ids.txt'
 
 
-gwf.target_from_template(f'only_lwk',
+gwf.target_from_template(f'only_ppl',
     only_lwk(phased_haplotypes_poplabels, excluded_ids))
-
-
-# combine excluded files: both related and non lwk individuals
-def combine_files(related_ids, excluded_ids, all_excluded):
-    inputs = [related_ids, excluded_ids]
-    outputs = [all_excluded]
-    options = {'memory': '1g', 'walltime': '00:10:00'}
-    spec = f'''
-    cat {related_ids} {excluded_ids} | sort | uniq > {all_excluded}
-    '''
-    return inputs, outputs, options, spec
-
-related_ids=f'{output_dir}/1000g_related_ids.txt'
-excluded_ids = f'{output_dir}/1000g_excluded_pop_ids.txt'
-all_excluded=f'{output_dir}/all_excluded.txt'
-
-gwf.target_from_template(f'combine_files',
-    combine_files(related_ids, excluded_ids, all_excluded))
-
-
-# construct a list of excluded individuals
-def excluded_individuals(all_excluded, phased_haplotypes_id, excluded_non_lwk_haplotype_ids):
-    inputs = [all_excluded, phased_haplotypes_id]
-    outputs = [excluded_non_lwk_haplotype_ids]
-    options = {'memory': '1g', 'walltime': '00:10:00'}
-    spec = f'''
-    grep -f {all_excluded} {phased_haplotypes_id} > {excluded_non_lwk_haplotype_ids}
-    '''
-    return inputs, outputs, options, spec
-
-all_excluded=f'{output_dir}/all_excluded.txt'
-phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
-excluded_non_lwk_haplotype_ids = f'{output_dir}/1000g_excluded_non_LWK_haplotype_ids.txt'
-
-gwf.target_from_template(f'excluded_individuals',
-    excluded_individuals(all_excluded, phased_haplotypes_id, excluded_non_lwk_haplotype_ids))
-
-
-# construct a list of included individuals (lwk population and non related individuals)
-def included_individuals(excluded_non_population_haplotype_ids, phased_haplotypes_poplabels, phased_haplotypes_population_poplabels):
-    inputs = [excluded_non_lwk_haplotype_ids, phased_haplotypes_poplabels]
-    outputs = [phased_haplotypes_LWK_poplabels]
-    options = {'memory': '1g', 'walltime': '00:10:00'}
-    spec = f'''
-    grep -v -f {excluded_non_lwk_haplotype_ids} {phased_haplotypes_poplabels} > {phased_haplotypes_LWK_poplabels}
-    '''
-    return inputs, outputs, options, spec
-
-excluded_non_lwk_haplotype_ids = f'{output_dir}/1000g_excluded_non_{population}_haplotype_ids.txt'
-phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
-phased_haplotypes_LWK_poplabels = f'{output_dir}/1000g_phased_haplotypes_{population}_poplabels.txt'
-
-gwf.target_from_template(f'included_individuals',
-    included_individuals(excluded_non_lwk_haplotype_ids, phased_haplotypes_poplabels, phased_haplotypes_LWK_poplabels))
