@@ -148,25 +148,47 @@ gwf.target_from_template(f'exclude_related',
     exclude_related(related_high_coverage_seq_index, related_ids))
 
 
-### KASPER WORKFLOW ###
 
 # since we analyze only individuals from the African LWK population
 # find IDs of haplotypes from all other populations so we can exclude them
-def only_ppl(phased_haplotypes_poplabels, population):
-    ouput_dir = f'{output_dir}/'
-    excluded = modify_path(phased_haplotypes_poplabels, parent=)
+def only_ppl(path, population):
+    out_dir = f'{output_dir}/{population}'
+    output_path = modify_path(path, parent=out_dir, suffix='_excluded.txt')
 
-    inputs = [phased_haplotypes_poplabels]
-    outputs = [excluded_ids]
+    inputs = {'path' : path}
+    outputs = {'path' : out_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    grep -v 'LWK' {phased_haplotypes_poplabels} | cut -f 1 -d ' ' > {excluded_ids}
+    mkdir -p {out_dir}
+    grep -v '{population}' {inputs} | cut -f 1 -d ' ' > {output_path}
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+
+
+
+# combine excluded files: both related and non lwk individuals
+def combine_files(related_ids, excluded_ids, all_excluded):
+    inputs = [related_ids, excluded_ids]
+    outputs = [all_excluded]
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    cat {related_ids} {excluded_ids} | sort | uniq > {all_excluded}
     '''
     return inputs, outputs, options, spec
 
-phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
+related_ids=f'{output_dir}/1000g_related_ids.txt'
 excluded_ids = f'{output_dir}/1000g_excluded_pop_ids.txt'
+all_excluded=f'{output_dir}/all_excluded.txt'
+
+gwf.target_from_template(f'combine_files',
+    combine_files(related_ids, excluded_ids, all_excluded))
 
 
-gwf.target_from_template(f'only_ppl',
-    only_lwk(phased_haplotypes_poplabels, excluded_ids))
+population = 'LWK'
+input_file_name = ['1000G_698_related_high_coverage.sequence.index']
+
+exclude_individuals = gwf.map(only_ppl, input_file_names, population)
+
+
+
+
