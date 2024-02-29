@@ -135,13 +135,13 @@ gwf.target_from_template(f'convert_vcf',
 
 # exclude related individuals to avoid biases arising from shared genetic material
 def exclude_related(path):
-    out_dir = f'{output_dir}/excluded'
-    output_path = modify_path(path, parent=out_dir, suffix='_related.txt')
+    output_dir = f'{output_dir}/excluded'
+    output_path = modify_path(path, parent=output_dir, suffix='_related.txt')
     inputs = {'path' : path}
     outputs = {'path' : output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    mkdir -p {out_dir}
+    mkdir -p {output_dir}
     grep -v '#' {path} | cut -f 10 > {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
@@ -151,14 +151,14 @@ def exclude_related(path):
 # since we analyze only individuals from the African LWK population
 # find IDs of haplotypes from all other populations so we can exclude them
 def other_ppl(path, population):
-    out_dir = f'{output_dir}/excluded'
-    output_path = modify_path(path, parent=out_dir, suffix='_non_{population}.txt')
+    output_dir = f'{output_dir}/excluded'
+    output_path = modify_path(path, parent=output_dir, suffix='_non_{population}.txt')
 
     inputs = {'path' : path}
     outputs = {'path' : output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    mkdir -p {out_dir}
+    mkdir -p {output_dir}
     grep -v {population} {path} | cut -f 1 -d ' ' > {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
@@ -167,6 +167,7 @@ def other_ppl(path, population):
 
 # combine excluded files: both related and non lwk individuals
 def combine_files(paths, output_path):
+    out_dir = modify_path(output_path, base='', suffix='')
     inputs = {'paths' : paths}
     outputs = {'path' : output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
@@ -184,9 +185,13 @@ related_target = gwf.map(exclude_related, input_related)
 input_other_ppl = [f'{output_dir}/1000g_phased_haplotypes_poplabels.txt']
 other_ppl_target = gwf.map(other_ppl, input_other_ppl)
 
-combine_target = gwf.target_from_template()
+collected_outputs = collect([related_target.outputs, other_ppl_target.outputs], ['path'])
 
-exclude_individuals = gwf.map(only_ppl, input_file_names, population)
+combine_target = gwf.target_from_template('combine_files',
+    combine_files(paths=collected_outputs['paths'],
+        output_path=f'{output_dir}/all_excluded.txt')
+)
+
 
 
 
