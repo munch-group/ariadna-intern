@@ -164,14 +164,16 @@ def other_ppl(path, population):
 
 
 # combine excluded files: both related and non population individuals
-def combine_files(path, output_path, related=None):
+def combine_files(path, related=None):
+    output_path = modify_path(path, base='', suffix='_combined.txt')
     out_dir = modify_path(output_path, base='', suffix='')
-    inputs = {'path' : path}
-    outputs = {'path' : output_path}
+    
+    inputs = {'path': path, 'related': related}
+    outputs = {'path': output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    mkdir -p {output_dir}
-    cat {path} | sort | uniq > {output_path}
+    mkdir -p {out_dir}
+    cat {path} {related} | sort | uniq > {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
