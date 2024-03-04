@@ -12,7 +12,7 @@ gwf = Workflow(defaults={'account': 'ari-intern'})
 
 
 # directories
-output_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
+out_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
 data_big = '/home/ari/ari-intern/data'
 script_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/scripts'
 data_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000genome'
@@ -47,7 +47,7 @@ def decode_genetic_maps(decode_hg38_sexavg_per_gen, genetic_map_chrX):
     return inputs, outputs, options, spec
 
 decode_hg38_sexavg_per_gen=f'{data_big}/decode_hg38_sexavg_per_gen.tsv'
-genetic_map_chrX=f'{output_dir}/genetic_map_chrX.tsv'
+genetic_map_chrX=f'{out_dir}/genetic_map_chrX.tsv'
 
 gwf.target_from_template(f'decode_genetic_maps',
     decode_genetic_maps(decode_hg38_sexavg_per_gen, genetic_map_chrX))
@@ -65,7 +65,7 @@ def female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes):
 
 haploid_vcf=f'{script_dir}/haploid_vcf.py'
 chrX_filtered_eagle2_phased=f'{data_dir}/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz'
-phased_haplotypes=f'{output_dir}/1000g_phased_haplotypes.vcf.gz'
+phased_haplotypes=f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
 
 gwf.target_from_template(f'female_haploid',
     female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes))
@@ -84,8 +84,8 @@ def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     '''
     return inputs, outputs, options, spec
 
-phased_haplotypes=f'{output_dir}/1000g_phased_haplotypes.vcf.gz'
-phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
+phased_haplotypes=f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
+phased_haplotypes_id=f'{out_dir}/1000g_phased_haplotypes_ids.txt'
 
 gwf.target_from_template(f'haplotype_id', haplotype_id(phased_haplotypes, phased_haplotypes_id))
 
@@ -102,10 +102,10 @@ def pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, re
     return inputs, outputs, options, spec
 
 make_poplabels=f'{script_dir}/make_poplabels.py'
-phased_haplotypes_id=f'{output_dir}/1000g_phased_haplotypes_ids.txt'
+phased_haplotypes_id=f'{out_dir}/1000g_phased_haplotypes_ids.txt'
 high_coverage_seq_index=f'{data_dir}/seq_index/1000G_2504_high_coverage.sequence.index'
 related_high_coverage_seq_index=f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index'
-phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
+phased_haplotypes_poplabels=f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 
 gwf.target_from_template(f'pop_labels',
     pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_poplabels))
@@ -122,20 +122,21 @@ def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sam
     return inputs, outputs, options, spec
 
 RelateFileFormats='/home/ari/ari-intern/people/ari/relate/bin/RelateFileFormats'
-phased_haplotypes_poplabels=f'{output_dir}/1000g_phased_haplotypes_poplabels.txt'
-phased_haplotypes=f'{output_dir}/1000g_phased_haplotypes.vcf.gz'
-phased_haplotypes_haps=f'{output_dir}/1000g_phased_haplotypes.haps'
-phased_haplotypes_sample=f'{output_dir}/1000g_phased_haplotypes.sample'
+phased_haplotypes_poplabels=f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
+phased_haplotypes=f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
+phased_haplotypes_haps=f'{out_dir}/1000g_phased_haplotypes.haps'
+phased_haplotypes_sample=f'{out_dir}/1000g_phased_haplotypes.sample'
 
 gwf.target_from_template(f'convert_vcf',
     convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels))
 
 
-#### !!!!!!!!!!!!!
+
+##################
 
 # exclude related individuals to avoid biases arising from shared genetic material
-def exclude_related(path):
-    output_dir = f'{output_dir}/excluded'
+def exclude_related(path, population):
+    output_dir = f'{out_dir}/{population}/excluded'
     output_path = modify_path(path, parent=output_dir, suffix='_related.txt')
     inputs = {'path' : path}
     outputs = {'path' : output_path}
@@ -147,12 +148,10 @@ def exclude_related(path):
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-
-# since we analyze only individuals from the African LWK population
 # find IDs of haplotypes from all other populations so we can exclude them
 def other_ppl(path, population):
-    output_dir = f'{output_dir}/excluded'
-    output_path = modify_path(path, parent=output_dir, suffix='_non_{population}.txt')
+    output_dir = f'{out_dir}/{population}/excluded'
+    output_path = modify_path(path, parent=output_dir, suffix='_non_ppl.txt')
 
     inputs = {'path' : path}
     outputs = {'path' : output_path}
@@ -164,35 +163,51 @@ def other_ppl(path, population):
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-
-# combine excluded files: both related and non lwk individuals
-def combine_files(paths, output_path):
+# combine excluded files: both related and non population individuals
+def combine_files(path, output_path, related=None):
     out_dir = modify_path(output_path, base='', suffix='')
-    inputs = {'paths' : paths}
+    inputs = {'path' : path}
     outputs = {'path' : output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
-    cat {paths} | sort | uniq > {output_path}
+    mkdir -p {output_dir}
+    cat {path} | sort | uniq > {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-
 population = 'LWK'
-input_related = [f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index']
+input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
 related_target = gwf.map(exclude_related, input_related)
 
-input_other_ppl = [f'{output_dir}/1000g_phased_haplotypes_poplabels.txt']
+related = related = related_target.outputs[0]  # list
+
+input_other_ppl = [(f'{out_dir}/1000g_phased_haplotypes_poplabels.txt', population)]
 other_ppl_target = gwf.map(other_ppl, input_other_ppl)
 
-collected_outputs = collect([related_target.outputs, other_ppl_target.outputs], ['path'])
 
-combine_target = gwf.target_from_template('combine_files',
-    combine_files(paths=collected_outputs['paths'],
-        output_path=f'{output_dir}/all_excluded.txt')
-)
+combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related})
 
 
 
+# # construct a list of excluded individuals
+# def exclude_list(paths, output_path):
+#     output_dir = f'{out_dir}/{population}/excluded'
+#     output_path = modify_path(path, parent=output_dir, suffix='_list.txt')
 
+#     inputs = {'paths' : paths}
+#     outputs = {'path' : output_path}
+#     options = {'memory': '1g', 'walltime': '00:10:00'}
+#     spec = f'''
+#     mkdir -p {output_dir}
+#     grep -f {paths} > {output_path}
+#     '''
+#     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+
+
+# input_list_exclude = collect([f'{out_dir}/1000g_phased_haplotypes_ids.txt', combine_target.outputs], ['path'])
+
+# excluded_list = gwf.target_from_template('exclude_list',
+#     exclude_list(paths = input_list_exclude)
+# )
 
