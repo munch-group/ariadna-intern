@@ -79,7 +79,6 @@ def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     spec = f'''
     # conda install -c bioconda bcftools
     # conda install openssl   ## to install libcrypto.so.1.0.0 library
-    #bcftools view -h {phased_haplotypes} | grep ^#CHROM | cut -f 10- > {phased_haplotypes_id}
     bcftools query -l {phased_haplotypes} > {phased_haplotypes_id}
     '''
     return inputs, outputs, options, spec
@@ -132,7 +131,7 @@ gwf.target_from_template(f'convert_vcf',
 
 
 
-##################
+## start with specific population ##
 
 # exclude related individuals to avoid biases arising from shared genetic material
 def exclude_related(path, population):
@@ -152,7 +151,6 @@ def exclude_related(path, population):
 def other_ppl(path, population):
     output_dir = f'{out_dir}/{population}/excluded'
     output_path = modify_path(path, parent=output_dir, suffix='_non_ppl.txt')
-
     inputs = {'path' : path}
     outputs = {'path' : output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
@@ -165,9 +163,8 @@ def other_ppl(path, population):
 
 # combine excluded files: both related and non population individuals
 def combine_files(path, related=None):
-    output_path = modify_path(path, base='', suffix='_combined.txt')
+    output_path = modify_path(path, base='', suffix='excluded_combined.txt')
     out_dir = modify_path(output_path, base='', suffix='')
-    
     inputs = {'path': path, 'related': related}
     outputs = {'path': output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
@@ -178,38 +175,48 @@ def combine_files(path, related=None):
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
+# construct a list of excluded individuals
+def excluded_list(path, haplotype_id=None):
+    output_path = modify_path(path, base='', suffix='excluded_list.txt')
+    out_dir = modify_path(output_path, base='', suffix='')
+    inputs = {'path': path, 'haplotype_id': haplotype_id}
+    outputs = {'path': output_path}
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    mkdir -p {out_dir}
+    grep -f {path} {haplotype_id} > {output_path}
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+
+
+# construct a list of only individuals from the population of interest
+def only_ppl(path, poplabels=None):
+    output_dir = f'{out_dir}/{population}/included'
+    output_path = modify_path(path, parent=output_dir, suffix='_only_ppl.txt')
+    inputs = {'path': path, 'poplabels': poplabels}
+    outputs = {'path': output_path}
+    options = {'memory': '1g', 'walltime': '00:10:00'}
+    spec = f'''
+    mkdir -p {output_dir}
+    grep -v -f {path} {poplabels} > {output_path}
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+
+
+
+
 population = 'LWK'
 input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
 related_target = gwf.map(exclude_related, input_related)
-
-related = related = related_target.outputs[0]  # list
+related = related_target.outputs[0]  # list
 
 input_other_ppl = [(f'{out_dir}/1000g_phased_haplotypes_poplabels.txt', population)]
 other_ppl_target = gwf.map(other_ppl, input_other_ppl)
 
-
 combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related})
 
+haplotype_id = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
+exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_id})
 
-
-# # construct a list of excluded individuals
-# def exclude_list(paths, output_path):
-#     output_dir = f'{out_dir}/{population}/excluded'
-#     output_path = modify_path(path, parent=output_dir, suffix='_list.txt')
-
-#     inputs = {'paths' : paths}
-#     outputs = {'path' : output_path}
-#     options = {'memory': '1g', 'walltime': '00:10:00'}
-#     spec = f'''
-#     mkdir -p {output_dir}
-#     grep -f {paths} > {output_path}
-#     '''
-#     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
-
-
-# input_list_exclude = collect([f'{out_dir}/1000g_phased_haplotypes_ids.txt', combine_target.outputs], ['path'])
-
-# excluded_list = gwf.target_from_template('exclude_list',
-#     exclude_list(paths = input_list_exclude)
-# )
-
+poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
+include_list = gwf.map(only_ppl, exclude_list_target.outputs, extra = {'poplabels':poplabels})
