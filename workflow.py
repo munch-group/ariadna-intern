@@ -192,7 +192,7 @@ def excluded_list(path, haplotype_id=None):
 # construct a list of only individuals from the population of interest
 def only_ppl(path, poplabels=None):
     output_dir = f'{out_dir}/{population}/included'
-    output_path = modify_path(path, parent=output_dir, suffix='_only_ppl.txt')
+    output_path = os.path.join(output_dir, 'list_only_ppl.txt')
     inputs = {'path': path, 'poplabels': poplabels}
     outputs = {'path': output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
@@ -201,8 +201,6 @@ def only_ppl(path, poplabels=None):
     grep -v -f {path} {poplabels} > {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
-
-
 
 
 population = 'LWK'
