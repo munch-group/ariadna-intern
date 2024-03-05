@@ -203,7 +203,25 @@ def only_ppl(path, poplabels=None):
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-population = 'LWK'
+# prepare input files for RELATE
+def prepare_files(path, haps=None, sample=None, ancestor=None, mask=None, poplabels=None, remove_ids=None):
+    output_dir = f'{out_dir}/{population}/relate'
+    inputs = {'path': path, 'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels': poplabels, 'remove_ids':remove_ids}
+    output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
+    # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
+    outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
+    options = {'memory': '8g', 'walltime': '04:00:00'}
+    spec = f'''
+    mkdir -p {output_dir}
+    srun --mem-per-cpu=8g --time=04:00:00 --account=xy-drive {path} --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {poplabels} --remove_ids {remove_ids} -o 1000g_ppl_phased_haplotypes
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+
+# compute sfs to make sure singletons are not missing (sanity check)
+
+
+population = 'LWK' # specify population you want to work with
+
 input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
 related_target = gwf.map(exclude_related, input_related)
 related = related_target.outputs[0]  # list
@@ -218,3 +236,12 @@ exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'h
 
 poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 include_list = gwf.map(only_ppl, exclude_list_target.outputs, extra = {'poplabels':poplabels})
+
+input_prepare = '/home/ari/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh'
+haps = f'{out_dir}/1000g_phased_haplotypes.haps'
+sample = f'{out_dir}/1000g_phased_haplotypes.sample'
+ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
+mask = f'{data_dir}/20160622.chrX.mask.fasta'
+poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
+remove_ids = f'{out_dir}/{population}/excluded/excluded_list.txt'
+prepare_target = gwf.map(prepare_files, input_prepare, extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels': poplabels, 'remove_ids':remove_ids})
