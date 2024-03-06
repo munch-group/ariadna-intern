@@ -12,10 +12,10 @@ gwf = Workflow(defaults={'account': 'ari-intern'})
 
 
 # directories
-out_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
-data_big = '/home/ari/ari-intern/data'
-script_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/scripts'
-data_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000genome'
+out_dir = './steps'
+data_big = '/faststorage/project/ari-intern/data'
+script_dir = '/faststorage/project/ari-intern/people/ari/ariadna-intern/scripts'
+data_dir = '/faststorage/project/ari-intern/people/ari/ariadna-intern/steps/1000genome'
 
 # function that modifies file path
 def modify_path(p, parent=None, base=None, suffix=None):
@@ -44,7 +44,8 @@ def decode_genetic_maps(decode_hg38_sexavg_per_gen, genetic_map_chrX):
     spec = f'''
     cat {decode_hg38_sexavg_per_gen} | tail -n +2 | grep chrX | cut -f 2,4,5 | (echo pos COMBINED_rate Genetic_Map ; cat - ; ) > {genetic_map_chrX}
     '''
-    return inputs, outputs, options, spec
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+
 
 decode_hg38_sexavg_per_gen=f'{data_big}/decode_hg38_sexavg_per_gen.tsv'
 genetic_map_chrX=f'{out_dir}/genetic_map_chrX.tsv'
@@ -61,7 +62,7 @@ def female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes):
     spec = f'''
     python {haploid_vcf} {chrX_filtered_eagle2_phased} | gzip > {phased_haplotypes}
     '''
-    return inputs, outputs, options, spec
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 haploid_vcf=f'{script_dir}/haploid_vcf.py'
 chrX_filtered_eagle2_phased=f'{data_dir}/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz'
@@ -81,7 +82,7 @@ def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     # conda install openssl   ## to install libcrypto.so.1.0.0 library
     bcftools query -l {phased_haplotypes} > {phased_haplotypes_id}
     '''
-    return inputs, outputs, options, spec
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 phased_haplotypes=f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
 phased_haplotypes_id=f'{out_dir}/1000g_phased_haplotypes_ids.txt'
@@ -98,7 +99,7 @@ def pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, re
     spec = f'''
     python {make_poplabels} {phased_haplotypes_id} {high_coverage_seq_index} {related_high_coverage_seq_index} > {phased_haplotypes_poplabels} 
     '''
-    return inputs, outputs, options, spec
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 make_poplabels=f'{script_dir}/make_poplabels.py'
 phased_haplotypes_id=f'{out_dir}/1000g_phased_haplotypes_ids.txt'
@@ -118,9 +119,9 @@ def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sam
     spec = f'''
     {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i {phased_haplotypes} --poplabels {phased_haplotypes_poplabels}
     '''
-    return inputs, outputs, options, spec
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
-RelateFileFormats='/home/ari/ari-intern/people/ari/relate/bin/RelateFileFormats'
+RelateFileFormats='/faststorage/project/ari-intern/people/ari/relate/bin/RelateFileFormats'
 phased_haplotypes_poplabels=f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 phased_haplotypes=f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
 phased_haplotypes_haps=f'{out_dir}/1000g_phased_haplotypes.haps'
@@ -180,7 +181,7 @@ def excluded_list(path, haplotype_id=None):
     output_path = modify_path(path, base='', suffix='excluded_list.txt')
     out_dir = modify_path(output_path, base='', suffix='')
     inputs = {'path': path, 'haplotype_id': haplotype_id}
-    outputs = {'path': output_path}
+    outputs = {'exclude_list': output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
     mkdir -p {out_dir}
@@ -190,33 +191,52 @@ def excluded_list(path, haplotype_id=None):
 
 
 # construct a list of only individuals from the population of interest
-def only_ppl(path, poplabels=None):
-    output_dir = f'{out_dir}/{population}/included'
-    output_path = os.path.join(output_dir, 'list_only_ppl.txt')
-    inputs = {'path': path, 'poplabels': poplabels}
-    outputs = {'path': output_path}
+def pop_labels(exclude_list, poplabels=None):
+    output_dir = f'{out_dir}/{population}/pop_labels'
+    output_path = os.path.join(output_dir, 'included_pop_labels.txt')
+    inputs = {'exclude_list': exclude_list, 'poplabels': poplabels}
+    outputs = {'pop_label_list': output_path}
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
     mkdir -p {output_dir}
-    grep -v -f {path} {poplabels} > {output_path}
+    grep -v -f {exclude_list} {poplabels} > {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
 
-def prepare_files(path, haps=None, sample=None, ancestor=None, mask=None, poplabels=None, remove_ids=None):
-     output_dir = f'{out_dir}/{population}/relate'
-     inputs = {'path': path, 'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels, 'remove_ids':remove_ids}
-     output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
-     # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
-     outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
-     options = {'memory': '8g', 'walltime': '04:00:00'}
-     spec = f'''
-     mkdir -p {output_dir}
-     srun --mem-per-cpu=8g --time=04:00:00 --account=xy-drive {path} --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {poplabels} --remove_ids {remove_ids} -o {output_path}
-     '''
-     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
+    output_dir = f'{out_dir}/{population}/relate'
+    inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':pop_labels, 'exclude_list':exclude_list}
+    output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
+    # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
+    outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
+    options = {'memory': '8g', 'walltime': '04:00:00'}
+    spec = f'''
+    mkdir -p {output_dir}
+    /faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh \
+       --remove_ids {exclude_list}
+       --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {pop_label_list} \
+       -o {output_path}
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
+
+def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
+    output_dir = f'{out_dir}/{population}/relate'
+    inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':pop_label_list, 'exclude_list':exclude_list}
+    output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
+    # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
+    outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
+    options = {'memory': '8g', 'walltime': '04:00:00'}
+    spec = f'''
+    mkdir -p {output_dir}
+    /faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh \
+       --remove_ids {exclude_list}
+       --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {pop_label_list} \
+       -o {output_path}
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
 
@@ -233,20 +253,34 @@ other_ppl_target = gwf.map(other_ppl, input_other_ppl)
 
 combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related})
 
-haplotype_id = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
-exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_id})
+haplotype_ids = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
+exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_ids})
 
 poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
-include_list = gwf.map(only_ppl, exclude_list_target.outputs, extra = {'poplabels':poplabels})
+pop_labels_target = gwf.map(pop_labels, exclude_list_target.outputs, extra = {'poplabels':poplabels})
 
-input_prepare = '/home/ari/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh'
+
+#input_prepare = '/faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh'
 
 #file_formats = ['.haps', '.sample', '.dist', '.poplabels', '.annot']
+
+
+def combine(*args, only=None):
+    assert all(len(args[0]) == len(args[i]) for i in range(len(args)))
+    combined = []
+    for j in range(len(args[0])):
+        output_group = {}
+        for i in range(len(args)):
+            if only:
+                output_group.update({k: v for k, v in args[j].items() if k in only})
+            else:
+                output_group.update(args[i][j])
+        combined.append(output_group)
+    return combined
 
 haps = f'{out_dir}/1000g_phased_haplotypes.haps'
 sample = f'{out_dir}/1000g_phased_haplotypes.sample'
 ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
 mask = f'{data_dir}/20160622.chrX.mask.fasta'
-poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
-remove_ids = f'{out_dir}/{population}/excluded/excluded_list.txt'
-prepare_target = gwf.map(prepare_files, input_prepare, extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels': poplabels, 'remove_ids':remove_ids})
+prepare_target = gwf.map(prepare_files, combine(pop_labels_target.outputs, exclude_list_target.outputs), 
+                         extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask})
