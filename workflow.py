@@ -222,7 +222,7 @@ def pop_labels(exclude_list, poplabels=None):
 #     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-def prepare_files(population, exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
+def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
     directory = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
     output_dir = f'{directory}/{population}/relate'
     inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':pop_label_list, 'exclude_list':exclude_list}
@@ -285,4 +285,4 @@ sample = f'{out_dir}/1000g_phased_haplotypes.sample'
 ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
 mask = f'{data_dir}/20160622.chrX.mask.fasta'
 prepare_target = gwf.map(prepare_files, combine(pop_labels_target.outputs, exclude_list_target.outputs), 
-                         extra = {'population': population, 'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask})
+                         extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask})
