@@ -204,26 +204,27 @@ def pop_labels(exclude_list, poplabels=None):
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
+#prepare input files for RELATE
+# def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
+#     output_dir = f'{out_dir}/{population}/relate'
+#     inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':pop_labels, 'exclude_list':exclude_list}
+#     output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
+#     # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
+#     outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
+#     options = {'memory': '8g', 'walltime': '04:00:00'}
+#     spec = f'''
+#     mkdir -p {output_dir}
+#     /faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh \
+#        --remove_ids {exclude_list}
+#        --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {pop_label_list} \
+#        -o {output_path}
+#     '''
+#     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
-def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
-    output_dir = f'{out_dir}/{population}/relate'
-    inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':pop_labels, 'exclude_list':exclude_list}
-    output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
-    # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
-    outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
-    options = {'memory': '8g', 'walltime': '04:00:00'}
-    spec = f'''
-    mkdir -p {output_dir}
-    /faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh \
-       --remove_ids {exclude_list}
-       --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {pop_label_list} \
-       -o {output_path}
-    '''
-    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
-
-def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
-    output_dir = f'{out_dir}/{population}/relate'
+def prepare_files(population, exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
+    directory = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
+    output_dir = f'{directory}/{population}/relate'
     inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':pop_label_list, 'exclude_list':exclude_list}
     output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
     # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
@@ -231,10 +232,10 @@ def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor
     options = {'memory': '8g', 'walltime': '04:00:00'}
     spec = f'''
     mkdir -p {output_dir}
-    /faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh \
-       --remove_ids {exclude_list}
-       --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {pop_label_list} \
-       -o {output_path}
+/faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh \
+   --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --poplabels {pop_label_list} \
+   --remove_ids {exclude_list} \
+   -o {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -262,9 +263,9 @@ pop_labels_target = gwf.map(pop_labels, exclude_list_target.outputs, extra = {'p
 
 #input_prepare = '/faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh'
 
-#file_formats = ['.haps', '.sample', '.dist', '.poplabels', '.annot']
 
 
+# merges multiple dictionaries into a list of combined dictionaries
 def combine(*args, only=None):
     assert all(len(args[0]) == len(args[i]) for i in range(len(args)))
     combined = []
@@ -278,9 +279,10 @@ def combine(*args, only=None):
         combined.append(output_group)
     return combined
 
-haps = f'{out_dir}/1000g_phased_haplotypes.haps'
+#haps = f'{out_dir}/1000g_phased_haplotypes.haps'
+haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
 sample = f'{out_dir}/1000g_phased_haplotypes.sample'
 ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
 mask = f'{data_dir}/20160622.chrX.mask.fasta'
 prepare_target = gwf.map(prepare_files, combine(pop_labels_target.outputs, exclude_list_target.outputs), 
-                         extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask})
+                         extra = {'population': population, 'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask})
