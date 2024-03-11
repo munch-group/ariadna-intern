@@ -265,5 +265,7 @@ sample = f'{out_dir}/1000g_phased_haplotypes.sample'
 ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
 mask = f'{data_dir}/20160622.chrX.mask.fasta'
 
+ALL_poplabels=f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
+# not poplabels from only ppl individuals but ALL POPULATIONS
 prepare_target = gwf.map(prepare_files, combine(exclude_list_target.outputs, pop_labels_target.outputs), 
                          extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask})
