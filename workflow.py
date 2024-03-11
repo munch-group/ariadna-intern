@@ -36,6 +36,21 @@ def modify_path(p, parent=None, base=None, suffix=None):
     return new_path
 
 
+# function to combine 2 target outputs as an input
+def combine(*args, only=None):
+    assert all(len(args[0]) == len(args[i]) for i in range(len(args)))
+    combined = []
+    for j in range(len(args[0])):
+        output_group = {}
+        for i in range(len(args)):
+            if only:
+                output_group.update({k: v for k, v in args[j].items() if k in only})
+            else:
+                output_group.update(args[i][j])
+        combined.append(output_group)
+    return combined
+
+
 # map of recombination rate across the X chromosome made by DECODE genetics
 def decode_genetic_maps(decode_hg38_sexavg_per_gen, genetic_map_chrX):
     inputs = [decode_hg38_sexavg_per_gen]
@@ -204,20 +219,18 @@ def pop_labels(exclude_list, poplabels=None):
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-
-def prepare_files(exclude_list, pop_label_list, haps=None, sample=None, ancestor=None, mask=None):
+# prepare input files for RELATE
+def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None, poplabels=None):
     directory = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
     output_dir = f'{directory}/{population}/relate'
-    inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':pop_label_list, 'exclude_list':exclude_list}
+    inputs = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels, 'exclude_list':exclude_list}
     output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
     # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
     outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
     options = {'memory': '8g', 'walltime': '04:00:00'}
     spec = f'''
     mkdir -p {output_dir}
-/faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh \
-   --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --remove_ids {exclude_list} --poplabels {pop_label_list} \
-   -o {output_path}
+    /home/ari/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --remove_ids {exclude_list} --poplabels {poplabels} -o {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -241,31 +254,12 @@ poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 pop_labels_target = gwf.map(pop_labels, exclude_list_target.outputs, extra = {'poplabels':poplabels})
 
 
-#input_prepare = '/faststorage/project/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh'
 
-
-
-# merges multiple dictionaries into a list of combined dictionaries
-def combine(*args, only=None):
-    assert all(len(args[0]) == len(args[i]) for i in range(len(args)))
-    combined = []
-    for j in range(len(args[0])):
-        output_group = {}
-        for i in range(len(args)):
-            if only:
-                output_group.update({k: v for k, v in args[j].items() if k in only})
-            else:
-                output_group.update(args[i][j])
-        combined.append(output_group)
-    return combined
-
-#haps = f'{out_dir}/1000g_phased_haplotypes.haps'
-haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
-sample = f'{out_dir}/1000g_phased_haplotypes.sample'
+haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.haps'
+sample = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
 ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
 mask = f'{data_dir}/20160622.chrX.mask.fasta'
+poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 
-ALL_poplabels=f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
-# not poplabels from only ppl individuals but ALL POPULATIONS
-prepare_target = gwf.map(prepare_files, combine(exclude_list_target.outputs, pop_labels_target.outputs), 
-                         extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask})
+prepare_target = gwf.map(prepare_files, exclude_list_target.outputs, 
+                         extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels})
