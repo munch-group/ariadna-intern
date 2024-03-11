@@ -207,7 +207,7 @@ def excluded_list(path, haplotype_id=None):
 
 # construct a list of only individuals from the population of interest
 def pop_labels(exclude_list, poplabels=None):
-    output_dir = f'{out_dir}/{population}/pop_labels'
+    output_dir = f'{out_dir}/{population}/included'
     output_path = os.path.join(output_dir, 'included_pop_labels.txt')
     inputs = {'exclude_list': exclude_list, 'poplabels': poplabels}
     outputs = {'pop_label_list': output_path}
@@ -235,6 +235,22 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
+# compute sfs to make sure singletons are not missing (sanity check)
+# zcat 1000g_LWK_phased_haplotypes.haps.gz | cut -d ' ' -f 4- | tr -d -c '1\n' | awk '{ print length; }' | sort -n | uniq -c
+
+def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
+    output_dir = f'{out_dir}/{population}/relate/run_relate'
+    output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
+    inputs = {'sample_relate': sample_relate, 'haps_relate': haps_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate}
+    outputs={}
+    options = {'memory': '24g', 'walltime': '08:00:00'}
+    spec= f'''
+    mkdir -p {output_dir}
+    cd {output_dir}  # Change to the output directory
+    /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {output_path}
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+# output = .anc
 
 population = 'LWK' # specify population you want to work with
 
@@ -263,3 +279,13 @@ poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 
 prepare_target = gwf.map(prepare_files, exclude_list_target.outputs, 
                          extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels})
+
+
+relate_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
+sample_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.sample.gz'
+haps_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.haps.gz'
+genetic_map = f'{out_dir}/genetic_map_chrX.tsv'
+annot_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.annot'
+dist_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.dist.gz'
+
+run_relate_target = gwf.map(relate, genetic_map, extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate })
