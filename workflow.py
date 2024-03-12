@@ -246,11 +246,10 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     options = {'memory': '24g', 'walltime': '08:00:00'}
     spec= f'''
     mkdir -p {output_dir}
-    cd {output_dir}  # Change to the output directory
     /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {output_path}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
-# output = .anc
+
 
 population = 'LWK' # specify population you want to work with
 
@@ -288,4 +287,4 @@ genetic_map = f'{out_dir}/genetic_map_chrX.tsv'
 annot_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.annot'
 dist_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.dist.gz'
 
-run_relate_target = gwf.map(relate, genetic_map, extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate })
+run_relate_target = gwf.map(relate, genetic_map, extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate})
