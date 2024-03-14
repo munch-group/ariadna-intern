@@ -239,16 +239,22 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
 # zcat 1000g_LWK_phased_haplotypes.haps.gz | cut -d ' ' -f 4- | tr -d -c '1\n' | awk '{ print length; }' | sort -n | uniq -c
 
 def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
-    output_dir = f'{out_dir}/{population}/relate/run_relate'
-    output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
+    directory = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
+    output_dir = f'{directory}/{population}/relate/run_relate'
+    file_name = '1000g_ppl_phased_haplotypes'
+    output_path = os.path.join(output_dir, file_name)
     inputs = {'sample_relate': sample_relate, 'haps_relate': haps_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate}
-    outputs={}
+    # outputs: .anc, .mut
+    outputs = {'anc': output_path + '.anc', 'mut': output_path + '.mut'}
     options = {'memory': '24g', 'walltime': '08:00:00'}
     spec= f'''
     mkdir -p {output_dir}
-    /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {output_path}
+    cd {output_dir}
+    rm -rf {file_name}
+    /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {file_name}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+    
 
 
 population = 'LWK' # specify population you want to work with
