@@ -239,14 +239,14 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
 # zcat 1000g_LWK_phased_haplotypes.haps.gz | cut -d ' ' -f 4- | tr -d -c '1\n' | awk '{ print length; }' | sort -n | uniq -c
 
 def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
-    directory = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
-    output_dir = f'{directory}/{population}/relate/run_relate'
+    directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
+    output_dir = f'{directory}/run_relate'
     file_name = '1000g_ppl_phased_haplotypes'
     output_path = os.path.join(output_dir, file_name)
     inputs = {'sample_relate': sample_relate, 'haps_relate': haps_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate}
-    # outputs: .anc, .mut
     outputs = {'anc': output_path + '.anc', 'mut': output_path + '.mut'}
     options = {'memory': '24g', 'walltime': '08:00:00'}
+    # program creates a temporary folder for temporary files and if it already exists relate won't run
     spec= f'''
     mkdir -p {output_dir}
     cd {output_dir}
@@ -255,7 +255,6 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
     
-
 
 population = 'LWK' # specify population you want to work with
 
