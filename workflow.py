@@ -249,8 +249,7 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
 
 # run the inference of tree sequences using RELATE
 def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
-    directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
-    output_dir = f'{directory}/run_relate'
+    output_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate/run_relate'
     file_name = '1000g_ppl_phased_haplotypes'
     output_path = os.path.join(output_dir, file_name)
     inputs = {'sample_relate': sample_relate, 'haps_relate': haps_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate}
@@ -267,17 +266,23 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
 
 
 # estimate historical population size trajectory from initially inferred tree sequences
-# def estimate_ppl_size():
-#     directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
-#     spec = f'''
-
-#     srun --mem-per-cpu=8g --cpus-per-task=15 --time=08:00:00 --account=xy-drive ~/populationgenomics/software/relate/scripts/EstimatePopulationSize/EstimatePopulationSize.sh -m 1.25e-8 -N 20000 -i 1000g_LWK_phased_haplotypes --poplabels 1000g_LWK_phased_haplotypes.poplabels -o 1000g_LWK_phased_haplotypes_demog --threshold 0 --num_iter 5 --years_per_gen 29 --threads 14 --threshhold 0
-#     '''
-
-
-
-
-
+def estimate_ppl_size(anc_size=None, mut_size=None, poplabels_size=None):
+    output_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate/run_relate'
+    file_name_input = '1000g_ppl_phased_haplotypes'
+    file_name_output = '1000g_ppl_phased_haplotypes_demog'
+    output_path = os.path.join(output_dir, file_name_output)
+    # inputs: inferred .anc/.mut files and a .poplabels file
+    inputs = {'anc_size': anc_size, 'mut_size': mut_size, 'poplabels_size': poplabels_size}
+    # outputs: two versions of coalescence rates/population sizes are outputted
+    ## .coal --> contains coalescence rates and cross-coalescence rates, treating all samples as one population
+    ## *.pairwise.coal/.bin --> coalescence rate file and corresponding binary file containing coalescence rates between pairs of samples
+    outputs = {'coal': output_path + '.coal', 'pairwise_coal': output_path + '.pairwise.coal', 'pairwise_bin': output_path + '.pairwise.bin'}
+    options = {'memory': '8g', 'walltime': '08:00:00'}
+    spec = f'''
+    mkdir -p {output_dir}
+    /home/ari/ari-intern/people/ari/relate/scripts/EstimatePopulationSize/EstimatePopulationSize.sh -m 1.25e-8 -N 20000 -i {file_name_input} --poplabels {poplabels_size} -o {file_name_output} --threshold 0 --num_iter 5 --years_per_gen 29 --threads 14 --threshhold 0
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
 
@@ -308,6 +313,10 @@ poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 pop_labels_target = gwf.map(pop_labels, exclude_list_target.outputs, extra = {'poplabels':poplabels})
 
 
+# RELATE DIRECTORY !
+relate_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate' # relate directory
+
+
 # PREPARE INPUT
 haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.haps'
 sample = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
@@ -319,7 +328,6 @@ prepare_target = gwf.map(prepare_files, exclude_list_target.outputs,
                          extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels})
 
 # RUN RELATE
-relate_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
 sample_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.sample.gz'
 haps_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.haps.gz'
 genetic_map = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/genetic_map_chrX.tsv'
@@ -330,3 +338,7 @@ run_relate_target = gwf.map(relate, [genetic_map], extra = {'haps_relate': haps_
 
 
 # ESTIMATE POPULATION SIZES
+anc_size = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.anc'
+mut_size  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.mut'
+poplabels_size = f'{relate_dir}/1000g_ppl_phased_haplotypes.poplabels'
+ppl_size_target = gwf.map(estimate_ppl_size, [anc_size], extra = {'mut_size':mut_size, 'poplabels_size': poplabels_size})
