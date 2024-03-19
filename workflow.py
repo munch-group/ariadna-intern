@@ -127,7 +127,7 @@ gwf.target_from_template(f'pop_labels',
     pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_poplabels))
 
 
-# convert X chromosome VCF for all samples to haps/sample (format required by RELATE)
+# Define the function to convert VCF to haps/sample format
 def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels):
     inputs = [RelateFileFormats, phased_haplotypes_poplabels, phased_haplotypes]
     outputs = [phased_haplotypes_haps, phased_haplotypes_sample]
@@ -138,16 +138,21 @@ def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sam
     touch {phased_haplotypes_haps}
     touch {phased_haplotypes_sample}
     '''
+    # Returning outputs as well
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
-RelateFileFormats='/faststorage/project/ari-intern/people/ari/relate/bin/RelateFileFormats'
-phased_haplotypes_poplabels=f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
-phased_haplotypes=f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
-phased_haplotypes_haps=f'{out_dir}/1000g_phased_haplotypes.haps'
-phased_haplotypes_sample=f'{out_dir}/1000g_phased_haplotypes.sample'
+# Define the file paths for input and output
+RelateFileFormats = '/faststorage/project/ari-intern/people/ari/relate/bin/RelateFileFormats'
+phased_haplotypes_poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
+phased_haplotypes = f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
+phased_haplotypes_haps = f'{out_dir}/1000g_phased_haplotypes.haps'
+phased_haplotypes_sample = f'{out_dir}/1000g_phased_haplotypes.sample'
 
-gwf.target_from_template(f'convert_vcf',
-    convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels))
+# Creating the target using the function
+convert_vcf_target = convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels)
+
+# Adding the target to the workflow
+gwf.target_from_template(f'convert_vcf', convert_vcf_target)
 
 
 
@@ -168,7 +173,7 @@ def exclude_related(path, population):
 
 
 # find IDs of haplotypes from all other populations so we can exclude them
-def other_ppl(path, population):
+def ids_other_ppl(path, population):
     output_dir = f'{out_dir}/{population}/excluded'
     output_path = modify_path(path, parent=output_dir, suffix='_non_ppl.txt')
     inputs = {'path' : path}
@@ -242,24 +247,6 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
 # compute sfs to make sure singletons are not missing (sanity check)
 # zcat 1000g_LWK_phased_haplotypes.haps.gz | cut -d ' ' -f 4- | tr -d -c '1\n' | awk '{ print length; }' | sort -n | uniq -c
 
-# def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
-#     directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
-#     output_dir = f'{directory}/run_relate'
-#     file_name = '1000g_ppl_phased_haplotypes'
-#     output_path = os.path.join(output_dir, file_name)
-#     inputs = {'sample_relate': sample_relate, 'haps_relate': haps_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate}
-#     outputs = {'anc': output_path + '.anc', 'mut': output_path + '.mut'}
-#     options = {'memory': '24g', 'walltime': '08:00:00'}
-#     # program creates a temporary folder for temporary files and if it already exists relate won't run
-#     spec= f'''
-#     mkdir -p {output_dir}
-#     cd {output_dir}
-#     rm -rf {file_name}
-#     /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {file_name}
-#     '''
-#     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
-
-
 def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
     directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
     output_dir = f'{directory}/run_relate'
@@ -278,7 +265,7 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-
+# for population in ['LWK'...]:
 population = 'LWK' # specify population you want to work with
 
 input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
@@ -286,7 +273,7 @@ related_target = gwf.map(exclude_related, input_related)
 related = related_target.outputs[0]  # list
 
 input_other_ppl = [(f'{out_dir}/1000g_phased_haplotypes_poplabels.txt', population)]
-other_ppl_target = gwf.map(other_ppl, input_other_ppl)
+other_ppl_target = gwf.map(ids_other_ppl, input_other_ppl)
 
 combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related})
 
@@ -311,7 +298,7 @@ prepare_target = gwf.map(prepare_files, exclude_list_target.outputs,
 relate_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
 sample_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.sample.gz'
 haps_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.haps.gz'
-genetic_map = f'{out_dir}/genetic_map_chrX.tsv'
+genetic_map = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/genetic_map_chrX.tsv'
 annot_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.annot'
 dist_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.dist.gz'
 
