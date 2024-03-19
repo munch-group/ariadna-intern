@@ -247,6 +247,7 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
 # compute sfs to make sure singletons are not missing (sanity check)
 # zcat 1000g_LWK_phased_haplotypes.haps.gz | cut -d ' ' -f 4- | tr -d -c '1\n' | awk '{ print length; }' | sort -n | uniq -c
 
+# run the inference of tree sequences using RELATE
 def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
     directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
     output_dir = f'{directory}/run_relate'
@@ -265,26 +266,49 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
+# estimate historical population size trajectory from initially inferred tree sequences
+# def estimate_ppl_size():
+#     directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
+#     spec = f'''
+
+#     srun --mem-per-cpu=8g --cpus-per-task=15 --time=08:00:00 --account=xy-drive ~/populationgenomics/software/relate/scripts/EstimatePopulationSize/EstimatePopulationSize.sh -m 1.25e-8 -N 20000 -i 1000g_LWK_phased_haplotypes --poplabels 1000g_LWK_phased_haplotypes.poplabels -o 1000g_LWK_phased_haplotypes_demog --threshold 0 --num_iter 5 --years_per_gen 29 --threads 14 --threshhold 0
+#     '''
+
+
+
+
+
+
+
+
+# detect selection using RELATEs builtin statistic
+#def detect selection():
+
 # for population in ['LWK'...]:
 population = 'LWK' # specify population you want to work with
 
+# exlcude related
 input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
 related_target = gwf.map(exclude_related, input_related)
 related = related_target.outputs[0]  # list
 
+# get ids for other populations
 input_other_ppl = [(f'{out_dir}/1000g_phased_haplotypes_poplabels.txt', population)]
 other_ppl_target = gwf.map(ids_other_ppl, input_other_ppl)
 
+# combine related and other populations
 combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related})
 
+# list of excluded
 haplotype_ids = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
 exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_ids})
 
+# list of included
 poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 pop_labels_target = gwf.map(pop_labels, exclude_list_target.outputs, extra = {'poplabels':poplabels})
 
 
-
+# PREPARE INPUT
 haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.haps'
 sample = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
 ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
@@ -294,7 +318,7 @@ poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 prepare_target = gwf.map(prepare_files, exclude_list_target.outputs, 
                          extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels})
 
-
+# RUN RELATE
 relate_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
 sample_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.sample.gz'
 haps_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.haps.gz'
@@ -303,3 +327,6 @@ annot_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.annot'
 dist_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.dist.gz'
 
 run_relate_target = gwf.map(relate, [genetic_map], extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate})
+
+
+# ESTIMATE POPULATION SIZES
