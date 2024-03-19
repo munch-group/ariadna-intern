@@ -12,7 +12,7 @@ gwf = Workflow(defaults={'account': 'ari-intern'})
 
 
 # directories
-out_dir = './steps'
+out_dir = '/home/ari/ari-intern/people/ari/ariadna-intern/steps'
 data_big = '/faststorage/project/ari-intern/data'
 script_dir = '/faststorage/project/ari-intern/people/ari/ariadna-intern/scripts'
 data_dir = '/faststorage/project/ari-intern/people/ari/ariadna-intern/steps/1000genome'
@@ -96,6 +96,7 @@ def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     # conda install -c bioconda bcftools
     # conda install openssl   ## to install libcrypto.so.1.0.0 library
     bcftools query -l {phased_haplotypes} > {phased_haplotypes_id}
+    sleep 5
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -133,6 +134,9 @@ def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sam
     options = {'memory': '1g', 'walltime': '00:10:00'}
     spec = f'''
     {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i {phased_haplotypes} --poplabels {phased_haplotypes_poplabels}
+    sleep 5
+    touch {phased_haplotypes_haps}
+    touch {phased_haplotypes_sample}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -238,6 +242,24 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
 # compute sfs to make sure singletons are not missing (sanity check)
 # zcat 1000g_LWK_phased_haplotypes.haps.gz | cut -d ' ' -f 4- | tr -d -c '1\n' | awk '{ print length; }' | sort -n | uniq -c
 
+# def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
+#     directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
+#     output_dir = f'{directory}/run_relate'
+#     file_name = '1000g_ppl_phased_haplotypes'
+#     output_path = os.path.join(output_dir, file_name)
+#     inputs = {'sample_relate': sample_relate, 'haps_relate': haps_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate}
+#     outputs = {'anc': output_path + '.anc', 'mut': output_path + '.mut'}
+#     options = {'memory': '24g', 'walltime': '08:00:00'}
+#     # program creates a temporary folder for temporary files and if it already exists relate won't run
+#     spec= f'''
+#     mkdir -p {output_dir}
+#     cd {output_dir}
+#     rm -rf {file_name}
+#     /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {file_name}
+#     '''
+#     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+
+
 def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None, dist_relate=None):
     directory = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate'
     output_dir = f'{directory}/run_relate'
@@ -254,7 +276,8 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {file_name}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
-    
+
+
 
 population = 'LWK' # specify population you want to work with
 
@@ -292,4 +315,4 @@ genetic_map = f'{out_dir}/genetic_map_chrX.tsv'
 annot_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.annot'
 dist_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.dist.gz'
 
-run_relate_target = gwf.map(relate, genetic_map, extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate})
+run_relate_target = gwf.map(relate, [genetic_map], extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate})
