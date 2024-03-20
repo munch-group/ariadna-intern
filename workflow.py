@@ -341,4 +341,4 @@ run_relate_target = gwf.map(relate, [genetic_map], extra = {'haps_relate': haps_
 anc_size = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.anc'
 mut_size  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.mut'
 poplabels_size = f'{relate_dir}/1000g_ppl_phased_haplotypes.poplabels'
-ppl_size_target = gwf.map(estimate_ppl_size, [anc_size], extra = {'mut_size':mut_size, 'poplabels_size': poplabels_size})
+ppl_size_target = gwf.map(estimate_ppl_size, [anc_size], extra = {'mut_size': mut_size, 'poplabels_size': poplabels_size})
