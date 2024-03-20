@@ -280,6 +280,8 @@ def estimate_ppl_size(anc_size=None, mut_size=None, poplabels_size=None):
     options = {'memory': '8g', 'walltime': '08:00:00'}
     spec = f'''
     mkdir -p {output_dir}
+    cd {output_dir}
+    rm -rf {file_name_output}
     /home/ari/ari-intern/people/ari/relate/scripts/EstimatePopulationSize/EstimatePopulationSize.sh -m 1.25e-8 -N 20000 -i {file_name_input} --poplabels {poplabels_size} -o {file_name_output} --threshold 0 --num_iter 5 --years_per_gen 29 --threads 14 --threshhold 0
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
