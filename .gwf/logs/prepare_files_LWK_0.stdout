@@ -1,0 +1,10 @@
+********************************
+Parameters passed to script:
+haps        = /home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.haps
+sample      = /home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample
+ancestor    = /faststorage/project/ari-intern/people/ari/ariadna-intern/steps/1000genome/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa
+output      = /home/ari/ari-intern/people/ari/ariadna-intern/steps/LWK/relate/1000g_ppl_phased_haplotypes
+mask        = /faststorage/project/ari-intern/people/ari/ariadna-intern/steps/1000genome/20160622.chrX.mask.fasta
+remove_ids  = /home/ari/ari-intern/people/ari/ariadna-intern/steps/LWK/excluded/excluded_list.txt
+poplabels   = /home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes_poplabels.txt
+********************************

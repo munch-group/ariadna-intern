@@ -1,0 +1,12 @@
+/faststorage/project/ari-intern/people/ari/ariadna-intern/scripts/haploid_vcf.py:1: DeprecationWarning: 
+Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
+(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
+but was not found to be installed on your system.
+If this would cause problems for you,
+please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
+        
+  import pandas as pd
+sexing samples
+first non-par pos 2781514
+writing haploids
+slurmstepd: error: *** JOB 35053460 ON cn-1040 CANCELLED AT 2024-03-18T15:41:32 DUE TO TIME LIMIT ***

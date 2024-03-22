@@ -1,0 +1,11 @@
+--2024-02-19 17:36:52--  http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20201028_3202_phased/phased-manifest_July2021.tsv
+Resolving proxy-default (proxy-default)... 10.220.101.1
+Connecting to proxy-default (proxy-default)|10.220.101.1|:3128... connected.
+Proxy request sent, awaiting response... 200 OK
+Length: 5611 (5.5K) [text/tab-separated-values]
+Saving to: ‘steps/1000genome/phased-manifest_July2021.tsv’
+
+     0K .....                                                 100%  525M=0s
+
+2024-02-19 17:36:52 (525 MB/s) - ‘steps/1000genome/phased-manifest_July2021.tsv’ saved [5611/5611]
+

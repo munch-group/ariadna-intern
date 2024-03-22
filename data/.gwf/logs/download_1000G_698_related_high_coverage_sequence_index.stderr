@@ -1,0 +1,16 @@
+--2024-02-19 17:36:52--  http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/1000G_698_related_high_coverage.sequence.index
+Resolving proxy-default (proxy-default)... 10.220.101.1
+Connecting to proxy-default (proxy-default)|10.220.101.1|:3128... connected.
+Proxy request sent, awaiting response... 200 OK
+Length: 294388 (287K)
+Saving to: ‘steps/1000genome/1000G_698_related_high_coverage.sequence.index’
+
+     0K .......... .......... .......... .......... .......... 17% 5.68M 0s
+    50K .......... .......... .......... .......... .......... 34% 5.52M 0s
+   100K .......... .......... .......... .......... .......... 52% 5.40M 0s
+   150K .......... .......... .......... .......... .......... 69% 5.33M 0s
+   200K .......... .......... .......... .......... .......... 86% 4.64M 0s
+   250K .......... .......... .......... .......              100% 5.67M=0.05s
+
+2024-02-19 17:36:52 (5.33 MB/s) - ‘steps/1000genome/1000G_698_related_high_coverage.sequence.index’ saved [294388/294388]
+
