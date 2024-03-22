@@ -306,64 +306,67 @@ def detect_selection(anc_selection=None, mut_selection=None, poplabels_selection
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-# for population in ['LWK'...]:
-population = 'LWK' # specify population you want to work with
+populations = ['LWK', 'ESA', 'GWD', 'MSL', 'YRI']
+# idx:           0      1      2      3      4
 
-# exlcude related
-input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
-related_target = gwf.map(exclude_related, input_related)
-related = related_target.outputs[0]  # list
-
-# get ids for other populations
-input_other_ppl = [(f'{out_dir}/1000g_phased_haplotypes_poplabels.txt', population)]
-other_ppl_target = gwf.map(ids_other_ppl, input_other_ppl)
-
-# combine related and other populations
-combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related})
-
-# list of excluded
-haplotype_ids = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
-exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_ids})
-
-# list of included
-poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
-pop_labels_target = gwf.map(pop_labels, exclude_list_target.outputs, extra = {'poplabels':poplabels})
+# append a unique identifier to each target name to ensure they are unique
+for idx, population in enumerate(populations):
+    # exlcude related
+    input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
+    related_target = gwf.map(exclude_related, input_related, name=f"exclude_related_{idx}")
+    related = related_target.outputs[0]  # list
 
 
-# RELATE DIRECTORY !
-relate_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate' # relate directory
+    # get ids for other populations
+    input_other_ppl = [(f'{out_dir}/1000g_phased_haplotypes_poplabels.txt', population)]
+    other_ppl_target = gwf.map(ids_other_ppl, input_other_ppl, name=f"ids_other_ppl_{idx}")
+
+    # combine related and other populations
+    combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related}, name=f"combine_files_{idx}")
+
+    # list of excluded
+    haplotype_ids = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
+    exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_ids}, name=f"excluded_list_{idx}")
+
+    # # list of included
+    # poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
+    # pop_labels_target = gwf.map(pop_labels, exclude_list_target.outputs, extra = {'poplabels':poplabels})
 
 
-# PREPARE INPUT
-haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.haps'
-sample = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
-ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
-mask = f'{data_dir}/20160622.chrX.mask.fasta'
-poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
-
-prepare_target = gwf.map(prepare_files, exclude_list_target.outputs, 
-                         extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels})
+    # # RELATE DIRECTORY !
+    # relate_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate' # relate directory
 
 
-# RUN RELATE
-sample_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.sample.gz'
-haps_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.haps.gz'
-genetic_map = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/genetic_map_chrX.tsv'
-annot_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.annot'
-dist_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.dist.gz'
+    # # PREPARE INPUT
+    # haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.haps'
+    # sample = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
+    # ancestor = f'{data_dir}/homo_sapiens_ancestor_GRCh38/homo_sapiens_ancestor_X.fa'
+    # mask = f'{data_dir}/20160622.chrX.mask.fasta'
+    # poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
 
-run_relate_target = gwf.map(relate, [genetic_map], extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate})
-
-
-# ESTIMATE POPULATION SIZES
-anc_size = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.anc'
-mut_size  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.mut'
-poplabels_size = f'{relate_dir}/1000g_ppl_phased_haplotypes.poplabels'
-ppl_size_target = gwf.map(estimate_ppl_size, [anc_size], extra = {'mut_size': mut_size, 'poplabels_size': poplabels_size})
+    # prepare_target = gwf.map(prepare_files, exclude_list_target.outputs, 
+    #                         extra = {'haps': haps, 'sample': sample, 'ancestor': ancestor, 'mask':mask, 'poplabels':poplabels})
 
 
-# DETECT SELECTION
-anc_selection = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes_demog.anc.gz'
-mut_selection  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes_demog.mut.gz'
-poplabels_selection = f'{relate_dir}/1000g_ppl_phased_haplotypes.poplabels'
-detect_selection_target = gwf.map(detect_selection, [anc_selection], extra = {'mut_selection': mut_selection, 'poplabels_selection': poplabels_selection})
+    # # RUN RELATE
+    # sample_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.sample.gz'
+    # haps_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.haps.gz'
+    # genetic_map = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/genetic_map_chrX.tsv'
+    # annot_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.annot'
+    # dist_relate = f'{relate_dir}/1000g_ppl_phased_haplotypes.dist.gz'
+
+    # run_relate_target = gwf.map(relate, [genetic_map], extra = {'haps_relate': haps_relate, 'sample_relate': sample_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate})
+
+
+    # # ESTIMATE POPULATION SIZES
+    # anc_size = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.anc'
+    # mut_size  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.mut'
+    # poplabels_size = f'{relate_dir}/1000g_ppl_phased_haplotypes.poplabels'
+    # ppl_size_target = gwf.map(estimate_ppl_size, [anc_size], extra = {'mut_size': mut_size, 'poplabels_size': poplabels_size})
+
+
+    # # DETECT SELECTION
+    # anc_selection = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes_demog.anc.gz'
+    # mut_selection  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes_demog.mut.gz'
+    # poplabels_selection = f'{relate_dir}/1000g_ppl_phased_haplotypes.poplabels'
+    # detect_selection_target = gwf.map(detect_selection, [anc_selection], extra = {'mut_selection': mut_selection, 'poplabels_selection': poplabels_selection})
