@@ -307,26 +307,25 @@ def detect_selection(anc_selection=None, mut_selection=None, poplabels_selection
 
 
 populations = ['LWK', 'ESA', 'GWD', 'MSL', 'YRI']
-# idx:           0      1      2      3      4
 
 # append a unique identifier to each target name to ensure they are unique
-for idx, population in enumerate(populations):
+for population in populations:
     # exlcude related
     input_related = [(f'{data_dir}/seq_index/1000G_698_related_high_coverage.sequence.index', population)]
-    related_target = gwf.map(exclude_related, input_related, name=f"exclude_related_{idx}")
+    related_target = gwf.map(exclude_related, input_related, name=f"exclude_related_{population}")
     related = related_target.outputs[0]  # list
 
 
     # get ids for other populations
     input_other_ppl = [(f'{out_dir}/1000g_phased_haplotypes_poplabels.txt', population)]
-    other_ppl_target = gwf.map(ids_other_ppl, input_other_ppl, name=f"ids_other_ppl_{idx}")
+    other_ppl_target = gwf.map(ids_other_ppl, input_other_ppl, name=f"ids_other_ppl_{population}")
 
-    # combine related and other populations
-    combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related}, name=f"combine_files_{idx}")
+    # # combine related and other populations
+    # combine_target = gwf.map(combine_files, other_ppl_target.outputs, extra = {'related':related}, name=f"combine_files_{idx}")
 
-    # list of excluded
-    haplotype_ids = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
-    exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_ids}, name=f"excluded_list_{idx}")
+    # # list of excluded
+    # haplotype_ids = f'{out_dir}/1000g_phased_haplotypes_ids.txt'
+    # exclude_list_target = gwf.map(excluded_list, combine_target.outputs, extra = {'haplotype_id':haplotype_ids}, name=f"excluded_list_{idx}")
 
     # # list of included
     # poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
