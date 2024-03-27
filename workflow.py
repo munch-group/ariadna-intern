@@ -298,7 +298,8 @@ def detect_selection(anc_selection=None, mut_selection=None, poplabels_selection
     inputs = {'anc_selection': anc_selection, 'mut_selection': mut_selection, 'poplabels_selection': poplabels_selection}
     # .freq --> Records the frequency of the derived allele at generations genN .. gen1
     # .lin --> Records the number of lineages in the tree at generations genN .. gen1 as well as the number of lineages when the mutation had frequency 2
-    # .sele --> Records the log10 p-value for selection evidence at generations genN .. gen1 as well as the log10 p-value when the mutation had frequency 2. Log10 p-value is set to 1 if mutation had frequency <= 1 at a generation. 
+    # .sele --> Records the log10 p-value for selection evidence at generations genN .. gen1 as well as the log10 p-value when the
+    # mutation had frequency 2. Log10 p-value is set to 1 if mutation had frequency <= 1 at a generation. 
     outputs = {'freq_selection': output_path + '.freq', 'lin_selection': output_path + '.lin', 'sele_selection': output_path + '.sele'}
     options = {'memory': '8g', 'walltime': '04:00:00'}
     spec = f'''
