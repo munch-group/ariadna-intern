@@ -266,6 +266,7 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
 
 
 # estimate historical population size trajectory from initially inferred tree sequences
+# setting --threshold 0. This is so that the branch lengths in all trees are updated for the estimated population size history. 
 def estimate_ppl_size(anc_size=None, mut_size=None, poplabels_size=None):
     output_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate/run_relate'
     file_name_input = '1000g_ppl_phased_haplotypes'
@@ -295,6 +296,9 @@ def detect_selection(anc_selection=None, mut_selection=None, poplabels_selection
     file_name_output = '1000g_ppl_phased_haplotypes_selection'
     output_path = os.path.join(output_dir, file_name_output)
     inputs = {'anc_selection': anc_selection, 'mut_selection': mut_selection, 'poplabels_selection': poplabels_selection}
+    # .freq --> Records the frequency of the derived allele at generations genN .. gen1
+    # .lin --> Records the number of lineages in the tree at generations genN .. gen1 as well as the number of lineages when the mutation had frequency 2
+    # .sele --> Records the log10 p-value for selection evidence at generations genN .. gen1 as well as the log10 p-value when the mutation had frequency 2. Log10 p-value is set to 1 if mutation had frequency <= 1 at a generation. 
     outputs = {'freq_selection': output_path + '.freq', 'lin_selection': output_path + '.lin', 'sele_selection': output_path + '.sele'}
     options = {'memory': '8g', 'walltime': '04:00:00'}
     spec = f'''
