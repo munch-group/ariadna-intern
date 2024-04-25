@@ -261,6 +261,7 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     cd {output_dir}
     rm -rf {file_name}
     /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {file_name}
+    sleep 40
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -284,6 +285,7 @@ def estimate_ppl_size(anc_size=None, mut_size=None, poplabels_size=None):
     cd {output_dir}
     rm -rf {file_name_output}
     /home/ari/ari-intern/people/ari/relate/scripts/EstimatePopulationSize/EstimatePopulationSize.sh -m 1.25e-8 -N 20000 -i {file_name_input} --poplabels {poplabels_size} -o {file_name_output} --threshold 0 --num_iter 5 --years_per_gen 29 --threads 14 --threshhold 0
+    sleep 20
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -311,7 +313,37 @@ def detect_selection(anc_selection=None, mut_selection=None, poplabels_selection
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 
-populations = ['LWK', 'GWD', 'MSL', 'YRI', 'ESN']
+
+# convert to tree sequence file format (tskit)
+# this function converts anc/mut files inferred by Relate into the tree sequence file format used by tskit. In the current
+# implementation, each tree is stored with new nodes in the tree sequence file format, leading to no compression. In addition,
+# information about how long branches persist, and how many mutations map to a branch are lost by this conversion.
+def tree_seq(anc_convert=None, mut_convert=None):
+    output_dir = f'/home/ari/ari-intern/people/ari/ariadna-intern/steps/{population}/relate/run_relate'
+    file_name_input = '1000g_ppl_phased_haplotypes'
+    file_name_output = '1000g_ppl_phased_haplotypes'
+    output_path = os.path.join(output_dir, file_name_output)
+    # inputs: .anc (genealogical relationships info) and .mut (mutations info)
+    inputs = {'anc_convert': anc_convert, 'mut_convert': mut_convert}
+    # outputs: .trees (combination of both inputs)
+    outputs = {'trees_convert': output_path + '.trees'}
+    options = {'memory': '8g', 'walltime': '04:00:00'}
+    spec = f'''
+    mkdir -p {output_dir}
+    cd {output_dir}
+    rm -rf {file_name_output}
+    /home/ari/ari-intern/people/ari/relate/bin/RelateFileFormats --mode ConvertToTreeSequence -i {file_name_input} -o {file_name_output}
+    '''
+    return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
+                    
+
+
+
+#populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI'] # african ancestry
+#populations = ['GBR', 'FIN', 'IBS', 'TSI'] # european ancestry
+#populations = ['CDX', 'CHB', 'CHS', 'JPT', 'KHV'] # east asian ancestry
+populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI', 'GBR', 'FIN', 'IBS', 'TSI', 'CDX', 'CHB', 'CHS', 'JPT', 'KHV']
+
 
 # append a unique identifier to each target name to ensure they are distinct (name = ...{population})
 for population in populations:
@@ -374,3 +406,9 @@ for population in populations:
     mut_selection  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes_demog.mut.gz'
     poplabels_selection = f'{relate_dir}/1000g_ppl_phased_haplotypes.poplabels'
     detect_selection_target = gwf.map(detect_selection, [anc_selection], extra = {'mut_selection': mut_selection, 'poplabels_selection': poplabels_selection}, name=f"detect_selection_{population}")
+
+
+   # CONVERT TO TREE SEQUENCE FILE FORMAT (tskit)
+    anc_convert = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.anc'
+    mut_convert  = f'{relate_dir}/run_relate/1000g_ppl_phased_haplotypes.mut'
+    tree_seq_target = gwf.map(tree_seq, [anc_convert], extra = {'mut_convert': mut_convert}, name=f"tree_convert_{population}")
