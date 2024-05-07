@@ -73,14 +73,14 @@ gwf.target_from_template(f'decode_genetic_maps',
 def female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes):
     inputs = [haploid_vcf, chrX_filtered_eagle2_phased]
     outputs = [phased_haplotypes]
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     python {haploid_vcf} {chrX_filtered_eagle2_phased} | gzip > {phased_haplotypes}
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
 haploid_vcf=f'{script_dir}/haploid_vcf.py'
-chrX_filtered_eagle2_phased=f'{data_dir}/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz'
+chrX_filtered_eagle2_phased='/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000genome/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz'
 phased_haplotypes=f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
 
 gwf.target_from_template(f'female_haploid',
@@ -91,7 +91,7 @@ gwf.target_from_template(f'female_haploid',
 def haplotype_id(phased_haplotypes, phased_haplotypes_id):
     inputs = [phased_haplotypes]
     outputs = [phased_haplotypes_id]
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     # conda install -c bioconda bcftools
     # conda install openssl   ## to install libcrypto.so.1.0.0 library
@@ -111,7 +111,7 @@ gwf.target_from_template(f'haplotype_id', haplotype_id(phased_haplotypes, phased
 def pop_labels(make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index, phased_haplotypes_poplabels):
     inputs = [make_poplabels, phased_haplotypes_id, high_coverage_seq_index, related_high_coverage_seq_index]
     outputs = [phased_haplotypes_poplabels]
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     python {make_poplabels} {phased_haplotypes_id} {high_coverage_seq_index} {related_high_coverage_seq_index} > {phased_haplotypes_poplabels} 
     '''
@@ -131,7 +131,7 @@ gwf.target_from_template(f'pop_labels',
 def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels):
     inputs = [RelateFileFormats, phased_haplotypes_poplabels, phased_haplotypes]
     outputs = [phased_haplotypes_haps, phased_haplotypes_sample]
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i {phased_haplotypes} --poplabels {phased_haplotypes_poplabels}
     sleep 5
@@ -164,7 +164,7 @@ def exclude_related(path, population):
     output_path = modify_path(path, parent=output_dir, suffix='_related.txt')
     inputs = {'path' : path}
     outputs = {'path' : output_path}
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     mkdir -p {output_dir}
     grep -v '#' {path} | cut -f 10 > {output_path}
@@ -178,7 +178,7 @@ def ids_other_ppl(path, population):
     output_path = modify_path(path, parent=output_dir, suffix='_non_ppl.txt')
     inputs = {'path' : path}
     outputs = {'path' : output_path}
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     mkdir -p {output_dir}
     grep -v {population} {path} | cut -f 1 -d ' ' > {output_path}
@@ -192,7 +192,7 @@ def combine_files(path, related=None):
     out_dir = modify_path(output_path, base='', suffix='')
     inputs = {'path': path, 'related': related}
     outputs = {'path': output_path}
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     mkdir -p {out_dir}
     cat {path} {related} | sort | uniq > {output_path}
@@ -206,7 +206,7 @@ def excluded_list(path, haplotype_id=None):
     out_dir = modify_path(output_path, base='', suffix='')
     inputs = {'path': path, 'haplotype_id': haplotype_id}
     outputs = {'exclude_list': output_path}
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     mkdir -p {out_dir}
     grep -f {path} {haplotype_id} > {output_path}
@@ -220,7 +220,7 @@ def pop_labels(exclude_list, poplabels=None):
     output_path = os.path.join(output_dir, 'included_pop_labels.txt')
     inputs = {'exclude_list': exclude_list, 'poplabels': poplabels}
     outputs = {'pop_label_list': output_path}
-    options = {'memory': '1g', 'walltime': '00:10:00'}
+    options = {'memory': '10g', 'walltime': '00:60:00'}
     spec = f'''
     mkdir -p {output_dir}
     grep -v -f {exclude_list} {poplabels} > {output_path}
@@ -339,10 +339,10 @@ def tree_seq(anc_convert=None, mut_convert=None):
 
 
 
-#populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI'] # african ancestry
+populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI'] # african ancestry
 #populations = ['GBR', 'FIN', 'IBS', 'TSI'] # european ancestry
 #populations = ['CDX', 'CHB', 'CHS', 'JPT', 'KHV'] # east asian ancestry
-populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI', 'GBR', 'FIN', 'IBS', 'TSI', 'CDX', 'CHB', 'CHS', 'JPT', 'KHV']
+#populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI', 'GBR', 'FIN', 'IBS', 'TSI', 'CDX', 'CHB', 'CHS', 'JPT', 'KHV']
 
 
 # append a unique identifier to each target name to ensure they are distinct (name = ...{population})
