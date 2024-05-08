@@ -73,7 +73,7 @@ gwf.target_from_template(f'decode_genetic_maps',
 def female_haploid(haploid_vcf, chrX_filtered_eagle2_phased, phased_haplotypes):
     inputs = [haploid_vcf, chrX_filtered_eagle2_phased]
     outputs = [phased_haplotypes]
-    options = {'memory': '10g', 'walltime': '00:60:00'}
+    options = {'memory': '10g', 'walltime': '01:20:00'}
     spec = f'''
     python {haploid_vcf} {chrX_filtered_eagle2_phased} | gzip > {phased_haplotypes}
     '''
@@ -131,10 +131,10 @@ gwf.target_from_template(f'pop_labels',
 def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels):
     inputs = [RelateFileFormats, phased_haplotypes_poplabels, phased_haplotypes]
     outputs = [phased_haplotypes_haps, phased_haplotypes_sample]
-    options = {'memory': '10g', 'walltime': '00:60:00'}
+    options = {'memory': '10g', 'walltime': '01:00:00'}
     spec = f'''
-    {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i {phased_haplotypes} --poplabels {phased_haplotypes_poplabels}
-    sleep 5
+    {RelateFileFormats} --mode ConvertFromVcf --haps {phased_haplotypes_haps} --sample {phased_haplotypes_sample} -i {phased_haplotypes.replace('vcf.gz', '')} --poplabels {phased_haplotypes_poplabels}
+    sleep 20
     touch {phased_haplotypes_haps}
     touch {phased_haplotypes_sample}
     '''
@@ -143,10 +143,10 @@ def convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sam
 
 # Define the file paths for input and output
 RelateFileFormats = '/faststorage/project/ari-intern/people/ari/relate/bin/RelateFileFormats'
-phased_haplotypes_poplabels = f'{out_dir}/1000g_phased_haplotypes_poplabels.txt'
-phased_haplotypes = f'{out_dir}/1000g_phased_haplotypes.vcf.gz'
-phased_haplotypes_haps = f'{out_dir}/1000g_phased_haplotypes.haps'
-phased_haplotypes_sample = f'{out_dir}/1000g_phased_haplotypes.sample'
+phased_haplotypes_poplabels = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes_poplabels.txt'
+phased_haplotypes = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.vcf.gz'
+phased_haplotypes_haps = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.haps'
+phased_haplotypes_sample = '/home/ari/ari-intern/people/ari/ariadna-intern/steps/1000g_phased_haplotypes.sample'
 
 # Creating the target using the function
 convert_vcf_target = convert_vcf(RelateFileFormats, phased_haplotypes_haps, phased_haplotypes_sample, phased_haplotypes, phased_haplotypes_poplabels)
@@ -236,7 +236,7 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
     output_path = os.path.join(output_dir, '1000g_ppl_phased_haplotypes')
     # outputs: .haps, .sample, .dist (if --mask specified), .poplabels (if remove_ids & poplabels specified), .annot (if poplabels specified)
     outputs = {'haps': output_path + '.haps', 'sample': output_path + '.sample', 'dist': output_path + '.dist', 'poplabels': output_path + '.poplabels', 'annot': output_path + '.annot'} 
-    options = {'memory': '8g', 'walltime': '04:00:00'}
+    options = {'memory': '20g', 'walltime': '10:00:00'}
     spec = f'''
     mkdir -p {output_dir}
     /home/ari/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --remove_ids {exclude_list} --poplabels {poplabels} -o {output_path}
@@ -254,14 +254,14 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     output_path = os.path.join(output_dir, file_name)
     inputs = {'sample_relate': sample_relate, 'haps_relate': haps_relate, 'annot_relate': annot_relate, 'dist_relate': dist_relate}
     outputs = {'anc': output_path + '.anc', 'mut': output_path + '.mut'}
-    options = {'memory': '24g', 'walltime': '08:00:00'}
+    options = {'memory': '24g', 'walltime': '10:00:00'}
     # program creates a temporary folder for temporary files and if it already exists relate won't run
     spec= f'''
     mkdir -p {output_dir}
     cd {output_dir}
     rm -rf {file_name}
     /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {file_name}
-    sleep 40
+    sleep 60
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -303,12 +303,13 @@ def detect_selection(anc_selection=None, mut_selection=None, poplabels_selection
     # .sele --> Records the log10 p-value for selection evidence at generations genN .. gen1 as well as the log10 p-value when the
     # mutation had frequency 2. Log10 p-value is set to 1 if mutation had frequency <= 1 at a generation. 
     outputs = {'freq_selection': output_path + '.freq', 'lin_selection': output_path + '.lin', 'sele_selection': output_path + '.sele'}
-    options = {'memory': '8g', 'walltime': '04:00:00'}
+    options = {'memory': '20g', 'walltime': '10:00:00'}
     spec = f'''
     mkdir -p {output_dir}
     cd {output_dir}
     rm -rf {file_name_output}
     /home/ari/ari-intern/people/ari/relate/scripts/DetectSelection/DetectSelection.sh -i {file_name_input} -m 1.25e-8 --poplabels {poplabels_size} -o {file_name_output}
+    sleep 10
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -339,8 +340,9 @@ def tree_seq(anc_convert=None, mut_convert=None):
 
 
 
-populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI'] # african ancestry
-#populations = ['GBR', 'FIN', 'IBS', 'TSI'] # european ancestry
+#populations = ['GWD', 'ESN', 'MSL'], 'YRI', 'LWK'] # african ancestry
+populations = ['YRI']
+#populations = ['GBR', 'FIN', 'IBS', 'TSI'] + PUR (puerto ricans)# european ancestry
 #populations = ['CDX', 'CHB', 'CHS', 'JPT', 'KHV'] # east asian ancestry
 #populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI', 'GBR', 'FIN', 'IBS', 'TSI', 'CDX', 'CHB', 'CHS', 'JPT', 'KHV']
 
