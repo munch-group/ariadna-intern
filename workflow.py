@@ -240,6 +240,7 @@ def prepare_files(exclude_list, haps=None, sample=None, ancestor=None, mask=None
     spec = f'''
     mkdir -p {output_dir}
     /home/ari/ari-intern/people/ari/relate/scripts/PrepareInputFiles/PrepareInputFiles.sh --haps {haps} --sample {sample} --ancestor {ancestor} --mask {mask} --remove_ids {exclude_list} --poplabels {poplabels} -o {output_path}
+    sleep 20
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -261,7 +262,7 @@ def relate(genetic_map, sample_relate=None, haps_relate=None, annot_relate=None,
     cd {output_dir}
     rm -rf {file_name}
     /home/ari/ari-intern/people/ari/relate/bin/Relate --mode All -m 1.25e-8 -N 20000 --sample {sample_relate} --haps {haps_relate} --map {genetic_map} --annot {annot_relate} --dist {dist_relate} --memory 20 -o {file_name}
-    sleep 60
+    sleep 90
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -309,7 +310,7 @@ def detect_selection(anc_selection=None, mut_selection=None, poplabels_selection
     cd {output_dir}
     rm -rf {file_name_output}
     /home/ari/ari-intern/people/ari/relate/scripts/DetectSelection/DetectSelection.sh -i {file_name_input} -m 1.25e-8 --poplabels {poplabels_size} -o {file_name_output}
-    sleep 10
+    sleep 80
     '''
     return AnonymousTarget(inputs=inputs, outputs=outputs, options=options, spec=spec)
 
@@ -340,10 +341,10 @@ def tree_seq(anc_convert=None, mut_convert=None):
 
 
 
-#populations = ['GWD', 'ESN', 'MSL'], 'YRI', 'LWK'] # african ancestry
-populations = ['YRI']
-#populations = ['GBR', 'FIN', 'IBS', 'TSI'] + PUR (puerto ricans)# european ancestry
-#populations = ['CDX', 'CHB', 'CHS', 'JPT', 'KHV'] # east asian ancestry
+#populations = ['GWD', 'ESN', 'MSL', 'YRI', 'LWK'] # african ancestry --> DONE
+populations = ['KHV']
+#populations = ['GBR', 'FIN', 'IBS',# 'TSI'] + PUR (puerto ricans)# european ancestry --> DONE
+#populations = ['CDX', 'CHB', 'CHS', #'JPT', 'KHV'] # east asian ancestry
 #populations = ['LWK', 'GWD', 'ESN', 'MSL', 'YRI', 'GBR', 'FIN', 'IBS', 'TSI', 'CDX', 'CHB', 'CHS', 'JPT', 'KHV']
 
 
