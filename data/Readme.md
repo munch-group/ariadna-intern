@@ -1,7 +1,8 @@
 
 # Data files tracked with Git
 
-**Ancestral sequence: human genome as it were at the common ancestor of all humans**
+**Ancestral sequence**
+
 http://ftp.ensembl.org/pub/release-109/fasta/ancestral_alleles/homo_sapiens_ancestor_GRCh38.tar.gz
 
 **File with SNPs for individuals from the 1000 genomes project**
