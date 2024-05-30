@@ -1,10 +1,10 @@
 
 # Data files tracked with Git
 
-**Ancestral sequence**
+- Ancestral sequence
 http://ftp.ensembl.org/pub/release-109/fasta/ancestral_alleles/homo_sapiens_ancestor_GRCh38.tar.gz
 
-**File with SNPs for individuals from the 1000 genomes project**
+- File with SNPs for individuals from the 1000 genomes project
 http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20201028_3202_phased/CCDG_14151_B01_GRM_WGS_2020-08-05_chrX.filtered.eagle2-phased.v2.vcf.gz
 
 **Index for Variant Call Format (VCF) file**
