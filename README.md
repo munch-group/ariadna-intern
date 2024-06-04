@@ -1,10 +1,5 @@
 # Quantifying positive selection
 
-By: Ariadna Saez
+By: Ariadna Saez (ESCI-UPF)
 
-ESCI-UPF, Barcelona, Spain
-
-
-Supervised by: Kasper Munch 
-
-Aarhus University, Aarhus, Denmark
+Supervised by: Kasper Munch (Aarhus University)
