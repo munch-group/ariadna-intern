@@ -2,7 +2,7 @@
 
 
 
-Relate software automated pipeline conducted on gwf `worflow.py`
+Relate software automated pipeline conducted on gwf `workflow.py`
 
 Downstream analysis is performed in jupyter notebooks.
 
