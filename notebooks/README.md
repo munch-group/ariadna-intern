@@ -1,7 +1,7 @@
 
 # Notebooks
 
-`1_plot_selection.ipynb` : Produces Manhattan plots showing evidence of positive selection using -log10(p-values) along the whole chromosome.
+`1_plot_selection.ipynb` : Produces Manhattan plots showing evidence of positive selection using p-values along the whole chromosome.
 
 `2_runs_test.ipynb` : Recomputes p-values obtained from Relate considering the order in which coalescent events occurred.
 
