@@ -1,5 +1,5 @@
 
-### WORKFLOW TO DOWNLOAD DATA ###
+### WORKFLOW TO DOWNLOAD ALL DATA ###
 
 from gwf import Workflow
 gwf = Workflow(defaults={'account': 'ari-intern'})
