@@ -1,7 +1,0 @@
-********************************
-Parameters passed to script:
-input         = 1000g_ppl_phased_haplotypes_demog
-mu            = 1.25e-8
-years_per_gen = 28
-output        = 1000g_ppl_phased_haplotypes_selection
-********************************
