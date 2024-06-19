@@ -7,6 +7,6 @@
 
 `3_fisher_method.ipynb` : Performs probability test combining both p-values from Relate and Runs test.
 
-`4_geneinfo.ipynb` : Performs GO enrichment analysis.
+`4_geneinfo.ipynb` : Maps genomic locations of significant SNPs to nearby genes and retrieves gene information (function, position and related diseases).
 
-`5_fisher_exact_test.ipynb` : Determines whether there are nonrandom correlations between two categories.
+`5_fisher_exact_test.ipynb` : Performs GO enrichment analysis.
