@@ -165,4 +165,3 @@ cython_debug/
 .quarto/
 _book/
 steps/
-contingency_tables/
