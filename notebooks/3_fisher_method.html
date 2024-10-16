@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>List of populations and their file paths – Title of your project</title>
+<title>Combine p-values (fisher method) – Title of your project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/3_fisher_method.html"><span class="chapter-title">3_fisher_method.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/3_fisher_method.html"><span class="chapter-title">Combine p-values (fisher method)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -170,27 +170,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1_plot_selection.html</span></a>
+  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Detect selection in populations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2_runs_test.html</span></a>
+  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Runs test</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">3_fisher_method.html</span></a>
+  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Combine p-values (fisher method)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4_geneinfo.html</span></a>
+  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Gene info</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5_fisher_exact_test.html</span></a>
+  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GO enrichment analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -211,9 +211,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/3_fisher_method.html"><span class="chapter-title">3_fisher_method.html</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/3_fisher_method.html"><span class="chapter-title">Combine p-values (fisher method)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">List of populations and their file paths</span></h1>
+<h1 class="title"><span class="chapter-title">Combine p-values (fisher method)</span></h1>
 </div>
 
 
@@ -230,7 +230,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>COMBINE P-VALUES (FISHER METHOD)</strong></p>
 <div id="1eb18fca-4768-4079-9fd9-8bd676df0976" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -271,85 +270,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="8f586d57-f8be-4a66-a68c-29fcb9a3d416" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>populations <span class="op">=</span> {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># africans</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'LWK'</span>: {</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/LWK/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_LWK_runstats.h5"</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ESN'</span>: {</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/ESN/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_ESN_runstats.h5"</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'GWD'</span>: {</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/GWD/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_GWD_runstats.h5"</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MSL'</span>: {</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/MSL/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_MSL_runstats.h5"</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'YRI'</span>: {</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/YRI/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_YRI_runstats.h5"</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> population, file_paths <span class="kw">in</span> populations.items():</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read files into DataFrames</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    file1 <span class="op">=</span> pd.read_csv(file_paths[<span class="st">'relate'</span>], sep<span class="op">=</span><span class="st">' '</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    file2 <span class="op">=</span> pd.read_hdf(file_paths[<span class="st">'kasper'</span>])</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert 'pos' column to integers in the second DataFrame (it had decimals - position.0)</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    file2[<span class="st">'pos'</span>] <span class="op">=</span> file2[<span class="st">'pos'</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Merge the two DataFrames on the 'pos' column</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    merged_df <span class="op">=</span> pd.merge(file1[[<span class="st">'pos'</span>, <span class="st">'when_mutation_has_freq2'</span>]], file2[[<span class="st">'pos'</span>, <span class="st">'p'</span>]], on<span class="op">=</span><span class="st">'pos'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    merged_df <span class="op">=</span> merged_df.loc[(merged_df.p <span class="op">&lt;</span> <span class="dv">1</span>)]</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply -np.log10() function to the 'p' column (K p-value is not under logarithm)</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">#merged_df['p'] = -np.log10(merged_df['p'])</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Change negative values to positive (relate file contains negative values: flip for plotting)</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>   <span class="co"># merged_df[['when_mutation_has_freq2', 'p']] = merged_df[['when_mutation_has_freq2', 'p']].abs()</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    merged_df[<span class="st">'relate_p'</span>] <span class="op">=</span> <span class="dv">10</span><span class="op">**</span>merged_df.when_mutation_has_freq2</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    merged_df <span class="op">=</span> merged_df.loc[(merged_df.p <span class="op">&lt;</span> <span class="dv">1</span>)]</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Merged file for </span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">:"</span>)</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(merged_df)</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    combined_values <span class="op">=</span> merged_df[[<span class="st">'when_mutation_has_freq2'</span>, <span class="st">'p'</span>]].values.tolist() <span class="co">#&nbsp;list of pairs</span></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert data to DataFrame</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(merged_df)</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine p-values</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    combined_p_values <span class="op">=</span> df[[<span class="st">'relate_p'</span>, <span class="st">'p'</span>]].<span class="bu">apply</span>(fisher_method, axis<span class="op">=</span><span class="dv">1</span>)  <span class="co"># FISHER METHOD HERE</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    combined_p_values <span class="op">=</span> <span class="op">-</span>np.log10(combined_p_values)</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a new DataFrame with pos and combined p-values</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>    new_df <span class="op">=</span> pd.DataFrame({<span class="st">'pos'</span>: df[<span class="st">'pos'</span>], <span class="st">'combined_p_values'</span>: combined_p_values})</span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Specify the file path including the directory and population name</span></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    file_path <span class="op">=</span> os.path.join(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/fisher"</span>, <span class="ss">f"combined_</span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">.csv"</span>)</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save the DataFrame with the population name in the filename</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    new_df.to_csv(file_path, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plotting</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))</span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(data<span class="op">=</span>new_df, x<span class="op">=</span><span class="st">'pos'</span>, y<span class="op">=</span><span class="st">'combined_p_values'</span>, linewidth<span class="op">=</span><span class="dv">0</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    plt.xticks(np.arange(<span class="dv">0</span>, new_df[<span class="st">'pos'</span>].<span class="bu">max</span>()<span class="op">+</span><span class="dv">1</span>, <span class="dv">5000000</span>))</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Position'</span>)</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Combined P Values'</span>)</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'Position vs Combined P Values (</span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">)'</span>)</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    sns.despine()</span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of populations and their file paths</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>populations <span class="op">=</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># africans</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'LWK'</span>: {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/LWK/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_LWK_runstats.h5"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ESN'</span>: {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/ESN/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_ESN_runstats.h5"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'GWD'</span>: {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/GWD/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_GWD_runstats.h5"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MSL'</span>: {</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/MSL/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_MSL_runstats.h5"</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'YRI'</span>: {</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'relate'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/YRI/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">'kasper'</span>: <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_YRI_runstats.h5"</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> population, file_paths <span class="kw">in</span> populations.items():</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read files into DataFrames</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    file1 <span class="op">=</span> pd.read_csv(file_paths[<span class="st">'relate'</span>], sep<span class="op">=</span><span class="st">' '</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    file2 <span class="op">=</span> pd.read_hdf(file_paths[<span class="st">'kasper'</span>])</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert 'pos' column to integers in the second DataFrame (it had decimals - position.0)</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    file2[<span class="st">'pos'</span>] <span class="op">=</span> file2[<span class="st">'pos'</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Merge the two DataFrames on the 'pos' column</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    merged_df <span class="op">=</span> pd.merge(file1[[<span class="st">'pos'</span>, <span class="st">'when_mutation_has_freq2'</span>]], file2[[<span class="st">'pos'</span>, <span class="st">'p'</span>]], on<span class="op">=</span><span class="st">'pos'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    merged_df <span class="op">=</span> merged_df.loc[(merged_df.p <span class="op">&lt;</span> <span class="dv">1</span>)]</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply -np.log10() function to the 'p' column (K p-value is not under logarithm)</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">#merged_df['p'] = -np.log10(merged_df['p'])</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Change negative values to positive (relate file contains negative values: flip for plotting)</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>   <span class="co"># merged_df[['when_mutation_has_freq2', 'p']] = merged_df[['when_mutation_has_freq2', 'p']].abs()</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    merged_df[<span class="st">'relate_p'</span>] <span class="op">=</span> <span class="dv">10</span><span class="op">**</span>merged_df.when_mutation_has_freq2</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    merged_df <span class="op">=</span> merged_df.loc[(merged_df.p <span class="op">&lt;</span> <span class="dv">1</span>)]</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Merged file for </span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(merged_df)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    combined_values <span class="op">=</span> merged_df[[<span class="st">'when_mutation_has_freq2'</span>, <span class="st">'p'</span>]].values.tolist() <span class="co">#&nbsp;list of pairs</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert data to DataFrame</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(merged_df)</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine p-values</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    combined_p_values <span class="op">=</span> df[[<span class="st">'relate_p'</span>, <span class="st">'p'</span>]].<span class="bu">apply</span>(fisher_method, axis<span class="op">=</span><span class="dv">1</span>)  <span class="co"># FISHER METHOD HERE</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    combined_p_values <span class="op">=</span> <span class="op">-</span>np.log10(combined_p_values)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a new DataFrame with pos and combined p-values</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    new_df <span class="op">=</span> pd.DataFrame({<span class="st">'pos'</span>: df[<span class="st">'pos'</span>], <span class="st">'combined_p_values'</span>: combined_p_values})</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Specify the file path including the directory and population name</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>    file_path <span class="op">=</span> os.path.join(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/fisher"</span>, <span class="ss">f"combined_</span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">.csv"</span>)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save the DataFrame with the population name in the filename</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    new_df.to_csv(file_path, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plotting</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">3</span>))</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(data<span class="op">=</span>new_df, x<span class="op">=</span><span class="st">'pos'</span>, y<span class="op">=</span><span class="st">'combined_p_values'</span>, linewidth<span class="op">=</span><span class="dv">0</span>, s<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    plt.xticks(np.arange(<span class="dv">0</span>, new_df[<span class="st">'pos'</span>].<span class="bu">max</span>()<span class="op">+</span><span class="dv">1</span>, <span class="dv">5000000</span>))</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Position'</span>)</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Combined P Values'</span>)</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'Position vs Combined P Values (</span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>    sns.despine()</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Merged file for LWK:
               pos  when_mutation_has_freq2         p  relate_p
@@ -1300,13 +1300,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../notebooks/2_runs_test.html" class="pagination-link" aria-label="2_runs_test.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">2_runs_test.html</span></span>
+      <a href="../notebooks/2_runs_test.html" class="pagination-link" aria-label="Runs test">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Runs test</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebooks/4_geneinfo.html" class="pagination-link" aria-label="4_geneinfo.html">
-        <span class="nav-page-text"><span class="chapter-title">4_geneinfo.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebooks/4_geneinfo.html" class="pagination-link" aria-label="Gene info">
+        <span class="nav-page-text"><span class="chapter-title">Gene info</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

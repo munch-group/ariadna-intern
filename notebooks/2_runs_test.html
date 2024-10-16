@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>scale down size of default plots – Title of your project</title>
+<title>Runs test – Title of your project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/2_runs_test.html"><span class="chapter-title">2_runs_test.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/2_runs_test.html"><span class="chapter-title">Runs test</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -174,27 +174,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1_plot_selection.html</span></a>
+  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Detect selection in populations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">2_runs_test.html</span></a>
+  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Runs test</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3_fisher_method.html</span></a>
+  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Combine p-values (fisher method)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4_geneinfo.html</span></a>
+  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Gene info</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5_fisher_exact_test.html</span></a>
+  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GO enrichment analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -215,9 +215,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/2_runs_test.html"><span class="chapter-title">2_runs_test.html</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/2_runs_test.html"><span class="chapter-title">Runs test</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">scale down size of default plots</span></h1>
+<h1 class="title"><span class="chapter-title">Runs test</span></h1>
 </div>
 
 
@@ -234,7 +234,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>RUNS TEST</strong></p>
 <div id="56e39721-4f3a-4357-ab96-48ca9de02787" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -264,28 +263,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geneinfo <span class="im">as</span> gi</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>gi.email(<span class="st">'kaspermunch@birc.au.dk'</span>)</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>sns.set_context(<span class="st">"paper"</span>)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> <span class="fl">0.8</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="bu">dict</span>([(k, v<span class="op">*</span>scale) <span class="cf">for</span> (k, v) <span class="kw">in</span> sns.plotting_context(<span class="st">'paper'</span>).items()])</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>d[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="fl">5.4</span>, <span class="fl">3.5</span>]</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>mpl.rcParams.update(d)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> modpath(p, parent<span class="op">=</span><span class="va">None</span>, base<span class="op">=</span><span class="va">None</span>, suffix<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    par, name <span class="op">=</span> os.path.split(p)</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    name_no_suffix, suf <span class="op">=</span> os.path.splitext(name)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(suffix) <span class="kw">is</span> <span class="bu">str</span>:</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        suf <span class="op">=</span> suffix</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> parent <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        par <span class="op">=</span> parent</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> base <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        name_no_suffix <span class="op">=</span> base</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    new_path <span class="op">=</span> os.path.join(par, name_no_suffix <span class="op">+</span> suf)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(suffix) <span class="kw">is</span> <span class="bu">tuple</span>:</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">len</span>(suffix) <span class="op">==</span> <span class="dv">2</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        new_path, nsubs <span class="op">=</span> re.subn(<span class="vs">r'</span><span class="sc">{}</span><span class="vs">$'</span>.<span class="bu">format</span>(suffix[<span class="dv">0</span>]), suffix[<span class="dv">1</span>], new_path)</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> nsubs <span class="op">==</span> <span class="dv">1</span>, nsubs</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> new_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># scale down size of default plots</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>sns.set_context(<span class="st">"paper"</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> <span class="fl">0.8</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="bu">dict</span>([(k, v<span class="op">*</span>scale) <span class="cf">for</span> (k, v) <span class="kw">in</span> sns.plotting_context(<span class="st">'paper'</span>).items()])</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>d[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="fl">5.4</span>, <span class="fl">3.5</span>]</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>mpl.rcParams.update(d)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> modpath(p, parent<span class="op">=</span><span class="va">None</span>, base<span class="op">=</span><span class="va">None</span>, suffix<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    par, name <span class="op">=</span> os.path.split(p)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    name_no_suffix, suf <span class="op">=</span> os.path.splitext(name)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(suffix) <span class="kw">is</span> <span class="bu">str</span>:</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        suf <span class="op">=</span> suffix</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> parent <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        par <span class="op">=</span> parent</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> base <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        name_no_suffix <span class="op">=</span> base</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    new_path <span class="op">=</span> os.path.join(par, name_no_suffix <span class="op">+</span> suf)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">type</span>(suffix) <span class="kw">is</span> <span class="bu">tuple</span>:</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">len</span>(suffix) <span class="op">==</span> <span class="dv">2</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        new_path, nsubs <span class="op">=</span> re.subn(<span class="vs">r'</span><span class="sc">{}</span><span class="vs">$'</span>.<span class="bu">format</span>(suffix[<span class="dv">0</span>]), suffix[<span class="dv">1</span>], new_path)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> nsubs <span class="op">==</span> <span class="dv">1</span>, nsubs</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> new_path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="66070a78-3231-4324-b510-a50653abd58f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> chi2</span>
@@ -1246,13 +1246,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../notebooks/1_plot_selection.html" class="pagination-link" aria-label="1_plot_selection.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">1_plot_selection.html</span></span>
+      <a href="../notebooks/1_plot_selection.html" class="pagination-link" aria-label="Detect selection in populations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Detect selection in populations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebooks/3_fisher_method.html" class="pagination-link" aria-label="3_fisher_method.html">
-        <span class="nav-page-text"><span class="chapter-title">3_fisher_method.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebooks/3_fisher_method.html" class="pagination-link" aria-label="Combine p-values (fisher method)">
+        <span class="nav-page-text"><span class="chapter-title">Combine p-values (fisher method)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

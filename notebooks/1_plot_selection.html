@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Combine data frames – Title of your project</title>
+<title>Detect selection in populations – Title of your project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html"><span class="chapter-title">1_plot_selection.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html"><span class="chapter-title">Detect selection in populations</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -173,27 +173,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">1_plot_selection.html</span></a>
+  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Detect selection in populations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2_runs_test.html</span></a>
+  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Runs test</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3_fisher_method.html</span></a>
+  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Combine p-values (fisher method)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4_geneinfo.html</span></a>
+  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Gene info</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5_fisher_exact_test.html</span></a>
+  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GO enrichment analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -214,9 +214,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html"><span class="chapter-title">1_plot_selection.html</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html"><span class="chapter-title">Detect selection in populations</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Combine data frames</span></h1>
+<h1 class="title"><span class="chapter-title">Detect selection in populations</span></h1>
 </div>
 
 
@@ -233,8 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>DETECT SELECTION IN POPULATIONS</strong></p>
-<div id="4fa6096f-62e2-4f0c-9217-372e491e5960" class="cell" data-tags="[]" data-execution_count="1">
+<div id="4fa6096f-62e2-4f0c-9217-372e491e5960" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gridExtra"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggpubr"</span>)</span>
@@ -242,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p><strong>RELATE</strong></p>
 <p><em>AFRICAN POPULATIONS</em></p>
-<div id="e00a99f8-d4d6-4860-b8e4-3b7dc9118b42" class="cell" data-tags="[]" data-execution_count="2">
+<div id="e00a99f8-d4d6-4860-b8e4-3b7dc9118b42" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>LWK <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/LWK/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(LWK)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -447,7 +446,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="33aa4382-4cef-4155-ba26-510ab38bfaeb" class="cell" data-execution_count="3">
+<div id="33aa4382-4cef-4155-ba26-510ab38bfaeb" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>LWK_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(LWK<span class="sc">$</span>pos, <span class="sc">-</span>(LWK<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#8DA0CB"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"LWK"</span>,<span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">yaxp =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">5</span>),<span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -457,7 +456,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="f4678d3a-503d-4c48-b070-92df729e7403" class="cell" data-tags="[]" data-execution_count="4">
+<div id="f4678d3a-503d-4c48-b070-92df729e7403" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"LWK_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>LWK_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(LWK<span class="sc">$</span>pos, <span class="sc">-</span>(LWK<span class="sc">$</span>when_mutation_has_freq2), </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#8DA0CB"</span>, </span>
@@ -475,7 +474,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <strong>png:</strong> 2
 </div>
 </div>
-<div id="d31aa8da-82aa-4a92-8c23-ea0c49357c9b" class="cell" data-execution_count="3">
+<div id="d31aa8da-82aa-4a92-8c23-ea0c49357c9b" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ESN <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/ESN/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ESN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -680,7 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="38af811d-e16a-4ce5-9f12-3b74addcc67d" class="cell" data-execution_count="6">
+<div id="38af811d-e16a-4ce5-9f12-3b74addcc67d" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ESN_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(ESN<span class="sc">$</span>pos, <span class="sc">-</span>(ESN<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#66C2A5"</span>, <span class="at">xlab=</span><span class="st">"Genomic Position"</span>, <span class="at">ylab=</span><span class="st">"log10(p-value)"</span>, <span class="at">main =</span><span class="st">"ESN"</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"ESN_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ESN_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(ESN<span class="sc">$</span>pos, <span class="sc">-</span>(ESN<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -706,7 +705,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="35c94538-a78d-482c-b806-7049c377c092" class="cell" data-execution_count="4">
+<div id="35c94538-a78d-482c-b806-7049c377c092" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>GWD <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/GWD/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(GWD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -911,7 +910,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="735d958a-d10a-41ff-aab6-f0fd48d4a79d" class="cell" data-execution_count="11">
+<div id="735d958a-d10a-41ff-aab6-f0fd48d4a79d" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>GWD_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(GWD<span class="sc">$</span>pos, <span class="sc">-</span>(GWD<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#FC8D62"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"GWD"</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"GWD_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>GWD_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(GWD<span class="sc">$</span>pos, <span class="sc">-</span>(GWD<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -937,7 +936,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="7e5ad8d0-c1b8-4285-82ba-9ee809c992b9" class="cell" data-execution_count="5">
+<div id="7e5ad8d0-c1b8-4285-82ba-9ee809c992b9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>MSL <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/MSL/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(MSL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1142,7 +1141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="f4377278-7dfb-482e-b341-fb4a9e8df275" class="cell" data-execution_count="13">
+<div id="f4377278-7dfb-482e-b341-fb4a9e8df275" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>MSL_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(MSL<span class="sc">$</span>pos, <span class="sc">-</span>(MSL<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#E78AC3"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"MSL"</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"MSL_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>MSL_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(MSL<span class="sc">$</span>pos, <span class="sc">-</span>(MSL<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -1168,7 +1167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="126d9d77-4a29-41e9-a7c6-dad7ac5ac392" class="cell" data-execution_count="6">
+<div id="126d9d77-4a29-41e9-a7c6-dad7ac5ac392" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>YRI <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/YRI/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(YRI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1373,7 +1372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="28495cb5-9489-4258-8d20-8507752ee9a7" class="cell" data-execution_count="15">
+<div id="28495cb5-9489-4258-8d20-8507752ee9a7" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>YRI_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(YRI<span class="sc">$</span>pos, <span class="sc">-</span>(YRI<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#A6D854"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"YRI"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"YRI_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>YRI_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(YRI<span class="sc">$</span>pos, <span class="sc">-</span>(YRI<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -1399,41 +1398,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="66e71076-e099-4119-bb08-e1d669b4002c" class="cell" data-tags="[]" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>LWK<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"LWK"</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ESN<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"ESN"</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>GWD<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"GWD"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>MSL<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"MSL"</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>YRI<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"YRI"</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(LWK, ESN, GWD, MSL, YRI)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),  <span class="co"># Increase the text size for all text elements</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),  <span class="co"># Increase the title size</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),  <span class="co"># Increase the axis label size</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),  <span class="co"># Increase the axis text size</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)  <span class="co"># Increase the legend text size</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>plot_combined <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> combined_data, <span class="fu">aes</span>(<span class="at">x =</span> pos, <span class="at">y =</span> <span class="sc">-</span>(when_mutation_has_freq2), <span class="at">color =</span> Population)) <span class="sc">+</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">pch =</span> <span class="dv">19</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genomic Position"</span>, <span class="at">y =</span> <span class="st">"log10(p-value)"</span>, <span class="at">title =</span> <span class="st">"Africans"</span>) <span class="sc">+</span></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> custom_theme <span class="sc">+</span></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="co"># Center the title</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plot_combined)</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"africans_threshold_REL_SQUARE.png"</span>, plot_combined, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="66e71076-e099-4119-bb08-e1d669b4002c" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine data frames</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>LWK<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"LWK"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ESN<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"ESN"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>GWD<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"GWD"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>MSL<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"MSL"</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>YRI<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"YRI"</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(LWK, ESN, GWD, MSL, YRI)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),  <span class="co"># Increase the text size for all text elements</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),  <span class="co"># Increase the title size</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),  <span class="co"># Increase the axis label size</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),  <span class="co"># Increase the axis text size</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>)  <span class="co"># Increase the legend text size</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>plot_combined <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> combined_data, <span class="fu">aes</span>(<span class="at">x =</span> pos, <span class="at">y =</span> <span class="sc">-</span>(when_mutation_has_freq2), <span class="at">color =</span> Population)) <span class="sc">+</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">pch =</span> <span class="dv">19</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genomic Position"</span>, <span class="at">y =</span> <span class="st">"log10(p-value)"</span>, <span class="at">title =</span> <span class="st">"Africans"</span>) <span class="sc">+</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span> custom_theme <span class="sc">+</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">6</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>) <span class="co"># Center the title</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plot_combined)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the plot</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"africans_threshold_REL_SQUARE.png"</span>, plot_combined, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1442,7 +1442,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="49eb2b96-e084-427d-a6d4-64be0e8971cf" class="cell">
+<div id="49eb2b96-e084-427d-a6d4-64be0e8971cf" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## SELECT JUST POSITION LOWER THAN THRESHOLD (log10 p-value &lt; -6)</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define file paths for the five .sele files</span></span>
@@ -1488,7 +1488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filtered)</span>
 <span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of rows and columns:"</span>, <span class="fu">paste</span>(<span class="fu">dim</span>(filtered), <span class="at">collapse =</span> <span class="st">"x"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a3363ac0-91db-41ea-916f-fd5f60b45c4d" class="cell" data-tags="[]" data-execution_count="18">
+<div id="a3363ac0-91db-41ea-916f-fd5f60b45c4d" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plot_threshold <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(filtered, <span class="fu">aes</span>(<span class="at">x =</span> pos, <span class="at">y =</span> <span class="sc">-</span>(when_mutation_has_freq2), <span class="at">color =</span> population)) <span class="sc">+</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genomic position"</span>, <span class="at">y =</span> <span class="st">"log10 p-value"</span>, <span class="at">title =</span> <span class="st">"AFRICAN"</span>) <span class="sc">+</span> </span>
@@ -1508,7 +1508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><em>EUROPEAN POPULATIONS</em></p>
-<div id="677ed893-cc72-4b47-9803-28595c02231f" class="cell" data-execution_count="8">
+<div id="677ed893-cc72-4b47-9803-28595c02231f" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>GBR <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/GBR/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(GBR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1713,7 +1713,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="97c100c0-30b6-4b76-9b8a-70aea155b94e" class="cell" data-execution_count="20">
+<div id="97c100c0-30b6-4b76-9b8a-70aea155b94e" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>GBR_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(GBR<span class="sc">$</span>pos, <span class="sc">-</span>(GBR<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"GBR"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"GBR_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>YRI_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(GBR<span class="sc">$</span>pos, <span class="sc">-</span>(GBR<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -1739,7 +1739,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="f301db80-fb00-4325-8c08-1567f30bc677" class="cell" data-execution_count="9">
+<div id="f301db80-fb00-4325-8c08-1567f30bc677" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>FIN <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/FIN/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(FIN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -1944,7 +1944,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="a0ff840e-068f-44ff-ac8f-f3c3b7fb4b3a" class="cell" data-execution_count="22">
+<div id="a0ff840e-068f-44ff-ac8f-f3c3b7fb4b3a" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>FIN_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(FIN<span class="sc">$</span>pos, <span class="sc">-</span>(FIN<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"lightpink"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"FIN"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"FIN_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>YRI_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(FIN<span class="sc">$</span>pos, <span class="sc">-</span>(FIN<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -1970,7 +1970,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="0a650bf9-1f13-4b3b-bdc8-7f12a2aa254c" class="cell" data-execution_count="10">
+<div id="0a650bf9-1f13-4b3b-bdc8-7f12a2aa254c" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>IBS <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/IBS/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(IBS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -2175,7 +2175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="72172ce2-2c92-411f-8d70-fdded96af438" class="cell" data-execution_count="24">
+<div id="72172ce2-2c92-411f-8d70-fdded96af438" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>IBS_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(IBS<span class="sc">$</span>pos, <span class="sc">-</span>(IBS<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"gold"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"IBS"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"IBS_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>IBS_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(IBS<span class="sc">$</span>pos, <span class="sc">-</span>(IBS<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -2201,7 +2201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="98ef97bd-5401-4d6a-820d-4a0674cad286" class="cell" data-execution_count="11">
+<div id="98ef97bd-5401-4d6a-820d-4a0674cad286" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>TSI <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/TSI/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TSI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -2406,7 +2406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="deb10709-18a0-4102-933d-9f4ed5f7e8aa" class="cell" data-tags="[]" data-execution_count="26">
+<div id="deb10709-18a0-4102-933d-9f4ed5f7e8aa" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>TSI_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(TSI<span class="sc">$</span>pos, <span class="sc">-</span>(TSI<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"lightgreen"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"TSI"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"TSI_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>TSI_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(TSI<span class="sc">$</span>pos, <span class="sc">-</span>(TSI<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -2432,7 +2432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="cf33618a-8475-4889-a274-4bc736c7c15f" class="cell" data-execution_count="12">
+<div id="cf33618a-8475-4889-a274-4bc736c7c15f" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>PUR <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/PUR/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>PUR_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(PUR<span class="sc">$</span>pos, <span class="sc">-</span>(PUR<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"orange2"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"PUR"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"PUR_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
@@ -2459,7 +2459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="b2ea174d-52bd-4a53-a8f2-e7b5d96b5920" class="cell" data-execution_count="13">
+<div id="b2ea174d-52bd-4a53-a8f2-e7b5d96b5920" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine data frames</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>GBR<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"GBR"</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>FIN<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"FIN"</span></span>
@@ -2497,7 +2497,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="6b26accd-f10b-41bd-855d-314cf6b00adb" class="cell" data-tags="[]" data-execution_count="29">
+<div id="6b26accd-f10b-41bd-855d-314cf6b00adb" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## SELECT JUST POSITION LOWER THAN THRESHOLD (log10 p-value &lt; -6)</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define file paths for the five .sele files</span></span>
@@ -2747,7 +2747,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Number of rows and columns: 456x36</code></pre>
 </div>
 </div>
-<div id="8c57cb9c-74ab-4357-8c9d-2744974f5597" class="cell" data-tags="[]" data-execution_count="30">
+<div id="8c57cb9c-74ab-4357-8c9d-2744974f5597" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>plot_threshold <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(filtered_euro, <span class="fu">aes</span>(<span class="at">x =</span> pos, <span class="at">y =</span> <span class="sc">-</span>(when_mutation_has_freq2), <span class="at">color =</span> population)) <span class="sc">+</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genomic position"</span>, <span class="at">y =</span> <span class="st">"log10 p-value"</span>, <span class="at">title =</span> <span class="st">"European Populations"</span>) <span class="sc">+</span> </span>
@@ -2764,7 +2764,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><em>EAST ASIAN POPULATIONS</em></p>
-<div id="406413b4-5e49-4bca-9604-cead09c6f975" class="cell" data-execution_count="14">
+<div id="406413b4-5e49-4bca-9604-cead09c6f975" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>CDX <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/CDX/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CDX)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -2969,7 +2969,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="aceebaca-ebef-43b0-b6d2-63fd660fbc6a" class="cell" data-execution_count="32">
+<div id="aceebaca-ebef-43b0-b6d2-63fd660fbc6a" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>CDX_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(CDX<span class="sc">$</span>pos, <span class="sc">-</span>(CDX<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#A6CEE3"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"CDX"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"CDX_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>CDX_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(CDX<span class="sc">$</span>pos, <span class="sc">-</span>(CDX<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -2995,7 +2995,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="b1384fc9-634e-456d-a379-ad4d7cb857e8" class="cell" data-execution_count="15">
+<div id="b1384fc9-634e-456d-a379-ad4d7cb857e8" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>CHB <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/CHB/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CHB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -3200,7 +3200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="10cf0d22-7d78-4736-91a8-f034eefeb602" class="cell" data-execution_count="34">
+<div id="10cf0d22-7d78-4736-91a8-f034eefeb602" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>CHB_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(CHB<span class="sc">$</span>pos, <span class="sc">-</span>(CHB<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#1F78B4"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"CHB"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"CHB_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>CHB_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(CHB<span class="sc">$</span>pos, <span class="sc">-</span>(CHB<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -3226,7 +3226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="c9f72357-4291-41bc-9460-0938959d1a51" class="cell" data-execution_count="16">
+<div id="c9f72357-4291-41bc-9460-0938959d1a51" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>CHS <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/CHS/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(CHS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -3431,7 +3431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="2ea6e08b-59b7-4bf9-880e-1d2ac4d57ebf" class="cell" data-execution_count="36">
+<div id="2ea6e08b-59b7-4bf9-880e-1d2ac4d57ebf" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>CHS_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(CHS<span class="sc">$</span>pos, <span class="sc">-</span>(CHS<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#B2DF8A"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"CHS"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"CHS_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>CHS_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(CHS<span class="sc">$</span>pos, <span class="sc">-</span>(CHS<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -3457,7 +3457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="b94d6521-15a6-4cf1-a312-dba0039d54d4" class="cell" data-execution_count="17">
+<div id="b94d6521-15a6-4cf1-a312-dba0039d54d4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>JPT <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/JPT/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(JPT)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -3662,7 +3662,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="4e7877d1-87eb-4dcb-ab75-6c4bdbc74a9b" class="cell" data-execution_count="38">
+<div id="4e7877d1-87eb-4dcb-ab75-6c4bdbc74a9b" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>JPT_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(JPT<span class="sc">$</span>pos, <span class="sc">-</span>(JPT<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#33A02C"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"JPT"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"JPT_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>JPT_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(JPT<span class="sc">$</span>pos, <span class="sc">-</span>(JPT<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -3688,7 +3688,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="5c8ff8a2-e9ee-4931-9a28-fec618c36054" class="cell" data-execution_count="18">
+<div id="5c8ff8a2-e9ee-4931-9a28-fec618c36054" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>KHV <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/KHV/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(KHV)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -3893,7 +3893,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<div id="e8febdd7-c4d4-4e73-a77c-4d944accb6e2" class="cell" data-execution_count="40">
+<div id="e8febdd7-c4d4-4e73-a77c-4d944accb6e2" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>KHV_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(KHV<span class="sc">$</span>pos, <span class="sc">-</span>(KHV<span class="sc">$</span>when_mutation_has_freq2), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#FB9A99"</span>, <span class="at">xlab =</span> <span class="st">"Genomic Position"</span>, <span class="at">ylab =</span> <span class="st">"log10(p-value)"</span>, <span class="at">main =</span> <span class="st">"KHV"</span> , <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">cex.lab =</span> <span class="fl">1.2</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"KHV_plot.pdf"</span>, <span class="at">width =</span> <span class="dv">20</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>KHV_plot <span class="ot">&lt;-</span> <span class="fu">plot</span>(KHV<span class="sc">$</span>pos, <span class="sc">-</span>(KHV<span class="sc">$</span>when_mutation_has_freq2), </span>
@@ -3919,7 +3919,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="67ab4386-85ea-4f47-99b2-51e187049361" class="cell" data-execution_count="19">
+<div id="67ab4386-85ea-4f47-99b2-51e187049361" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wesanderson)</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine data frames</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>CDX<span class="sc">$</span>Population <span class="ot">&lt;-</span> <span class="st">"CDX"</span></span>
@@ -3958,7 +3958,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="4aac8568-06cd-46b0-a8e8-5f66b338a021" class="cell" data-execution_count="42">
+<div id="4aac8568-06cd-46b0-a8e8-5f66b338a021" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## SELECT JUST POSITION LOWER THAN THRESHOLD (log10 p-value &lt; -6)</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define file paths for the five .sele files</span></span>
@@ -4208,7 +4208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Number of rows and columns: 27x36</code></pre>
 </div>
 </div>
-<div id="2ecf62b0-1b66-4bcb-8b69-4d1a0f568978" class="cell" data-execution_count="43">
+<div id="2ecf62b0-1b66-4bcb-8b69-4d1a0f568978" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>plot_threshold <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(filtered_asia, <span class="fu">aes</span>(<span class="at">x =</span> pos, <span class="at">y =</span> <span class="sc">-</span>(when_mutation_has_freq2), <span class="at">color =</span> population)) <span class="sc">+</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Genomic position"</span>, <span class="at">y =</span> <span class="st">"log10 p-value"</span>, <span class="at">title =</span> <span class="st">"East Asian Populations"</span>) <span class="sc">+</span> </span>
@@ -4223,7 +4223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="647d94d1-63aa-44f7-b77d-cf4cbbc1cca5" class="cell" data-execution_count="44">
+<div id="647d94d1-63aa-44f7-b77d-cf4cbbc1cca5" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## PLOT TOGETHER ALL POPULATIONS SNPS BELOW THRESHOLD</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define theme with larger text size for legend</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>custom_theme <span class="ot">&lt;-</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
@@ -4278,7 +4278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p><strong>RUNS TEST</strong></p>
 <p><em>AFRICAN POPULATIONS</em></p>
-<div id="6e56fe32-08a8-4899-a7d3-59e80b6bc6b8" class="cell" data-tags="[]" data-execution_count="21">
+<div id="6e56fe32-08a8-4899-a7d3-59e80b6bc6b8" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the CSV files</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>LWK <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_LWK_runstats.csv"</span>, <span class="at">sep=</span><span class="st">","</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>GWD <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_GWD_runstats.csv"</span>, <span class="at">sep=</span><span class="st">","</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
@@ -4351,7 +4351,7 @@ Traceback:
 2. filter(., stat_name == "nr_runs" &amp; nr_mut &gt; 20)</code></pre>
 </div>
 </div>
-<div id="0c5d5d80-62b6-41b7-8146-82e7ff788a53" class="cell" data-execution_count="22">
+<div id="0c5d5d80-62b6-41b7-8146-82e7ff788a53" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -4446,7 +4446,7 @@ Warning message:
 </div>
 </div>
 <p><em>EUROPEANS + PUR</em></p>
-<div id="f7f61645-c6dc-4382-ad46-b10c82ae3aaa" class="cell" data-execution_count="23">
+<div id="f7f61645-c6dc-4382-ad46-b10c82ae3aaa" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the CSV files</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>GBR <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_GBR_runstats.csv"</span>, <span class="at">sep=</span><span class="st">","</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>FIN <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/runs_test/1000g_ppl_phased_haplotypes_FIN_runstats.csv"</span>, <span class="at">sep=</span><span class="st">","</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
@@ -4525,7 +4525,7 @@ Warning message:
 </div>
 </div>
 <p><em>EAST ASIANS</em></p>
-<div id="4c4b28b7-23c7-4be5-9ac1-b62a9748e052" class="cell" data-execution_count="36">
+<div id="4c4b28b7-23c7-4be5-9ac1-b62a9748e052" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary library</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -4608,7 +4608,7 @@ Warning message:
 </div>
 </div>
 <p><strong>COMBINED P-VALUES</strong></p>
-<div id="14a3c0da-58c7-43c5-9515-a6506152a274" class="cell" data-execution_count="46">
+<div id="14a3c0da-58c7-43c5-9515-a6506152a274" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the necessary library</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4673,7 +4673,7 @@ The following objects are masked from ‘package:base’:
 </code></pre>
 </div>
 </div>
-<div id="ffc65a07-43cb-4dfa-a129-27ee2fdc54fd" class="cell" data-tags="[]" data-execution_count="47">
+<div id="ffc65a07-43cb-4dfa-a129-27ee2fdc54fd" class="cell" data-tags="[]" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="do">## SELECT JUST POSITION LOWER THAN THRESHOLD (log10 p-value &lt; -6)</span></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define file paths for the five .sele files</span></span>
@@ -4716,7 +4716,7 @@ The following objects are masked from ‘package:base’:
 <span id="cb55-40"><a href="#cb55-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the combined data to a single file</span></span>
 <span id="cb55-41"><a href="#cb55-41" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(europeans_low_pvalue, <span class="st">"europeans_combined.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f7aef5bc-d4b3-48f9-a8a0-a577946e4cf2" class="cell" data-execution_count="48">
+<div id="f7aef5bc-d4b3-48f9-a8a0-a577946e4cf2" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define file paths for the five .csv files</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>file_paths_asia_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/fisher/combined_CDX.csv"</span>,</span>
@@ -4764,7 +4764,7 @@ The following objects are masked from ‘package:base’:
 <span id="cb56-45"><a href="#cb56-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the combined data to a single CSV file</span></span>
 <span id="cb56-46"><a href="#cb56-46" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(asians_combined, <span class="st">"asians_combined.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2c2d1c8e-72b5-4419-8ab0-db33d4ed4362" class="cell" data-execution_count="50">
+<div id="2c2d1c8e-72b5-4419-8ab0-db33d4ed4362" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>africa_file <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/notebooks/africans_combined.csv"</span>)</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>europe_file <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/notebooks/europeans_combined.csv"</span>)</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>asia_file <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/notebooks/asians_combined.csv"</span>)</span>
@@ -4820,7 +4820,7 @@ The following objects are masked from ‘package:base’:
 </div>
 </div>
 </div>
-<div id="7fc9f6b8-e53a-40b8-bec3-36e081169b77" class="cell" data-execution_count="37">
+<div id="7fc9f6b8-e53a-40b8-bec3-36e081169b77" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the necessary libraries</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -4894,7 +4894,7 @@ The following objects are masked from ‘package:base’:
 </div>
 </div>
 </div>
-<div id="428be85f-0341-4ec8-a8a0-0a7567736fb4" class="cell" data-execution_count="38">
+<div id="428be85f-0341-4ec8-a8a0-0a7567736fb4" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the necessary libraries</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -4964,7 +4964,7 @@ The following objects are masked from ‘package:base’:
 </div>
 </div>
 </div>
-<div id="63b27a94-f08b-409f-96d7-4b3f1684b994" class="cell" data-execution_count="39">
+<div id="63b27a94-f08b-409f-96d7-4b3f1684b994" class="cell" data-vscode="{&quot;languageId&quot;:&quot;r&quot;}" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define file paths for the five .sele files</span></span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>file_paths_asia <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CDX =</span> <span class="st">"/home/ari/ari-intern/people/ari/ariadna-intern/steps/fisher/combined_CDX.csv"</span>,</span>
@@ -5465,8 +5465,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebooks/2_runs_test.html" class="pagination-link" aria-label="2_runs_test.html">
-        <span class="nav-page-text"><span class="chapter-title">2_runs_test.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebooks/2_runs_test.html" class="pagination-link" aria-label="Runs test">
+        <span class="nav-page-text"><span class="chapter-title">Runs test</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

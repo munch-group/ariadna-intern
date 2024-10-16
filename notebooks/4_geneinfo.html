@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>for use on the cluster – Title of your project</title>
+<title>Gene info – Title of your project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/4_geneinfo.html"><span class="chapter-title">4_geneinfo.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/4_geneinfo.html"><span class="chapter-title">Gene info</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -170,27 +170,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1_plot_selection.html</span></a>
+  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Detect selection in populations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2_runs_test.html</span></a>
+  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Runs test</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3_fisher_method.html</span></a>
+  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Combine p-values (fisher method)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">4_geneinfo.html</span></a>
+  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Gene info</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5_fisher_exact_test.html</span></a>
+  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GO enrichment analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -211,9 +211,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/4_geneinfo.html"><span class="chapter-title">4_geneinfo.html</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/4_geneinfo.html"><span class="chapter-title">Gene info</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">for use on the cluster</span></h1>
+<h1 class="title"><span class="chapter-title">Gene info</span></h1>
 </div>
 
 
@@ -250,7 +250,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>gi.email(<span class="st">'ariadna.saez@alum.esci.upf.edu'</span>)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>env ftp_proxy http:<span class="op">//</span>proxy<span class="op">-</span>default:<span class="dv">3128</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># for use on the cluster</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>env ftp_proxy http:<span class="op">//</span>proxy<span class="op">-</span>default:<span class="dv">3128</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>env: ftp_proxy=http://proxy-default:3128</code></pre>
 </div>
@@ -2279,13 +2280,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../notebooks/3_fisher_method.html" class="pagination-link" aria-label="3_fisher_method.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">3_fisher_method.html</span></span>
+      <a href="../notebooks/3_fisher_method.html" class="pagination-link" aria-label="Combine p-values (fisher method)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Combine p-values (fisher method)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebooks/5_fisher_exact_test.html" class="pagination-link" aria-label="5_fisher_exact_test.html">
-        <span class="nav-page-text"><span class="chapter-title">5_fisher_exact_test.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebooks/5_fisher_exact_test.html" class="pagination-link" aria-label="GO enrichment analysis">
+        <span class="nav-page-text"><span class="chapter-title">GO enrichment analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
