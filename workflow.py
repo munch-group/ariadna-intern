@@ -1,5 +1,11 @@
-### RELATE WORFKLOW ###
 
+# %% [markdown]
+# ---
+# title: GWF workflow
+# ---
+
+# %%
+ 
 from gwf import Workflow
 import sys, os, re
 from collections import defaultdict

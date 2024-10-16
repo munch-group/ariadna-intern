@@ -9,7 +9,7 @@ execute:
 
 project:
   output-dir: _book
-  render:
-    - slides/slides.qmd
-    - slides/suppl_slides.qmd
+  # render:
+  #   - slides/slides.qmd
+  #   - slides/suppl_slides.qmd
 

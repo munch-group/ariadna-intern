@@ -1,7 +1,7 @@
 project:
   type: book
-  post-render: 
-    - quarto render --profile slides
+  # post-render: 
+  #   - quarto render --profile slides
 
 execute:
   freeze: auto
@@ -31,21 +31,26 @@ book:
   chapters:
     # your font page:
     - index.qmd
+    - workflow.py
     - part: "Notebooks"
       chapters: 
       # your jupyter notebooks:
-      - notebooks/01_weather.ipynb
-      - notebooks/02_interaction.ipynb
-    - part: "Reports"
-      chapters: 
-      # your memos, reports, manuscripts, documentation:
-      - reports/manuscript.ipynb
-      - reports/supplementary.qmd
-    - part: "Slides"
-      chapters:
-      # markdown slides
-      # (the same files must be listed _quarto-slides.yml to render as slides)
-      - slides/slides.qmd 
-      - slides/suppl_slides.qmd 
+      - notebooks/1_plot_selection.ipynb
+      - notebooks/2_runs_test.ipynb
+      - notebooks/3_fisher_method.ipynb
+      - notebooks/4_geneinfo.ipynb
+      - notebooks/5_fisher_exact_test.ipynb
+      - notebooks/new_brain_list.ipynb
+    # - part: "Reports"
+    #   chapters: 
+    #   # your memos, reports, manuscripts, documentation:
+    #   - reports/manuscript.ipynb
+    #   - reports/supplementary.qmd
+    # - part: "Slides"
+    #   chapters:
+    #   # markdown slides
+    #   # (the same files must be listed _quarto-slides.yml to render as slides)
+    #   - slides/slides.qmd 
+    #   - slides/suppl_slides.qmd 
 
-bibliography: references.bib
+# bibliography: references.bib
