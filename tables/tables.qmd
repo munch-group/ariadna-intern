@@ -1,0 +1,20 @@
+
+# Tables
+
+```{python}
+#| eval: true
+#| echo: false
+#| output: asis
+from IPython.display import display, Markdown
+import pandas as pd
+import os.path
+import glob
+csv_files = glob.glob('../notebooks/*low_pvalue.csv')
+markdown_chunks = []
+for file_name in csv_files:
+    title = os.path.splitext(os.path.basename(file_name))[0].replace('_', ' ').capitalize()
+    print(title)
+    markdown_chunks.append(f'## {title}')
+    markdown_chunks.append(pd.read_csv(file_name).to_markdown())
+Markdown('\n\n'.join(markdown_chunks))
+```
