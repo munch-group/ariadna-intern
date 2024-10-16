@@ -44,8 +44,8 @@ jobs:
         env:
           QUARTO_PROFILE: default
         with:
-          path: content
-          # to: html
+          path: .
+          to: html
 
       # - name: Render Quarto Project - draft profile
       #   uses: quarto-dev/quarto-actions/render@v2
