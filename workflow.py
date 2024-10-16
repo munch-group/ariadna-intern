@@ -2,10 +2,11 @@
 # %% [markdown]
 # ---
 # title: GWF workflow
+# execute:
+#   eval: false
 # ---
 
 # %%
-#| execute: false
  
 from gwf import Workflow
 import sys, os, re
