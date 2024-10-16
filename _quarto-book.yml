@@ -41,6 +41,10 @@ book:
       - notebooks/4_geneinfo.ipynb
       - notebooks/5_fisher_exact_test.ipynb
       - notebooks/new_brain_list.ipynb
+    - part: "Tables"
+      chapters: 
+      # your memos, reports, manuscripts, documentation:
+      - tables/tables.qmd      
     # - part: "Reports"
     #   chapters: 
     #   # your memos, reports, manuscripts, documentation:
