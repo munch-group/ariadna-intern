@@ -5,6 +5,7 @@
 # ---
 
 # %%
+#| execute: false
  
 from gwf import Workflow
 import sys, os, re
