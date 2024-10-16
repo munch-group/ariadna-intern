@@ -9,6 +9,12 @@ execute:
 
 project:
   output-dir: _book
+  # pre-render:
+  #   # decrypt any files before rendering
+  #   - python ../scripts/encrypt.py -d <passphrase> project_solutions
+  # post-render: 
+  #   # encrypt rendered html pages
+  #   - python ../scripts/pagecrypt.py --passphrase <passphrase> _book/
   # render:
   #   - slides/slides.qmd
   #   - slides/suppl_slides.qmd
