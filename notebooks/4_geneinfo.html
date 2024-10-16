@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>for use on the cluster – Title of your project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/5_fisher_exact_test.html" rel="next">
+<link href="../notebooks/3_fisher_method.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    document.body.classList.add('hypothesis-enabled');
+  });
+</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/4_geneinfo.html"><span class="chapter-title">4_geneinfo.html</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Title of your project</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/munch-group/analysis-template" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quantifying positive selection on the human X chromosome and its impact on autism</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GWF workflow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Notebooks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/1_plot_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1_plot_selection.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/2_runs_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2_runs_test.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/3_fisher_method.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3_fisher_method.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/4_geneinfo.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">4_geneinfo.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/5_fisher_exact_test.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5_fisher_exact_test.html</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/new_brain_list.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">new_brain_list.html</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/1_plot_selection.html">Notebooks</a></li><li class="breadcrumb-item"><a href="../notebooks/4_geneinfo.html"><span class="chapter-title">4_geneinfo.html</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">for use on the cluster</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cd8ba32d-5530-49ac-96da-6f1e9278512c" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib_inline.backend_inline <span class="im">import</span> set_matplotlib_formats</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>set_matplotlib_formats(<span class="st">'retina'</span>, <span class="st">'png'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Rectangle, Polygon</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">'white'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geneinfo <span class="im">as</span> gi</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>gi.email(<span class="st">'ariadna.saez@alum.esci.upf.edu'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>env ftp_proxy http:<span class="op">//</span>proxy<span class="op">-</span>default:<span class="dv">3128</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>env: ftp_proxy=http://proxy-default:3128</code></pre>
+</div>
+</div>
+<div id="ab40329b-c5e3-4181-a937-40918752e8b8" class="cell" data-jupyter="{&quot;outputs_hidden&quot;:true}" data-tags="[]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(gi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Help on package geneinfo:
+
+NAME
+    geneinfo
+
+PACKAGE CONTENTS
+    intervals
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        NotFound
+    builtins.object
+        WrSubObo
+        nice
+    goatools.go_enrichment.GOEnrichmentRecord(builtins.object)
+        My_GOEnrichemntRecord
+    
+    class My_GOEnrichemntRecord(goatools.go_enrichment.GOEnrichmentRecord)
+     |  My_GOEnrichemntRecord(goid, **kwargs)
+     |  
+     |  Represents one result (from a single GOTerm) in the GOEnrichmentStudy
+     |  
+     |  Method resolution order:
+     |      My_GOEnrichemntRecord
+     |      goatools.go_enrichment.GOEnrichmentRecord
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from goatools.go_enrichment.GOEnrichmentRecord:
+     |  
+     |  __init__(self, goid, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __repr__(self)
+     |      Return repr(self).
+     |  
+     |  get_field_values(self, fldnames, rpt_fmt=True, itemid2name=None)
+     |      Get flat namedtuple fields for one GOEnrichmentRecord.
+     |  
+     |  get_indent_dots(self)
+     |      Get a string of dots ("....") representing the level of the GO term.
+     |  
+     |  get_method_name(self)
+     |      Return name of first method in the method_flds list.
+     |  
+     |  get_prtflds_all(self)
+     |      When converting to a namedtuple, get all possible fields in their original order.
+     |  
+     |  get_prtflds_default(self)
+     |      Get default fields.
+     |  
+     |  get_pvalue(self)
+     |      Returns pval for 1st method, if it exists. Else returns uncorrected pval.
+     |  
+     |  set_corrected_pval(self, nt_method, pvalue)
+     |      Add object attribute based on method name.
+     |  
+     |  set_goterm(self, go2obj)
+     |      Set goterm and copy GOTerm's name and namespace.
+     |  
+     |  update_remaining_fldsdefprt(self, min_ratio=None)
+     |      Finish updating self (GOEnrichmentRecord) field, is_ratio_different.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from goatools.go_enrichment.GOEnrichmentRecord:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from goatools.go_enrichment.GOEnrichmentRecord:
+     |  
+     |  namespace2NS = OrderedDict([('biological_process', 'BP'), ('mol..._fun...
+    
+    class NotFound(builtins.Exception)
+     |  query returned no result
+     |  
+     |  Method resolution order:
+     |      NotFound
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class WrSubObo(builtins.object)
+     |  WrSubObo(fin_obo=None, optional_attrs=None, load_obsolete=None)
+     |  
+     |  Read a large GO-DAG from an obo file. Write a subset GO-DAG into a small obo file.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, fin_obo=None, optional_attrs=None, load_obsolete=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  wrobo(self, fout_obo, goid_sources)
+     |      Write a subset obo file containing GO ID sources and their parents.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  get_goids(fin_obo, name)
+     |      Get GO IDs whose name matches given name.
+     |  
+     |  prt_goterms(fin_obo, goids, prt, b_prt=True)
+     |      Print the specified GO terms for GO IDs in arg.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class nice(builtins.object)
+     |  Methods defined here:
+     |  
+     |  __rlshift__(self, df)
+     |      Left align columns of data frame: df &lt;&lt; nice()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+FUNCTIONS
+    chrom_ideogram(annot, hspace=0.1, min_visible_width=200000, figsize=(10, 10), assembly='hg38')
+    
+    download_and_move_go_basic_obo(prt)
+    
+    download_ncbi_associations(prt=&lt;ipykernel.iostream.OutStream object at 0x151c47b74340&gt;)
+    
+    email(email_address)
+    
+    ensembl2ncbi(ensembl_id)
+    
+    ensembl2symbol(ensembl_id)
+    
+    ensembl_get_gene_info_by_symbol(symbols, assembly=None, species='homo_sapiens')
+    
+    ensembl_get_genes_region(chrom, window_start, window_end, assembly=None, species='homo_sapiens')
+    
+    ensembl_id(name, species='homo_sapiens')
+    
+    fetch_background_genes(taxid=9606)
+    
+    gene_annotation_table(taxid=9606)
+    
+    gene_info(query, species='human', scopes='hgnc')
+    
+    gene_info_region(chrom, window_start, window_end, assembly='GRCh38', db='ncbiRefSeq')
+    
+    gene_plot(chrom, start, end, assembly, highlight=[], db='ncbiRefSeq', collapse_splice_var=True, hard_limits=False, exact_exons=False, figsize=None, aspect=1, despine=False, clip_on=True, gene_density=60, font_size=None, return_axes=1)
+    
+    get_genes_for_go_regex(regex, taxid=9606)
+    
+    get_genes_for_go_terms(terms, taxid=9606)
+    
+    get_genes_region(chrom, window_start, window_end, assembly='GRCh38', db='ncbiRefSeq')
+    
+    get_genes_region_dataframe(chrom, start, end, assembly='GRCh38', db='ncbiRefSeq')
+    
+    get_go_terms_for_genes(genes, taxid=9606, evidence=None)
+    
+    get_terms_for_go_regex(regex, taxid=9606, add_children=False)
+    
+    go_annotation_table(taxid=9606)
+    
+    go_enrichment(gene_list, taxid=9606, background_chrom=None, background_genes=None, terms=None, list_study_genes=False, alpha=0.05)
+    
+    go_info(terms)
+    
+    go_name2term(name)
+    
+    go_term2name(term)
+    
+    hgcn_symbol(name)
+    
+    log10(x, /)
+        Return the base 10 logarithm of x.
+    
+    map_interval(chrom, start, end, strand, map_from, map_to, species='homo_sapiens')
+    
+    mygene_get_gene_info(query, species='human', scopes='hgnc', fields='symbol,alias,name,type_of_gene,summary,genomic_pos,genomic_pos_hg19')
+    
+    reduce(...)
+        reduce(function, sequence[, initial]) -&gt; value
+        
+        Apply a function of two arguments cumulatively to the items of a sequence,
+        from left to right, so as to reduce the sequence to a single value.
+        For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates
+        ((((1+2)+3)+4)+5).  If initial is present, it is placed before the items
+        of the sequence in the calculation, and serves as a default when the
+        sequence is empty.
+    
+    show_go_dag_enrichment_results(results)
+    
+    show_go_dag_for_gene(gene, taxid=9606, evidence=None, add_relationships=True)
+    
+    show_go_dag_for_terms(terms, add_relationships=True)
+    
+    show_go_evidence_codes()
+    
+    show_string_network(my_genes, nodes=10)
+    
+    sqrt(x, /)
+        Return the square root of x.
+    
+    string_network_table(my_genes, nodes=10)
+    
+    symbols_protein_coding(taxid=9606)
+    
+    tabulate_genes(words, ncols=None)
+
+DATA
+    CACHE = {}
+
+FILE
+    /home/ari/miniconda3/envs/arifdp/lib/python3.8/site-packages/geneinfo/__init__.py
+
+</code></pre>
+</div>
+</div>
+<p><strong>RELATE</strong></p>
+<div id="7a7ec4af-91c0-4977-87af-361e8494d78e" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">## AFRICANS ##</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the threshold</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/LWK/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/ESN/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/MSL/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/GWD/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/YRI/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> file_path.split(<span class="st">'/'</span>)[<span class="op">-</span><span class="dv">4</span>]  <span class="co"># Get the third element from the end when splitting by '/'</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data with '\s+' separator and make the values in "when_mutation_has_freq2" column positive</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path, sep<span class="op">=</span><span class="st">'\s+'</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">=</span> data[<span class="st">'when_mutation_has_freq2'</span>].<span class="bu">abs</span>()</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print gene regions for the current population</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population_name<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> population_gene_regions:</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for LWK:
+('PTCHD1', 23334395, 23404374)
+('CASK', 41514933, 41665852)
+('FAM120C', 54068323, 54183254)
+('LOC105377212', 63237521, 63277646)
+('LINC01278', 63426557, 63561095)
+('AMMECR1', 110194185, 110318085)
+('RTL4', 112083012, 112457514)
+('ENOX2', 130622324, 130720491)
+('RAP2C-AS1', 132218506, 132432811)
+('MAMLD1', 150361571, 150514173)
+('ZNF185', 152898066, 152973474)
+
+Gene regions for ESN:
+('CDKL5', 18425607, 18640196)
+('CDKL5', 18425607, 18640196)
+('CDKL5', 18425607, 18640196)
+('CDKL5', 18425607, 18640196)
+('PTCHD1-AS', 22193004, 23293146)
+('CASK', 41514933, 41923034)
+('CASK', 41514933, 41923034)
+('LOC124905191', 53361522, 53370780)
+('RTL4', 112083012, 112457514)
+('TENM1', 124375902, 124963817)
+('IGSF1', 131273505, 131289306)
+('G6PD', 154531389, 154547018)
+
+Gene regions for MSL:
+('PTCHD1-AS', 22193004, 23293146)
+
+Gene regions for GWD:
+('ARSL', 2934520, 2964341)
+('BCOR', 40051245, 40177277)
+('BCOR', 40051245, 40177277)
+('HUWE1', 53532095, 53680089)
+('ACSL4', 109641334, 109733257)
+('AMMECR1', 110194185, 110318085)
+('AMMECR1', 110194185, 110318085)
+('AMMECR1', 110194185, 110318085)
+('AMMECR1', 110194185, 110318085)
+('AMMECR1', 110194185, 110318085)
+('AMMECR1', 110194185, 110318085)
+('PAK3', 110944396, 111217494)
+('IGSF1', 131273505, 131289306)
+
+Gene regions for YRI:
+('PRKX', 3604339, 3713649)
+('CDKL5', 18425607, 18640196)
+('DMD', 31119221, 32155469)
+('NYX', 41447342, 41475652)
+('CASK', 41514933, 41923034)
+('CASK', 41514933, 41923034)
+('GNL3L', 54530218, 54645854)
+('LINC01278', 63426557, 63561095)
+('LINC01278', 63426557, 63561095)
+('LINC01278', 63426557, 63561095)
+('LINC01278', 63426557, 63561095)
+('ZMYM3', 71239623, 71253721)
+('ZMYM3', 71239623, 71254649)
+('MAGT1', 77825746, 77895435)
+('TMEM164', 110002368, 110177788)
+('TMEM164', 110002368, 110177788)
+('TMEM164', 110002368, 110177788)
+('RAB33A', 130110622, 130184870)
+('RAB33A', 130110622, 130184870)
+('MAMLD1', 150361571, 150514173)
+</code></pre>
+</div>
+</div>
+<div id="61db6398-86f6-457e-bd91-edb1714348b4" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">## PUERTO RICANS ##</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the threshold</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/PUR/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> file_path.split(<span class="st">'/'</span>)[<span class="op">-</span><span class="dv">4</span>]  <span class="co"># Get the third element from the end when splitting by '/'</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data with '\s+' separator and make the values in "when_mutation_has_freq2" column positive</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path, sep<span class="op">=</span><span class="st">'\s+'</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">=</span> data[<span class="st">'when_mutation_has_freq2'</span>].<span class="bu">abs</span>()</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print gene regions for the current population</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population_name<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> population_gene_regions:</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for PUR:
+('ARSL', 2934520, 2964341)
+('SHROOM2', 9786428, 9949443)
+('WWC3', 10015253, 10144474)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10620585)
+('MID1', 10445309, 10620585)
+('MID1', 10445309, 10620585)
+('MID1', 10445309, 10620585)
+('MID1', 10445309, 10677739)
+('MID1', 10445309, 10677739)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('HCCS-DT', 10847542, 11111138)
+('EGFL6', 13569600, 13633575)
+('NHS', 17375199, 17735994)
+('PHKA2', 18892297, 18938716)
+('PHKA2', 18892297, 18938716)
+('PHKA2', 18892297, 18954298)
+('MAP3K15', 19360058, 19515508)
+('SH3KBP1', 19533976, 19668254)
+('LOC124905257', 20606476, 20727382)
+('CNKSR2', 21374417, 21645440)
+('PTCHD1-AS', 22193004, 23293146)
+('PTCHD1-AS', 22193004, 23293146)
+('PTCHD1-AS', 22193004, 23293146)
+('PTCHD1-AS', 22193004, 23293146)
+('DMD', 31119221, 33211549)
+('DMD', 31119221, 33211549)
+('CFAP47', 35919733, 35990150)
+('CFAP47', 35919733, 35990150)
+('CFAP47', 35919733, 36145079)
+('LOC101928627', 36365625, 36440292)
+('PRRG1', 37349363, 37442224)
+('PRRG1', 37349363, 37442224)
+('PRRG1', 37349363, 37442224)
+('TSPAN7', 38561541, 38688918)
+('PAGE1', 49687446, 49695984)
+('CLCN5', 49922595, 50042541)
+('CLCN5', 49922595, 50042541)
+('CLCN5', 49922595, 50042541)
+('CLCN5', 49922595, 50042541)
+('SHROOM4', 50575533, 50814194)
+('SHROOM4', 50575533, 50814194)
+('SHROOM4', 50575533, 50814194)
+('LOC105377209', 52195604, 52265931)
+('LOC105377209', 52195604, 52265931)
+('FAM120C', 54068323, 54183254)
+('FAM120C', 54068323, 54183254)
+('NHSL2', 71910844, 72140776)
+('LOC107985713', 88494129, 88613490)
+('LOC107985713', 88494129, 88613490)
+('LOC107985713', 88494129, 88613490)
+('LOC107985713', 88494129, 88613490)
+('DIAPH2', 96684841, 97469836)
+('IL1RAPL2', 104566198, 105767829)
+('FRMPD3', 107449651, 107605251)
+('MID2', 107825734, 107931637)
+('AMMECR1', 110194185, 110440233)
+('PAK3', 110944396, 111217494)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('RTL4', 112083012, 112457514)
+('LOC101928437', 113042726, 113520614)
+('LOC101928437', 113042726, 113520614)
+('LOC101928437', 113042726, 113520614)
+('LOC101928437', 113042726, 113520614)
+('LOC101928437', 113042726, 113520614)
+('LOC101928437', 113042726, 113520614)
+('LOC101928437', 113042726, 113520614)
+('LOC101928437', 113042726, 113520614)
+('KLHL13', 117897812, 118116810)
+('KLHL13', 117897812, 118116810)
+('LINC01285', 118839555, 118882015)
+('KIAA1210', 119078634, 119150579)
+('KIAA1210', 119078634, 119150579)
+('LINC03098', 119291528, 119335610)
+('LINC03098', 119291528, 119335610)
+('LINC03098', 119291528, 119335610)
+('TMEM255A', 120251432, 120311461)
+('TENM1', 124375902, 124963817)
+('TENM1', 124375902, 124963817)
+('TENM1', 124375902, 124963817)
+('TENM1', 124375902, 124963817)
+('TENM1', 124375902, 125204312)
+('TENM1', 124375902, 125204312)
+('XPNPEP2', 129738978, 129769536)
+('ZDHHC9', 129803287, 129843599)
+('RBMX2', 130401986, 130413656)
+('ENOX2', 130622324, 130887549)
+('ENOX2', 130622324, 130887549)
+('ENOX2', 130622324, 130887549)
+('LINC01201', 131016468, 131058146)
+('LINC01201', 131016468, 131058146)
+('ARHGAP36', 131058345, 131089885)
+('ARHGAP36', 131058345, 131089885)
+('ARHGAP36', 131058345, 131089885)
+('ARHGAP36', 131058345, 131089885)
+('PLAC1', 134565837, 134658471)
+('PLAC1', 134565837, 134658471)
+('PLAC1', 134565837, 134764322)
+('SLC9A6', 135973836, 136047269)
+('SLC9A6', 135973836, 136047269)
+('LOC105373344', 140517784, 140526183)
+('LOC101928808', 146394681, 146401858)
+('AFF2', 148500616, 149000663)
+('AFF2', 148500616, 149000663)
+('AFF2', 148500616, 149000663)
+('AFF2', 148500616, 149000663)
+('AFF2', 148500616, 149000663)
+('LINC00850', 149825707, 149879799)
+('LINC00850', 149825707, 149879799)
+('MAGEA3-DT', 152554376, 152698727)
+('FLNA', 154348530, 154374634)
+</code></pre>
+</div>
+</div>
+<div id="6329007d-9a11-4727-a7e5-bc4dadc24654" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">## EUROPEANS ##</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the threshold</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/GBR/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/FIN/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/IBS/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/TSI/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> file_path.split(<span class="st">'/'</span>)[<span class="op">-</span><span class="dv">4</span>]  <span class="co"># Get the third element from the end when splitting by '/'</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data with '\s+' separator and make the values in "when_mutation_has_freq2" column positive</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path, sep<span class="op">=</span><span class="st">'\s+'</span>)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">=</span> data[<span class="st">'when_mutation_has_freq2'</span>].<span class="bu">abs</span>()</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print gene regions for the current population</span></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population_name<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> population_gene_regions:</span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for GBR:
+('PTCHD1-AS', 22193004, 23293146)
+('PTCHD1-AS', 22193004, 23293146)
+
+Gene regions for FIN:
+('IL1RAPL1', 28587445, 29956718)
+('DMD', 31119221, 31266954)
+('DMD', 31119221, 33211549)
+('XPNPEP2', 129738978, 129769536)
+
+Gene regions for IBS:
+('PRKX', 3604339, 3713649)
+('PRKX', 3604339, 3713649)
+('PRKX', 3604339, 3713649)
+('PRKX', 3604339, 3713649)
+('PRKX', 3604339, 3713649)
+('NHS', 17375199, 17735994)
+('PHKA1', 72578813, 72714306)
+('MIR325HG', 76657797, 77014532)
+('TENM1', 124375902, 124963817)
+('TMLHE', 155489010, 155536365)
+
+Gene regions for TSI:
+('PRKX', 3604339, 3713649)
+('LOC112268307', 64205945, 64312562)
+</code></pre>
+</div>
+</div>
+<div id="acc0266a-a292-42b3-923c-7960c941caca" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">## ASIANS ##</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the threshold</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/CDX/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/CHS/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/CHB/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/JPT/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/steps/KHV/relate/run_relate/1000g_ppl_phased_haplotypes_selection.sele'</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> file_path.split(<span class="st">'/'</span>)[<span class="op">-</span><span class="dv">4</span>]  <span class="co"># Get the third element from the end when splitting by '/'</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data with '\s+' separator and make the values in "when_mutation_has_freq2" column positive</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path, sep<span class="op">=</span><span class="st">'\s+'</span>)</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">=</span> data[<span class="st">'when_mutation_has_freq2'</span>].<span class="bu">abs</span>()</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'when_mutation_has_freq2'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print gene regions for the current population</span></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population_name<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> population_gene_regions:</span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for CDX:
+('WWC3', 10015253, 10144474)
+('FRMPD4', 11822438, 12724523)
+('FRMPD4', 11822438, 12724523)
+('DMD', 31119221, 33211549)
+('IL1RAPL2', 104566198, 105767829)
+
+Gene regions for CHS:
+('PRKX', 3604339, 3713649)
+('CLCN4', 10156974, 10237660)
+('LOC101928359', 122422005, 122478081)
+
+Gene regions for CHB:
+('PRKX', 3604339, 3713649)
+('PRKX', 3604339, 3713649)
+('DMD', 31119221, 33211549)
+('PASD1', 151563674, 151676739)
+
+Gene regions for JPT:
+('CLCN5', 49922595, 50042541)
+
+Gene regions for KHV:
+('PASD1', 151563674, 151676739)
+('TMEM187', 153972753, 153983194)
+</code></pre>
+</div>
+</div>
+<p><strong>COMBINED</strong></p>
+<div id="c2291827-9769-4200-b43f-6b4e36e29909" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">## AFRICANS##</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the threshold</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_LWK.csv'</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_ESN.csv'</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_GWD.csv'</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_MSL.csv'</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_YRI.csv'</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> os.path.splitext(os.path.basename(file_path))[<span class="dv">0</span>]</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'combined_p_values'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Print gene regions for all populations</span></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> population, regions <span class="kw">in</span> gene_regions.items():</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> regions:</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store gene symbols for which information has already been retrieved</span></span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>retrieved_symbols <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Run gi.gene_info() for each unique gene symbol</span></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gene_symbol <span class="kw">in</span> unique_genes:</span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if gene information has already been retrieved for this symbol</span></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_symbol <span class="kw">not</span> <span class="kw">in</span> retrieved_symbols:</span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>        gene_info <span class="op">=</span> gi.gene_info(gene_symbol)</span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_info <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Gene info for </span><span class="sc">{</span>gene_symbol<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>gene_info<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for combined_LWK:
+('CASK', 41514933, 41665852)
+('RTL4', 112083012, 112457514)
+
+Gene regions for combined_ESN:
+('CASK', 41514933, 41923034)
+('RTL4', 112083012, 112457514)
+
+Gene regions for combined_GWD:
+('PAK3', 110944396, 111217494)
+
+Gene regions for combined_MSL:
+('PTCHD1-AS', 22193004, 23293146)
+
+Gene regions for combined_YRI:
+('PRKX', 3604339, 3713649)
+('TMEM164', 110002368, 110177788)
+('TMEM164', 110002368, 110177788)
+('TMEM164', 110002368, 110177788)
+('RAB33A', 130110622, 130184870)
+('RAB33A', 130110622, 130184870)
+
+
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>PTCHD1-AS</em></strong><br>
+<em>PTCHD1 antisense RNA (head to head)</em><br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=PTCHD1-AS">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>PAK3</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> ARA, MRX30, MRX47, OPHN3, PAK-3, PAK3beta, XLID30, bPAK, beta-PAK<br>
+<em>p21 (RAC1) activated kinase 3</em><br>
+<strong>Summary:</strong> The protein encoded by this gene is a serine-threonine kinase and forms an activated complex with GTP-bound RAS-like (P21), CDC2 and RAC1. This protein may be necessary for dendritic development and for the rapid cytoskeletal reorganization in dendritic spines associated with synaptic plasticity. Defects in this gene are the cause of a non-syndromic form of X-linked intellectual disability. Alternatively spliced transcript variants encoding different isoforms have been identified. [provided by RefSeq, Jul 2017].<br>
+<strong>Genomic position:</strong> X:110944285-111227361 (hg38), X:110187513-110470589 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=PAK3">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>RAB33A</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> RabS10<br>
+<em>RAB33A, member RAS oncogene family</em><br>
+<strong>Summary:</strong> The protein encoded by this gene belongs to the small GTPase superfamily, Rab family. It is GTP-binding protein and may be involved in vesicle transport. [provided by RefSeq, Jul 2008].<br>
+<strong>Genomic position:</strong> X:130171962-130184870 (hg38), X:129305623-129318844 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=RAB33A">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>PRKX</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> PKX1<br>
+<em>protein kinase cAMP-dependent X-linked catalytic subunit</em><br>
+<strong>Summary:</strong> This gene encodes a serine threonine protein kinase that has similarity to the catalytic subunit of cyclic AMP dependent protein kinases. The encoded protein is developmentally regulated and may be involved in renal epithelial morphogenesis. This protein may also be involved in macrophage and granulocyte maturation. Abnormal recombination between this gene and a related pseudogene on chromosome Y is a frequent cause of sex reversal disorder in XX males and XY females. Pseudogenes of this gene are found on chromosomes X, 15 and Y. [provided by RefSeq, Feb 2010].<br>
+<strong>Genomic position:</strong> X:3604340-3713649 (hg38), X:3522411-3631649 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=PRKX">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>TMEM164</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> bB360B22.3<br>
+<em>transmembrane protein 164</em><br>
+<strong>Summary:</strong> Predicted to be integral component of membrane. [provided by Alliance of Genome Resources, Apr 2022]<br>
+<strong>Genomic position:</strong> X:110002631-110182734 (hg38), X:109245859-109425962 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=TMEM164">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>RTL4</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> Mar4, Mart4, SIRH11, ZCCHC16<br>
+<em>retrotransposon Gag like 4</em><br>
+<strong>Summary:</strong> Predicted to enable nucleic acid binding activity and zinc ion binding activity. Predicted to act upstream of or within cognition and norepinephrine metabolic process. [provided by Alliance of Genome Resources, Apr 2022]<br>
+<strong>Genomic position:</strong> X:112083016-112457514 (hg38), X:111697727-111700473 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=RTL4">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>CASK</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> CAGH39, CAMGUK, CMG, FGS4, LIN2, MICPCH, MRXSNA, TNRC8, hCASK<br>
+<em>calcium/calmodulin dependent serine protein kinase</em><br>
+<strong>Summary:</strong> This gene encodes a calcium/calmodulin-dependent serine protein kinase. The encoded protein is a MAGUK (membrane-associated guanylate kinase) protein family member. These proteins are scaffold proteins and the encoded protein is located at synapses in the brain. Mutations in this gene are associated with FG syndrome 4, intellectual disability and microcephaly with pontine and cerebellar hypoplasia, and a form of X-linked intellectual disability. Multiple transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Jul 2017].<br>
+<strong>Genomic position:</strong> X:41514934-41923554 (hg38), X:41374187-41782716 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=CASK">Gene card</a></p>
+<hr>
+</div>
+</div>
+<div id="560faaef-d5eb-4f78-acf0-ff798d7072ce" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">## PUR ##</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_PUR.csv'</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> os.path.splitext(os.path.basename(file_path))[<span class="dv">0</span>]</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'combined_p_values'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Print gene regions for all populations</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> population, regions <span class="kw">in</span> gene_regions.items():</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> regions:</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store gene symbols for which information has already been retrieved</span></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>retrieved_symbols <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Run gi.gene_info() for each unique gene symbol</span></span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gene_symbol <span class="kw">in</span> unique_genes:</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if gene information has already been retrieved for this symbol</span></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_symbol <span class="kw">not</span> <span class="kw">in</span> retrieved_symbols:</span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>        gene_info <span class="op">=</span> gi.gene_info(gene_symbol)</span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_info <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Gene info for </span><span class="sc">{</span>gene_symbol<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>gene_info<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for combined_PUR:
+('WWC3', 10015253, 10144474)
+('WWC3', 10015253, 10144474)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10576917)
+('MID1', 10445309, 10620585)
+('MID1', 10445309, 10620585)
+('MID1', 10445309, 10677739)
+('MID1', 10445309, 10677739)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('MID1', 10445309, 10833683)
+('PHKA2', 18892297, 18938716)
+('PHKA2', 18892297, 18938716)
+('MAP3K15', 19360058, 19515508)
+('PTCHD1-AS', 22193004, 23293146)
+('TSPAN7', 38561541, 38688918)
+('CLCN5', 49922595, 50042541)
+('SHROOM4', 50575533, 50814194)
+('SHROOM4', 50575533, 50814194)
+('SHROOM4', 50575533, 50814194)
+('APEX2', 55000362, 55009057)
+('HMGN5', 81113698, 81201913)
+('LOC107985713', 88494129, 88613490)
+('LOC107985713', 88494129, 88613490)
+('IL1RAPL2', 104566198, 105767829)
+('MID2', 107825734, 107931637)
+('AMMECR1', 110194185, 110440233)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('TRPC5', 111768010, 112082776)
+('RTL4', 112083012, 112457514)
+('TENM1', 124375902, 124963817)
+('TENM1', 124375902, 125204312)
+('XPNPEP2', 129738978, 129769536)
+('LOC101928808', 146394681, 146401858)
+('AFF2', 148500616, 149000663)
+('AFF2', 148500616, 149000663)
+('AFF2', 148500616, 149000663)
+('AFF2', 148500616, 149000663)
+('LINC00850', 149825707, 149879799)
+('LINC00850', 149825707, 149879799)
+('MAGEA3-DT', 152554376, 152698727)
+
+
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>PTCHD1-AS</em></strong><br>
+<em>PTCHD1 antisense RNA (head to head)</em><br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=PTCHD1-AS">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>LINC00850</em></strong> (ncRNA) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> KUCG1<br>
+<em>long intergenic non-protein coding RNA 850</em><br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=LINC00850">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>MID1</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> BBBG1, FXY, GBBB, GBBB1, MIDIN, OGS1, OS, OSX, RNF59, TRIM18, XPRF, ZNFXY<br>
+<em>midline 1</em><br>
+<strong>Summary:</strong> The protein encoded by this gene is a member of the tripartite motif (TRIM) family, also known as the ‘RING-B box-coiled coil’ (RBCC) subgroup of RING finger proteins. The TRIM motif includes three zinc-binding domains, a RING, a B-box type 1 and a B-box type 2, and a coiled-coil region. This protein forms homodimers which associate with microtubules in the cytoplasm. The protein is likely involved in the formation of multiprotein structures acting as anchor points to microtubules. Mutations in this gene have been associated with the X-linked form of Opitz syndrome, which is characterized by midline abnormalities such as cleft lip, laryngeal cleft, heart defects, hypospadias, and agenesis of the corpus callosum. This gene was also the first example of a gene subject to X inactivation in human while escaping it in mouse. Alternative promoter use, alternative splicing and alternative polyadenylation result in multiple transcript variants that have different tissue specificities. [provided by RefSeq, Dec 2016].<br>
+<strong>Genomic position:</strong> X:10445310-10833654 (hg38), X:10413350-10851773 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=MID1">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>TSPAN7</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> A15, CCG-B7, CD231, DXS1692E, MRX58, MXS1, TALLA-1, TM4SF2, TM4SF2b, XLID58<br>
+<em>tetraspanin 7</em><br>
+<strong>Summary:</strong> The protein encoded by this gene is a member of the transmembrane 4 superfamily, also known as the tetraspanin family. Most of these members are cell-surface proteins that are characterized by the presence of four hydrophobic domains. The proteins mediate signal transduction events that play a role in the regulation of cell development, activation, growth and motility. This encoded protein is a cell surface glycoprotein and may have a role in the control of neurite outgrowth. It is known to complex with integrins. This gene is associated with X-linked cognitive disability and neuropsychiatric diseases such as Huntington’s chorea, fragile X syndrome and myotonic dystrophy. [provided by RefSeq, Jul 2008].<br>
+<strong>Genomic position:</strong> X:38561542-38688920 (hg38), X:38420623-38548169 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=TSPAN7">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>HMGN5</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> NBP-45, NSBP1<br>
+<em>high mobility group nucleosome binding domain 5</em><br>
+<strong>Summary:</strong> This gene encodes a nuclear protein with similarities to the high mobility group proteins, HMG14 and HMG17, which suggests that this protein may function as a nucleosomal binding and transcriptional activating protein. [provided by RefSeq, Sep 2009].<br>
+<strong>Genomic position:</strong> X:81113699-81201913 (hg38), X:80369200-80457441 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=HMGN5">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>AMMECR1</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> AMMERC1, MFHIEN<br>
+<em>AMMECR nuclear protein 1</em><br>
+<strong>Summary:</strong> The exact function of this gene is not known, however, submicroscopic deletion of the X chromosome including this gene, COL4A5, and FACL4 genes, result in a contiguous gene deletion syndrome, the AMME complex (Alport syndrome, mental retardation, midface hypoplasia, and elliptocytosis). Alternatively spliced transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Jan 2010].<br>
+<strong>Genomic position:</strong> X:110194186-110440318 (hg38), X:109437414-109683461 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=AMMECR1">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>XPNPEP2</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> AEACEI, APP2<br>
+<em>X-prolyl aminopeptidase 2</em><br>
+<strong>Summary:</strong> Aminopeptidase P is a hydrolase specific for N-terminal imido bonds, which are common to several collagen degradation products, neuropeptides, vasoactive peptides, and cytokines. Structurally, the enzyme is a member of the ‘pita bread fold’ family and occurs in mammalian tissues in both soluble and GPI-anchored membrane-bound forms. A membrane-bound and soluble form of this enzyme have been identified as products of two separate genes. [provided by RefSeq, Jul 2008].<br>
+<strong>Genomic position:</strong> X:129738949-129769536 (hg38), X:128872950-128903514 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=XPNPEP2">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>MAP3K15</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> ASK3, bA723P2.3<br>
+<em>mitogen-activated protein kinase kinase kinase 15</em><br>
+<strong>Summary:</strong> The protein encoded by this gene is a member of the mitogen-activated protein kinase (MAPK) family. These family members function in a protein kinase signal transduction cascade, where an activated MAPK kinase kinase (MAP3K) phosphorylates and activates a specific MAPK kinase (MAP2K), which then activates a specific MAPK. This MAP3K protein plays an essential role in apoptotic cell death triggered by cellular stresses. [provided by RefSeq, Jul 2010].<br>
+<strong>Genomic position:</strong> X:19360056-19515508 (hg38), X:19378174-19533379 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=MAP3K15">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>TENM1</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> ODZ1, ODZ3, TEN-M1, TEN1, TNM, TNM1, ten-1<br>
+<em>teneurin transmembrane protein 1</em><br>
+<strong>Summary:</strong> The protein encoded by this gene belongs to the tenascin family and teneurin subfamily. It is expressed in the neurons and may function as a cellular signal transducer. Several alternatively spliced transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Sep 2009].<br>
+<strong>Genomic position:</strong> X:124375903-125204312 (hg38), X:123509753-124097666 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=TENM1">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>SHROOM4</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> MRXSSDS, SHAP, shrm4<br>
+<em>shroom family member 4</em><br>
+<strong>Summary:</strong> This gene encodes a member of the APX/Shroom family, which contain an N-terminal PDZ domain and a C-terminal ASD2 motif. The encoded protein may play a role in cytoskeletal architecture. Mutations in this gene have been linked to the X-linked Stocco dos Santos syndrome characterized by cognitive disabilities. Alternatively spliced transcript variants have been described. [provided by RefSeq, Jul 2017].<br>
+<strong>Genomic position:</strong> X:50586796-50814302 (hg38), HG1433_PATCH:50334647-50557302, X:50334647-50557302 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=SHROOM4">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>AFF2</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> FMR2, FMR2P, FRAXE, MRX2, OX19, XLID109<br>
+<em>ALF transcription elongation factor 2</em><br>
+<strong>Summary:</strong> This gene encodes a putative transcriptional activator that is a member of the AF4 gene family. This gene is associated with the folate-sensitive fragile X E locus on chromosome X. A repeat polymorphism in the fragile X E locus results in silencing of this gene causing Fragile X E syndrome. Fragile X E syndrome is a form of nonsyndromic X-linked cognitive disability. In addition, this gene contains 6-25 GCC repeats that are expanded to &gt;200 repeats in the disease state. Alternate splicing results in multiple transcript variants.[provided by RefSeq, Jul 2016].<br>
+<strong>Genomic position:</strong> X:148500617-149000663 (hg38), HG1459_PATCH:147582336-148082384, X:147582139-148082193 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=AFF2">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>IL1RAPL2</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> IL-1R9, IL1R9, IL1RAPL-2, TIGIRR-1<br>
+<em>interleukin 1 receptor accessory protein like 2</em><br>
+<strong>Summary:</strong> The protein encoded by this gene is a member of the interleukin 1 receptor family. This protein is similar to the interleukin 1 accessory proteins, and is most closely related to interleukin 1 receptor accessory protein-like 1 (IL1RAPL1). This gene and IL1RAPL1 are located at a region on chromosome X that is associated with X-linked non-syndromic cognitive disability. [provided by RefSeq, Jul 2008].<br>
+<strong>Genomic position:</strong> X:104566199-105767829 (hg38), HG375_PATCH:103810996-105011820, X:103810996-105011822 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=IL1RAPL2">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>CLCN5</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> CLC5, CLCK2, ClC-5, DENT1, DENTS, NPHL1, NPHL2, XLRH, XRN, hCIC-K2<br>
+<em>chloride voltage-gated channel 5</em><br>
+<strong>Summary:</strong> This gene encodes a member of the ClC family of chloride ion channels and ion transporters. The encoded protein is primarily localized to endosomal membranes and may function to facilitate albumin uptake by the renal proximal tubule. Mutations in this gene have been found in Dent disease and renal tubular disorders complicated by nephrolithiasis. Alternatively spliced transcript variants have been found for this gene. [provided by RefSeq, Jan 2013].<br>
+<strong>Genomic position:</strong> X:49922596-50099235 (hg38), HG1436_HG1432_PATCH:49732014-49908634, X:49687225-49863892 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=CLCN5">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>APEX2</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> APE2, APEXL2, XTH2, ZGRF2<br>
+<em>apurinic/apyrimidinic endodeoxyribonuclease 2</em><br>
+<strong>Summary:</strong> Apurinic/apyrimidinic (AP) sites occur frequently in DNA molecules by spontaneous hydrolysis, by DNA damaging agents or by DNA glycosylases that remove specific abnormal bases. AP sites are pre-mutagenic lesions that can prevent normal DNA replication so the cell contains systems to identify and repair such sites. Class II AP endonucleases cleave the phosphodiester backbone 5’ to the AP site. This gene encodes a protein shown to have a weak class II AP endonuclease activity. Most of the encoded protein is located in the nucleus but some is also present in mitochondria. This protein may play an important role in both nuclear and mitochondrial base excision repair. Alternatively spliced transcript variants encoding multiple isoforms have been observed for this gene. [provided by RefSeq, Nov 2012].<br>
+<strong>Genomic position:</strong> X:55000363-55009057 (hg38), X:55026790-55035490 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=APEX2">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>LOC101928808</em></strong> (ncRNA)<br>
+<em>uncharacterized LOC101928808</em><br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=LOC101928808">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>MID2</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> FXY2, MRX101, RNF60, TRIM1, XLID101<br>
+<em>midline 2</em><br>
+<strong>Summary:</strong> The protein encoded by this gene is a member of the tripartite motif (TRIM) family. The TRIM motif includes three zinc-binding domains, a RING, a B-box type 1 and a B-box type 2, and a coiled-coil region. The protein localizes to microtubular structures in the cytoplasm. Alternate splicing of this gene results in two transcript variants encoding different isoforms. [provided by RefSeq, Feb 2009].<br>
+<strong>Genomic position:</strong> X:107825755-107931637 (hg38), X:107068985-107170423 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=MID2">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>TRPC5</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> PPP1R159, TRP5<br>
+<em>transient receptor potential cation channel subfamily C member 5</em><br>
+<strong>Summary:</strong> This gene belongs to the transient receptor family. It encodes one of the seven mammalian TRPC (transient receptor potential channel) proteins. The encoded protein is a multi-pass membrane protein and is thought to form a receptor-activated non-selective calcium permeant cation channel. The protein is active alone or as a heteromultimeric assembly with TRPC1, TRPC3, and TRPC4. It also interacts with multiple proteins including calmodulin, CABP1, enkurin, Na(+)-H+ exchange regulatory factor (NHERF ), interferon-induced GTP-binding protein (MX1), ring finger protein 24 (RNF24), and SEC14 domain and spectrin repeat-containing protein 1 (SESTD1). [provided by RefSeq, May 2010].<br>
+<strong>Genomic position:</strong> X:111768011-112082776 (hg38), X:111017543-111326004 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=TRPC5">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>MAGEA3-DT</em></strong><br>
+<em>MAGEA3 divergent transcript</em><br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=MAGEA3-DT">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>WWC3</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> BM042<br>
+<em>WWC family member 3</em><br>
+<strong>Summary:</strong> This gene encodes a member of the WWC family of proteins, which also includes the WWC1 (KIBRA) gene product and the WWC2 gene product. The protein encoded by this gene includes a C2 domain, which is known to mediate homodimerization in the related WWC1 gene product. [provided by RefSeq, Sep 2011].<br>
+<strong>Genomic position:</strong> X:10015254-10144474 (hg38), X:9983602-10112518 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=WWC3">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>PHKA2</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> GSD9A, PHK, PYK, PYKL, XLG, XLG2<br>
+<em>phosphorylase kinase regulatory subunit alpha 2</em><br>
+<strong>Summary:</strong> Phosphorylase kinase is a polymer of 16 subunits, four each of alpha, beta, gamma and delta. The alpha subunit includes the skeletal muscle and hepatic isoforms, and the hepatic isoform is encoded by this gene. The beta subunit is the same in both the muscle and hepatic isoforms, and encoded by one gene. The gamma subunit also includes the skeletal muscle and hepatic isoforms, which are encoded by two different genes. The delta subunit is a calmodulin and can be encoded by three different genes. The gamma subunits contain the active site of the enzyme, whereas the alpha and beta subunits have regulatory functions controlled by phosphorylation. The delta subunit mediates the dependence of the enzyme on calcium concentration. Mutations in this gene cause glycogen storage disease type 9A, also known as X-linked liver glycogenosis. Alternatively spliced transcript variants have been reported, but the full-length nature of these variants has not been determined.[provided by RefSeq, Feb 2010].<br>
+<strong>Genomic position:</strong> X:18892298-18984114 (hg38), X:18910418-19002716 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=PHKA2">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>LOC107985713</em></strong> (ncRNA)<br>
+<em>uncharacterized LOC107985713</em><br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=LOC107985713">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>RTL4</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> Mar4, Mart4, SIRH11, ZCCHC16<br>
+<em>retrotransposon Gag like 4</em><br>
+<strong>Summary:</strong> Predicted to enable nucleic acid binding activity and zinc ion binding activity. Predicted to act upstream of or within cognition and norepinephrine metabolic process. [provided by Alliance of Genome Resources, Apr 2022]<br>
+<strong>Genomic position:</strong> X:112083016-112457514 (hg38), X:111697727-111700473 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=RTL4">Gene card</a></p>
+<hr>
+</div>
+</div>
+<div id="6a4b470c-8fd3-47bd-97ba-f96547e5e355" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">## EUROPEANS ##</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_GBR.csv'</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_FIN.csv'</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_IBS.csv'</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_TSI.csv'</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> os.path.splitext(os.path.basename(file_path))[<span class="dv">0</span>]</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'combined_p_values'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Print gene regions for all populations</span></span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> population, regions <span class="kw">in</span> gene_regions.items():</span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> regions:</span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store gene symbols for which information has already been retrieved</span></span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>retrieved_symbols <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Run gi.gene_info() for each unique gene symbol</span></span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gene_symbol <span class="kw">in</span> unique_genes:</span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if gene information has already been retrieved for this symbol</span></span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_symbol <span class="kw">not</span> <span class="kw">in</span> retrieved_symbols:</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>        gene_info <span class="op">=</span> gi.gene_info(gene_symbol)</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_info <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Gene info for </span><span class="sc">{</span>gene_symbol<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>gene_info<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for combined_GBR:
+
+Gene regions for combined_FIN:
+
+Gene regions for combined_IBS:
+('PRKX', 3604339, 3713649)
+('TENM1', 124375902, 124963817)
+
+Gene regions for combined_TSI:
+('LOC112268307', 64205945, 64312562)
+
+
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>LOC112268307</em></strong> (protein-coding)<br>
+<em>uncharacterized LOC112268307</em><br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=LOC112268307">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>TENM1</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> ODZ1, ODZ3, TEN-M1, TEN1, TNM, TNM1, ten-1<br>
+<em>teneurin transmembrane protein 1</em><br>
+<strong>Summary:</strong> The protein encoded by this gene belongs to the tenascin family and teneurin subfamily. It is expressed in the neurons and may function as a cellular signal transducer. Several alternatively spliced transcript variants encoding different isoforms have been found for this gene. [provided by RefSeq, Sep 2009].<br>
+<strong>Genomic position:</strong> X:124375903-125204312 (hg38), X:123509753-124097666 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=TENM1">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>PRKX</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> PKX1<br>
+<em>protein kinase cAMP-dependent X-linked catalytic subunit</em><br>
+<strong>Summary:</strong> This gene encodes a serine threonine protein kinase that has similarity to the catalytic subunit of cyclic AMP dependent protein kinases. The encoded protein is developmentally regulated and may be involved in renal epithelial morphogenesis. This protein may also be involved in macrophage and granulocyte maturation. Abnormal recombination between this gene and a related pseudogene on chromosome Y is a frequent cause of sex reversal disorder in XX males and XY females. Pseudogenes of this gene are found on chromosomes X, 15 and Y. [provided by RefSeq, Feb 2010].<br>
+<strong>Genomic position:</strong> X:3604340-3713649 (hg38), X:3522411-3631649 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=PRKX">Gene card</a></p>
+<hr>
+</div>
+</div>
+<div id="8ab64907-5e32-40fa-8511-5bdda7374070" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">## ASIANS ##</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to define window to search nearby genes</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_window_range(position, window_size):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    x_min <span class="op">=</span> position <span class="op">-</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    x_max <span class="op">=</span> position <span class="op">+</span> window_size <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_min, x_max</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># List of file paths</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>file_paths <span class="op">=</span> [</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_CDX.csv'</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_CHS.csv'</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_CHB.csv'</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_KHV.csv'</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'/home/ari/ari-intern/people/ari/ariadna-intern/results/combined_JPT.csv'</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionary to store gene regions for each population</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>gene_regions <span class="op">=</span> {}</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store unique gene symbols</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>unique_genes <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over file paths</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file_path <span class="kw">in</span> file_paths:</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract population name from the filename</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    population_name <span class="op">=</span> os.path.splitext(os.path.basename(file_path))[<span class="dv">0</span>]</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read data</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(file_path)</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add 'population' column</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'population'</span>] <span class="op">=</span> population_name</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter data based on threshold</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    filtered_data <span class="op">=</span> data[data[<span class="st">'combined_p_values'</span>] <span class="op">&gt;</span> threshold]</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store gene regions for the current population</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    population_gene_regions <span class="op">=</span> []</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over rows and calculate gene regions</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> index, row <span class="kw">in</span> filtered_data.iterrows():</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>        genomic_position <span class="op">=</span> row[<span class="st">'pos'</span>]</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>        window_size <span class="op">=</span> <span class="dv">1000</span>  <span class="co"># Set window size !!!!!!! 500 bp on each SNP side</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>        x_min, x_max <span class="op">=</span> get_window_range(genomic_position, window_size)</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Call gi.get_genes_region() for the current region</span></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>        gene_region <span class="op">=</span> gi.get_genes_region(<span class="st">'chrX'</span>, x_min, x_max, assembly<span class="op">=</span><span class="st">'hg38'</span>)</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract gene symbol, start position, and end position from the result</span></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_region:  <span class="co"># Check if gene_region is not empty</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>            gene_symbol <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>            start_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>            end_position <span class="op">=</span> gene_region[<span class="dv">0</span>][<span class="dv">2</span>]</span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the extracted information to the list of gene regions for the current population</span></span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>            population_gene_regions.append((gene_symbol, start_position, end_position))</span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Add gene symbol to set of unique genes</span></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>            unique_genes.add(gene_symbol)</span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store the list of gene regions for the current population in the dictionary</span></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>    gene_regions[population_name] <span class="op">=</span> population_gene_regions</span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Print gene regions for all populations</span></span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> population, regions <span class="kw">in</span> gene_regions.items():</span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Gene regions for </span><span class="sc">{</span>population<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region <span class="kw">in</span> regions:</span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(region)</span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>()</span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to store gene symbols for which information has already been retrieved</span></span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a>retrieved_symbols <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Run gi.gene_info() for each unique gene symbol</span></span>
+<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gene_symbol <span class="kw">in</span> unique_genes:</span>
+<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if gene information has already been retrieved for this symbol</span></span>
+<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> gene_symbol <span class="kw">not</span> <span class="kw">in</span> retrieved_symbols:</span>
+<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a>        gene_info <span class="op">=</span> gi.gene_info(gene_symbol)</span>
+<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> gene_info <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"Gene info for </span><span class="sc">{</span>gene_symbol<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>gene_info<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Gene regions for combined_CDX:
+
+Gene regions for combined_CHS:
+('CLCN4', 10156974, 10237660)
+
+Gene regions for combined_CHB:
+('PASD1', 151563674, 151676739)
+
+Gene regions for combined_KHV:
+('PASD1', 151563674, 151676739)
+
+Gene regions for combined_JPT:
+
+
+</code></pre>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>PASD1</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> CT63, CT64, OXTES1<br>
+<em>PAS domain containing repressor 1</em><br>
+<strong>Summary:</strong> This gene encodes a protein that is thought to function as a transcription factor. The protein is a cancer-associated antigen that can stimulate autologous T-cell responses, and it is therefore considered to be a potential immunotherapeutic target for the treatment of various hematopoietic malignancies, including diffuse large B-cell lymphoma. [provided by RefSeq, May 2010].<br>
+<strong>Genomic position:</strong> X:151563675-151676739 (hg38), X:150732094-150845211 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=PASD1">Gene card</a></p>
+<hr>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><strong>Symbol:</strong> <strong><em>CLCN4</em></strong> (protein-coding) &nbsp; &nbsp; &nbsp; &nbsp; <strong>Aliases:</strong> CLC4, ClC-4, ClC-4A, MRX15, MRX49, MRXSRC<br>
+<em>chloride voltage-gated channel 4</em><br>
+<strong>Summary:</strong> The CLCN family of voltage-dependent chloride channel genes comprises nine members (CLCN1-7, Ka and Kb) which demonstrate quite diverse functional characteristics while sharing significant sequence homology. Chloride channel 4 has an evolutionary conserved CpG island and is conserved in both mouse and hamster. This gene is mapped in close proximity to APXL (Apical protein Xenopus laevis-like) and OA1 (Ocular albinism type I), which are both located on the human X chromosome at band p22.3. The physiological role of chloride channel 4 remains unknown but may contribute to the pathogenesis of neuronal disorders. Alternate splicing results in two transcript variants that encode different proteins. [provided by RefSeq, Mar 2012].<br>
+<strong>Genomic position:</strong> X:10156975-10237660 (hg38), X:10125024-10205700 (hg19)<br>
+<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene=CLCN4">Gene card</a></p>
+<hr>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks/3_fisher_method.html" class="pagination-link" aria-label="3_fisher_method.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">3_fisher_method.html</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/5_fisher_exact_test.html" class="pagination-link" aria-label="5_fisher_exact_test.html">
+        <span class="nav-page-text"><span class="chapter-title">5_fisher_exact_test.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.dev/munch-group/analysis-template/blob/main/notebooks/4_geneinfo.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/munch-group/analysis-template/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/munch-group/analysis-template/blob/main/notebooks/4_geneinfo.ipynb" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div></div></footer></body></html>
